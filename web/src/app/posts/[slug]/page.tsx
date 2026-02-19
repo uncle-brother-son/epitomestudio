@@ -6,6 +6,8 @@ import { getPostBySlug } from '@/queries/posts'
 import { urlFor } from '@/lib/sanityImage'
 
 export const runtime = 'edge'
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
 
 export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params

@@ -6,6 +6,8 @@ import { getPageBySlug } from '@/queries/pages'
 import { urlFor } from '@/lib/sanityImage'
 
 export const runtime = 'edge'
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
 
 export default async function PageDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
