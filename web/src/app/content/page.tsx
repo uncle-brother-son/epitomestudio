@@ -32,7 +32,7 @@ export default async function PagesIndexPage() {
             {pages.map((page) => (
               <Link
                 key={page._id}
-                href={`/pages/${page.slug.current}`}
+                href={`/content/${page.slug.current}`}
                 prefetch={false}
                 className="border rounded-lg overflow-hidden hover:shadow-lg transition-shadow"
               >

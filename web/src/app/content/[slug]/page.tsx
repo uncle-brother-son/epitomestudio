@@ -22,11 +22,11 @@ export default async function PageDetailPage({ params }: { params: Promise<{ slu
       <article className="container py-16 max-w-4xl">
         <div className="mb-8">
           <Link 
-            href="/pages" 
+            href="/content" 
             prefetch={false}
             className="text-blue-600 hover:underline"
           >
-            ← Back to Pages
+            ← Back to Content
           </Link>
         </div>
         

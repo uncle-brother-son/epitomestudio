@@ -20,11 +20,11 @@ export default function HomePage() {
           </Link>
           
           <Link 
-            href="/pages" 
+            href="/content" 
             prefetch={false}
             className="p-6 border rounded-lg hover:shadow-lg transition-shadow"
           >
-            <h2 className="text-2xl font-semibold mb-2">Pages</h2>
+            <h2 className="text-2xl font-semibold mb-2">Content</h2>
             <p className="text-gray-600">View all pages</p>
           </Link>
           
