@@ -44,11 +44,13 @@ export async function getGlobal(): Promise<Global | null> {
   })
   
   // Transform references to navigation items
-  if (result?.headerNavigation) {
-    result.headerNavigation = result.headerNavigation.map((page: any) => ({
-      label: page.title,
-      url: page._type === 'home' ? '/' : `/${page._type}`,
-    }))
+  if (result?.headerNavigation && Array.isArray(result.headerNavigation)) {
+    result.headerNavigation = result.headerNavigation
+      .filter((page: any) => page && page.title) // Filter out null references
+      .map((page: any) => ({
+        label: page.title,
+        url: page._type === 'home' ? '/' : `/${page._type}`,
+      }))
   }
   
   return result

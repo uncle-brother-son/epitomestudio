@@ -44,20 +44,18 @@ export async function POST(request: NextRequest) {
             <style>
               @media only screen and (max-width: 600px) {
                 .email-container { width: 100% !important; }
-                .email-padding { padding: 0 16px 16px !important; }
-                .outer-padding { padding: 20px 10px !important; }
               }
             </style>
           </head>
           <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #F5F2EB;">
-            <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #F5F2EB;" class="outer-padding">
+            <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #F5F2EB;">
               <tr>
-                <td align="center" style="padding: 40px 20px;">
+                <td align="center" style="padding: 24px 24px;">
                   <table width="600" cellpadding="0" cellspacing="0" style="max-width: 600px; width: 100%; overflow: hidden;" class="email-container">
 
                     <tr>
                       <td style="padding: 0 0 24px; text-align: center;">
-                        <img src="https://epitomestudio.pages.dev/logo.svg" alt="Epitomestudio" style="height: 54px; width: auto; display: block; margin: 0 auto;" />
+                        <img src="https://epitomestudio.pages.dev/logo.svg" alt="Epitomestudio" style="width: 100%; max-width: 600px; height: auto; display: block; margin: 0 auto;" />
                       </td>
                     </tr>
 
