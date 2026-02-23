@@ -6,43 +6,29 @@ import { getGlobal } from '@/queries/global'
 import { urlFor } from '@/lib/sanityImage'
 
 export async function generateMetadata(): Promise<Metadata> {
-  try {
-    const global = await getGlobal()
-    const baseUrl = 'https://epitomestudio.pages.dev'
-    
-    let ogImageUrl: string | undefined
-    try {
-      ogImageUrl = global?.ogImage 
-        ? urlFor(global.ogImage).width(1200).height(630).url()
-        : undefined
-    } catch (e) {
-      console.error('Error generating OG image URL:', e)
-      ogImageUrl = undefined
-    }
+  const global = await getGlobal()
+  const baseUrl = 'https://epitomestudio.pages.dev'
+  
+  const ogImageUrl = global?.ogImage 
+    ? urlFor(global.ogImage).width(1200).height(630).url()
+    : undefined
 
-    return {
+  return {
+    title: global?.siteName || 'EPITOMESTUDIO',
+    description: 'A modern web application built with Next.js and Sanity CMS',
+    metadataBase: new URL(baseUrl),
+    openGraph: {
       title: global?.siteName || 'EPITOMESTUDIO',
       description: 'A modern web application built with Next.js and Sanity CMS',
-      metadataBase: new URL(baseUrl),
-      openGraph: {
-        title: global?.siteName || 'EPITOMESTUDIO',
-        description: 'A modern web application built with Next.js and Sanity CMS',
-        type: 'website',
-        ...(ogImageUrl && { images: [ogImageUrl] }),
-      },
-      twitter: {
-        card: 'summary_large_image',
-        title: global?.siteName || 'EPITOMESTUDIO',
-        description: 'A modern web application built with Next.js and Sanity CMS',
-        ...(ogImageUrl && { images: [ogImageUrl] }),
-      },
-    }
-  } catch (error) {
-    console.error('Error generating metadata:', error)
-    return {
-      title: 'EPITOMESTUDIO',
+      type: 'website',
+      ...(ogImageUrl && { images: [ogImageUrl] }),
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: global?.siteName || 'EPITOMESTUDIO',
       description: 'A modern web application built with Next.js and Sanity CMS',
-    }
+      ...(ogImageUrl && { images: [ogImageUrl] }),
+    },
   }
 }
 
@@ -51,12 +37,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  let global = null
-  try {
-    global = await getGlobal()
-  } catch (error) {
-    console.error('Error loading global data:', error)
-  }
+  const global = await getGlobal()
 
   return (
     <html lang="en">
