@@ -1,27 +1,9 @@
 import type { Metadata } from 'next'
-import localFont from 'next/font/local'
 import './globals.css'
 import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
 import { getGlobal } from '@/queries/global'
 import { urlFor } from '@/lib/sanityImage'
-
-const generalSans = localFont({
-  src: [
-    {
-      path: './fonts/GeneralSans-Regular.woff2',
-      weight: '400',
-      style: 'normal',
-    },
-    {
-      path: './fonts/GeneralSans-Medium.woff2',
-      weight: '500',
-      style: 'normal',
-    },
-  ],
-  variable: '--font-general-sans',
-  display: 'swap',
-})
 
 export async function generateMetadata(): Promise<Metadata> {
   const global = await getGlobal()
@@ -58,7 +40,7 @@ export default async function RootLayout({
   const global = await getGlobal()
 
   return (
-    <html lang="en" className={generalSans.variable}>
+    <html lang="en">
       <body className="bg-natural dark:bg-black text-black dark:text-natural text-md subpixel-antialiased flex flex-col min-h-screen">
         <Header global={global} />
         {children}

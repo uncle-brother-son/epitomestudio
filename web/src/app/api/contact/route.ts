@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
 
                     <tr>
                       <td style="padding: 0 0 24px; text-align: center;">
-                        <img src="https://epitomeplus.pages.dev/logo.svg" alt="Epitomestudio" style="height: 54px; width: auto; display: block; margin: 0 auto;" />
+                        <img src="https://epitomestudio.pages.dev/logo.svg" alt="Epitomestudio" style="height: 54px; width: auto; display: block; margin: 0 auto;" />
                       </td>
                     </tr>
 
