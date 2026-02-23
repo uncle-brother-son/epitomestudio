@@ -1,17 +1,17 @@
-import { defineField, defineType } from 'sanity'
+import { defineType } from 'sanity'
 
-export const post = defineType({
-  name: 'post',
-  title: 'Post',
+export const equipmentItem = defineType({
+  name: 'equipmentItem',
+  title: 'Equipment Item',
   type: 'document',
   fields: [
-    defineField({
+    {
       name: 'title',
       title: 'Title',
       type: 'string',
       validation: (Rule) => Rule.required(),
-    }),
-    defineField({
+    },
+    {
       name: 'slug',
       title: 'Slug',
       type: 'slug',
@@ -20,21 +20,16 @@ export const post = defineType({
         maxLength: 96,
       },
       validation: (Rule) => Rule.required(),
-    }),
-    defineField({
-      name: 'author',
-      title: 'Author',
-      type: 'string',
-    }),
-    defineField({
+    },
+    {
       name: 'description',
       title: 'Description',
       type: 'text',
       rows: 3,
-    }),
-    defineField({
+    },
+    {
       name: 'image',
-      title: 'Featured Image',
+      title: 'Image',
       type: 'image',
       options: {
         hotspot: true,
@@ -42,32 +37,53 @@ export const post = defineType({
       fields: [
         {
           name: 'alt',
+          title: 'Alt Text',
           type: 'string',
-          title: 'Alternative Text',
         },
       ],
-    }),
-    defineField({
+    },
+    {
       name: 'content',
       title: 'Content',
       type: 'portableText',
-    }),
-    defineField({
+    },
+    {
       name: 'publishedAt',
-      title: 'Published at',
+      title: 'Published At',
       type: 'datetime',
-      initialValue: () => new Date().toISOString(),
-    }),
+    },
   ],
   preview: {
     select: {
       title: 'title',
-      author: 'author',
       media: 'image',
     },
-    prepare(selection) {
-      const { author } = selection
-      return { ...selection, subtitle: author && `by ${author}` }
+  },
+})
+
+export const equipment = defineType({
+  name: 'equipment',
+  title: 'Equipment Page',
+  type: 'document',
+  fields: [
+    {
+      name: 'title',
+      title: 'Title',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
+      description: 'Main heading for the equipment page',
+    },
+    {
+      name: 'metaDescription',
+      title: 'Meta Description',
+      type: 'text',
+      rows: 3,
+      description: 'SEO description for search engines',
+    },
+  ],
+  preview: {
+    select: {
+      title: 'title',
     },
   },
 })

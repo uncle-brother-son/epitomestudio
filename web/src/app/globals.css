@@ -1,47 +1,93 @@
 @import "tailwindcss";
 
 @theme {
-  /* Custom colors */
-  --color-primary: #0070f3;
-  --color-secondary: #7928ca;
-  --color-accent: #ff0080;
+  --color-black: #121214;
+  --color-natural: #F5F2EB;
+  --color-bamboo: #87755B;
+  --color-red: #A86E6C;
+  --color-green: #79A86C;
   
-  /* Custom fonts */
-  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-sans: var(--font-general-sans), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   
-  /* Custom spacing */
-  --spacing-section: 5rem;
-  
-  /* Custom breakpoints */
-  --breakpoint-3xl: 1920px;
+  --grid-cols-12: repeat(12, minmax(0, 1fr));
+  --grid-cols-24: repeat(24, minmax(0, 1fr));
+
+  --text-sm: 0.625rem; /* 10px */
+  --text-md: 0.75rem; /* 12px */
+  --text-lg: 0.875rem; /* 14px */
+  --text-xl: 1rem; /* 16px */
+
+  --radius: 0.125rem;
 }
 
 @layer base {
-  body {
-    @apply bg-white text-gray-900 antialiased;
-  }
-  
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-bold;
-  }
+  h1, h2, h3, h4 { @apply text-sm font-medium uppercase; }
+  p { @apply text-md text-balance; }
+  b, strong { @apply font-medium; }
+
+  button { @apply cursor-pointer; }
+  /* a[target=_blank] { @apply cursor-ne-resize; } */
 }
 
 @layer components {
-  .container {
-    @apply mx-auto px-4 max-w-7xl;
+
+  .grid_ { @apply grid grid-cols-12 lg:grid-cols-24 gap-2 px-2 lg:px-4; }
+  
+  .link { @apply text-sm font-medium uppercase text-black flex flex-row gap-1 items-center justify-start pb-2; }
+  .link.line { @apply relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-px after:bg-black after:transition-all hover:after:bottom-0.5 duration-1000 ease-out; }
+  .btn { @apply text-sm font-medium uppercase text-natural bg-black px-6 py-2 h-8 rounded flex flex-row gap-1 items-center justify-start; }
+
+  .my-sm { @apply my-4 lg:my-6; }
+  .my-md { @apply my-16 lg:my-20; }
+  .my-lg { @apply my-20 lg:my-30; }
+  .my-xl { @apply my-30 lg:my-40; }
+
+  .gap-y-sm { @apply gap-y-4 lg:gap-y-6; }
+  .gap-y-md { @apply gap-y-16 lg:gap-y-20; }
+  .gap-y-lg { @apply gap-y-20 lg:gap-y-30; }
+  .gap-y-xl { @apply gap-y-30 lg:gap-y-40; }
+
+  form { @apply flex flex-col gap-1; }
+  .field { @apply relative grow flex flex-col gap-2; }
+  .field-row { @apply flex flex-row gap-1; }
+
+  .field input, .field input:autofill, .field input:-webkit-autofill, .field textarea, .field textarea:autofill, 
+  .field textarea:-webkit-autofill, .field select { @apply appearance-none px-4 pt-6 pb-2 text-lg leading-4 box-border rounded bg-black/10 focus:outline-none placeholder:text-black/60; }
+  
+  /* Override browser autofill styling */
+  .field input:-webkit-autofill,
+  .field input:-webkit-autofill:hover,
+  .field input:-webkit-autofill:focus,
+  .field textarea:-webkit-autofill,
+  .field textarea:-webkit-autofill:hover,
+  .field textarea:-webkit-autofill:focus,
+  .field select:-webkit-autofill,
+  .field select:-webkit-autofill:hover,
+  .field select:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0 1000px rgba(18, 18, 20, 0) inset !important;
+    -webkit-text-fill-color: #121214 !important;
+    transition: background-color 5000s ease-in-out 0s;
   }
   
-  .btn {
-    @apply px-6 py-2 rounded-md font-medium transition-colors;
-  }
+  .field label { @apply absolute top-4 left-4 text-lg leading-4 text-black/60 transition-all duration-500 cursor-text; }
+  .field input:focus + label, .field input:autofill:focus + label, .field input:-webkit-autofill:focus + label, .field input:not(:placeholder-shown) + label, .field textarea:focus + label, .field textarea:autofill:focus + label, .field textarea:-webkit-autofill:focus + label, .field textarea:not(:placeholder-shown) + label, .field select:valid + label, .field input:-webkit-autofill + label,
+  .field textarea:-webkit-autofill + label, .field select:-webkit-autofill + label { @apply text-sm top-2; }
   
-  .btn-primary {
-    @apply bg-blue-600 text-white hover:bg-blue-700;
-  }
+  .field select:invalid { @apply text-black/60; }
+
+  .field svg { @apply absolute top-1/2 right-4 -translate-y-1/2 pointer-events-none; }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="date"],
+  input[type="search"],
+  textarea { @apply appearance-none outline-none; }
+  /* textarea { @apply resize-none; } */
+
+  input[type="search"] { @apply grow ; }
+  input[type="search"]::-webkit-search-cancel-button { @apply appearance-none; }
+  input[type="search"]::-webkit-search-decoration { @apply appearance-none; }
+
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-}
+@layer utilities {}
