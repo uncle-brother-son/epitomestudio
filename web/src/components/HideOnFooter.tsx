@@ -49,7 +49,7 @@ export function HideOnFooter({ children, className = '' }: HideOnFooterProps) {
   }, [isMobile])
 
   // Clone the child element and add the animation classes
-  const child = children as React.ReactElement
+  const child = children as React.ReactElement<{ className?: string }>
   return (
     <>
       {React.cloneElement(child, {
