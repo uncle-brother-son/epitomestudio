@@ -323,10 +323,11 @@ export default function ContactForm() {
 ## Cloudflare Pages Deployment
 
 **Build Configuration:**
-- Framework preset: None
-- Build command: `npx opennextjs-cloudflare build`
-- Build output directory: `.open-next`
+- Framework preset: Next.js (Static HTML Export)
+- Build command: `npm run build`
+- Build output directory: `out`
 - Root directory: `web`
+- Functions directory: `functions` (auto-detected)
 
 **Environment Variables (Production):**
 - SANITY_STUDIO_API_PROJECT_ID

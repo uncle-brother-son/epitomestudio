@@ -102,9 +102,9 @@ Your studio will be available at https://epitomestudio.sanity.studio
 1. Push code to GitHub: https://github.com/uncle-brother-son/epitomestudio
 2. Connect repository to Cloudflare Pages
 3. Configure build settings:
-   - Framework preset: None
-   - Build command: `npx opennextjs-cloudflare build`
-   - Build output directory: `.open-next`
+   - Framework preset: Next.js (Static HTML Export)
+   - Build command: `npm run build`
+   - Build output directory: `out`
    - Root directory: `web`
    
 4. Add environment variables in Cloudflare:

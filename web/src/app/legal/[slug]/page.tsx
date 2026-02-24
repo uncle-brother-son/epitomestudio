@@ -1,11 +1,15 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { PortableText } from '@portabletext/react'
-import { getLegalBySlug } from '@/queries/legal'
+import { getLegalBySlug, getAllLegal } from '@/queries/legal'
 import type { Metadata } from 'next'
 
-export const dynamic = 'force-dynamic'
-export const revalidate = 0
+export async function generateStaticParams() {
+  const legal = await getAllLegal()
+  return legal.map((item) => ({
+    slug: item.slug.current,
+  }))
+}
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
