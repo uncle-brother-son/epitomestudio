@@ -1,37 +1,44 @@
 import { client } from './sanityClient'
 
+interface ImageUrlBuilder {
+  width(w: number): ImageUrlBuilder
+  height(h: number): ImageUrlBuilder
+  url(): string
+}
+
 // Edge-compatible image URL builder for Cloudflare
-export function urlFor(source: any) {
+export function urlFor(source: any): ImageUrlBuilder {
   const projectId = client.config().projectId
   const dataset = client.config().dataset
-  
-  if (!source?.asset) return { url: () => '' }
-  
-  // Extract asset reference
-  const ref = typeof source.asset === 'string' 
-    ? source.asset 
-    : source.asset._ref || source.asset._id
-  
-  if (!ref) return { url: () => '' }
-  
-  // Parse the asset reference (format: image-{assetId}-{width}x{height}-{format})
-  const [, assetId, dimensions, format] = ref.match(/^image-([a-f0-9]+)-(\d+x\d+)-(\w+)$/) || []
-  
-  if (!assetId) return { url: () => '' }
   
   let width: number | undefined
   let height: number | undefined
   
-  return {
-    width(w: number) {
+  const builder: ImageUrlBuilder = {
+    width(w: number): ImageUrlBuilder {
       width = w
-      return this
+      return builder
     },
-    height(h: number) {
+    height(h: number): ImageUrlBuilder {
       height = h
-      return this
+      return builder
     },
-    url() {
+    url(): string {
+      if (!source?.asset) return ''
+      
+      // Extract asset reference
+      const ref = typeof source.asset === 'string' 
+        ? source.asset 
+        : source.asset._ref || source.asset._id
+      
+      if (!ref) return ''
+      
+      // Parse the asset reference (format: image-{assetId}-{width}x{height}-{format})
+      const match = ref.match(/^image-([a-f0-9]+)-(\d+x\d+)-(\w+)$/)
+      if (!match) return ''
+      
+      const [, assetId, dimensions, format] = match
+      
       const params = new URLSearchParams()
       if (width) params.set('w', width.toString())
       if (height) params.set('h', height.toString())
@@ -42,4 +49,6 @@ export function urlFor(source: any) {
       return `https://cdn.sanity.io/images/${projectId}/${dataset}/${assetId}-${dimensions}.${format}${queryString ? '?' + queryString : ''}`
     }
   }
+  
+  return builder
 }
