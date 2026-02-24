@@ -4,8 +4,6 @@ import VideoPlayer from '@/components/VideoPlayer'
 import type { Metadata } from 'next'
 import { Icon } from '@/components/Icons'
 
-export const runtime = 'edge'
-
 export async function generateMetadata(): Promise<Metadata> {
   const production = await getProduction()
   

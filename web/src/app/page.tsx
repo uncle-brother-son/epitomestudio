@@ -2,8 +2,6 @@ import Link from 'next/link'
 import { PortableText } from '@portabletext/react'
 import { getHome } from '@/queries/home'
 
-export const runtime = 'edge'
-
 export default async function HomePage() {
   const home = await getHome()
 

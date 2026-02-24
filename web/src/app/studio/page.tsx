@@ -5,8 +5,6 @@ import { urlFor } from '@/lib/sanityImage'
 import { HideOnFooter } from '@/components/HideOnFooter'
 import type { Metadata } from 'next'
 
-export const runtime = 'edge'
-
 export async function generateMetadata(): Promise<Metadata> {
   const studio = await getStudio()
   

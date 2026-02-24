@@ -7,8 +7,6 @@ import type { Metadata } from 'next'
 import { Icon } from '@/components/Icons'
 import { div } from 'framer-motion/m'
 
-export const runtime = 'edge'
-
 export async function generateMetadata(): Promise<Metadata> {
   const contact = await getContact()
   

@@ -3,8 +3,6 @@ import { getEquipment, getAllEquipmentItems } from '@/queries/equipment'
 import { urlFor } from '@/lib/sanityImage'
 import type { Metadata } from 'next'
 
-export const runtime = 'edge'
-
 export async function generateMetadata(): Promise<Metadata> {
   const page = await getEquipment()
   
