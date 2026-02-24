@@ -6,6 +6,12 @@ npm-debug.log*
 # Dependencies
 node_modules
 
+# Build outputs
+.next
+.open-next
+.vercel
+.wrangler
+
 # Misc
 .DS_Store
 *.pem
@@ -13,6 +19,7 @@ node_modules
 # Local env files
 .env
 .env*.local
+.dev.vars
 
 # IDE
 .vscode/

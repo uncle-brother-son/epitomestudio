@@ -103,9 +103,9 @@ Your studio will be available at https://epitomestudio.sanity.studio
 2. Connect repository to Cloudflare Pages
 3. Configure build settings:
    - Framework preset: None
-   - Build command: `cd web && npx @cloudflare/next-on-pages`
-   - Build output directory: `web/.vercel/output/static`
-   - Root directory: `/`
+   - Build command: `npx opennextjs-cloudflare build`
+   - Build output directory: `.open-next`
+   - Root directory: `web`
    
 4. Add environment variables in Cloudflare:
    ```

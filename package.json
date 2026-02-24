@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "cd web && npm install && npx @cloudflare/next-on-pages",
+    "build": "cd web && npm install && npx opennextjs-cloudflare build",
     "install:web": "cd web && npm install",
     "install:studio": "cd studio && npm install"
   }

@@ -324,9 +324,9 @@ export default function ContactForm() {
 
 **Build Configuration:**
 - Framework preset: None
-- Build command: `cd web && npx @cloudflare/next-on-pages`
-- Build output directory: `web/.vercel/output/static`
-- Root directory: `/`
+- Build command: `npx opennextjs-cloudflare build`
+- Build output directory: `.open-next`
+- Root directory: `web`
 
 **Environment Variables (Production):**
 - SANITY_STUDIO_API_PROJECT_ID
