@@ -6,27 +6,30 @@ export const home = defineType({
   type: 'document',
   fields: [
     {
-      name: 'title',
-      title: 'Title',
-      type: 'string',
-      validation: (Rule) => Rule.required(),
-      description: 'Main heading for the home page',
+      name: 'cards',
+      title: 'Cards',
+      type: 'array',
+      of: [{ type: 'card' }],
+      description: 'Add cards with images/videos linking to other pages',
     },
     {
-      name: 'description',
-      title: 'Description',
+      name: 'metaDescription',
+      title: 'Meta Description',
       type: 'text',
       rows: 3,
-    },
-    {
-      name: 'content',
-      title: 'Content',
-      type: 'portableText',
+      validation: (Rule) => Rule.max(160).warning('Should be under 160 characters for optimal SEO'),
+      description: 'Description for search engines',
     },
   ],
   preview: {
     select: {
-      title: 'title',
+      title: 'metaDescription',
+    },
+    prepare({ title }) {
+      return {
+        title: 'Home Page',
+        subtitle: title || 'No meta description',
+      }
     },
   },
 })

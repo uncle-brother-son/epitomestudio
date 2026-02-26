@@ -3,6 +3,7 @@ import { PortableText } from '@portabletext/react'
 import { getStudio } from '@/queries/studio'
 import { urlFor } from '@/lib/sanityImage'
 import { HideOnFooter } from '@/components/HideOnFooter'
+import { HireStudioButton } from '@/components/HireStudioButton'
 import type { Metadata } from 'next'
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -27,10 +28,11 @@ export default async function StudioPage() {
         <div className='col-start-1 col-span-12 lg:col-start-1 lg:col-span-17'>
           <div className='relative rounded overflow-hidden aspect-5/4 lg:aspect-auto lg:h-[calc(100vh-13.75rem)]'>
             <Image
-              src={urlFor(studio.imageGallery[0]).width(600).height(400).url()}
+              src={urlFor(studio.imageGallery[0]).width(1600).height(1280).url()}
               alt={studio.imageGallery[0].alt || 'Gallery image 1'}
               fill
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              priority
+              sizes="(max-width: 900px) 100vw, 70vw"
               className="object-cover"
             />
           </div>
@@ -56,9 +58,10 @@ export default async function StudioPage() {
 
         {studio?.hireStudioButtonLabel && (
           <HideOnFooter>
-            <button className="btn self-start fixed bottom-10 left-1/2 lg:left-0 -translate-x-1/2 lg:translate-x-0 z-10 lg:sticky lg:bottom-20 lg:mt-auto">
-              {studio.hireStudioButtonLabel}
-            </button>
+            <HireStudioButton 
+              label={studio.hireStudioButtonLabel}
+              className="btn self-start fixed bottom-10 left-1/2 lg:left-0 -translate-x-1/2 lg:translate-x-0 z-10 lg:sticky lg:bottom-20 lg:mt-auto"
+            />
           </HideOnFooter>
         )}
       </div>
@@ -68,10 +71,10 @@ export default async function StudioPage() {
           {studio.imageGallery.slice(1).map((image, index) => (
             <div className='relative aspect-5/4 rounded overflow-hidden' key={index + 1}>
               <Image
-                src={urlFor(image).width(600).height(400).url()}
+                src={urlFor(image).width(1600).height(1280).url()}
                 alt={image.alt || `Gallery image ${index + 2}`}
                 fill
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                sizes="(max-width: 900px) 100vw, 70vw"
                 className="object-cover"
               />
             </div>

@@ -36,21 +36,12 @@ export default function VideoPlayer({ src, className = '' }: VideoPlayerProps) {
 
   return (
     <div className={`relative group w-full rounded overflow-hidden ${className}`}>
-      <video
-        ref={videoRef}
-        className="w-full"
-        src={src}
-        muted
-        loop
-        playsInline
-        onPlay={() => setIsPlaying(true)}
-        onPause={() => setIsPlaying(false)}
-      >
+      <video ref={videoRef} className="w-full" src={src} muted loop playsInline onPlay={() => setIsPlaying(true)} onPause={() => setIsPlaying(false)} >
         Your browser does not support the video tag.
       </video>
 
       <button onClick={togglePlay} className="group absolute inset-0 flex items-start justify-end p-4" aria-label={isPlaying ? 'Pause video' : 'Play video'}>
-        <div className="p-1 rounded flex items-center justify-center transition-colors duration-500 sticky bottom-4">
+        <div className="p-1 rounded flex items-center justify-center bg-natural/5 group-hover:bg-natural/40 transition-colors duration-lg ease-es sticky bottom-4">
           <Icon name={isPlaying ? 'icon-pause' : 'icon-play'} className="w-4 h-4 fill-black" viewBox="0 0 14 14" />
         </div>
       </button>

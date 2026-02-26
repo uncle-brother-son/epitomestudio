@@ -6,26 +6,38 @@ export const equipmentItem = defineType({
   type: 'document',
   fields: [
     {
-      name: 'title',
-      title: 'Title',
+      name: 'brand',
+      title: 'Brand',
       type: 'string',
       validation: (Rule) => Rule.required(),
     },
     {
-      name: 'slug',
-      title: 'Slug',
-      type: 'slug',
+      name: 'category',
+      title: 'Category',
+      type: 'reference',
+      to: [{ type: 'category' }],
       options: {
-        source: 'title',
-        maxLength: 96,
+        filter: 'defined(parent)',
       },
       validation: (Rule) => Rule.required(),
+      description: 'Select the most specific category for this item',
+    },
+    {
+      name: 'name',
+      title: 'Name',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
+    },
+    {
+      name: 'price',
+      title: 'Price (£)',
+      type: 'number',
+      validation: (Rule) => Rule.required().positive(),
     },
     {
       name: 'description',
       title: 'Description',
-      type: 'text',
-      rows: 3,
+      type: 'portableText',
     },
     {
       name: 'image',
@@ -34,29 +46,20 @@ export const equipmentItem = defineType({
       options: {
         hotspot: true,
       },
-      fields: [
-        {
-          name: 'alt',
-          title: 'Alt Text',
-          type: 'string',
-        },
-      ],
-    },
-    {
-      name: 'content',
-      title: 'Content',
-      type: 'portableText',
-    },
-    {
-      name: 'publishedAt',
-      title: 'Published At',
-      type: 'datetime',
     },
   ],
   preview: {
     select: {
-      title: 'title',
+      title: 'name',
+      subtitle: 'price',
       media: 'image',
+    },
+    prepare({ title, subtitle, media }) {
+      return {
+        title,
+        subtitle: subtitle ? `$${subtitle}` : 'No price',
+        media,
+      }
     },
   },
 })

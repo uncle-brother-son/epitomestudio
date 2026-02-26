@@ -1,9 +1,10 @@
 import type { Metadata } from 'next'
 import './globals.css'
-import { Header } from '@/components/Header'
-import { Footer } from '@/components/Footer'
 import { getGlobal } from '@/queries/global'
 import { urlFor } from '@/lib/sanityImage'
+import { EquipmentCartProvider } from '@/contexts/EquipmentCartContext'
+import { DarkModeHandler } from '@/components/DarkModeHandler'
+import { PageTransition } from '@/components/PageTransition'
 
 export async function generateMetadata(): Promise<Metadata> {
   const global = await getGlobal()
@@ -40,27 +41,23 @@ export default async function RootLayout({
   const global = await getGlobal()
 
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
-        <link
-          rel="preload"
-          href="/fonts/GeneralSans-Regular.woff2"
-          as="font"
-          type="font/woff2"
-          crossOrigin="anonymous"
-        />
-        <link
-          rel="preload"
-          href="/fonts/GeneralSans-Medium.woff2"
-          as="font"
-          type="font/woff2"
-          crossOrigin="anonymous"
-        />
+        <script dangerouslySetInnerHTML={{__html: `
+          if (window.location.pathname.includes('/equipment-hire')) {
+            document.documentElement.classList.add('dark');
+          }
+        `}} />
+        <link rel="preload" href="/fonts/GeneralSans-Regular.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+        <link rel="preload" href="/fonts/GeneralSans-Medium.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
       </head>
-      <body className="bg-natural dark:bg-black text-black dark:text-natural text-md subpixel-antialiased flex flex-col min-h-screen">
-        <Header global={global} />
-        {children}
-        <Footer global={global} />
+      <body className="bg-natural dark:bg-black text-black dark:text-natural text-md subpixel-antialiased flex flex-col min-h-screen transition-colors duration-md ease-es">
+        <DarkModeHandler />
+        <EquipmentCartProvider>
+          <PageTransition>
+            {children}
+          </PageTransition>
+        </EquipmentCartProvider>
       </body>
     </html>
   )

@@ -47,10 +47,26 @@ export async function getGlobal(): Promise<Global | null> {
   if (result?.headerNavigation && Array.isArray(result.headerNavigation)) {
     result.headerNavigation = result.headerNavigation
       .filter((page: any) => page && page.title) // Filter out null references
-      .map((page: any) => ({
-        label: page.title,
-        url: page._type === 'home' ? '/' : `/${page._type}`,
-      }))
+      .map((page: any) => {
+        let url = '/'
+        switch (page._type) {
+          case 'home':
+            url = '/'
+            break
+          case 'studio':
+            url = '/studio-hire'
+            break
+          case 'equipment':
+            url = '/equipment-hire'
+            break
+          default:
+            url = `/${page._type}`
+        }
+        return {
+          label: page.title,
+          url,
+        }
+      })
   }
   
   return result

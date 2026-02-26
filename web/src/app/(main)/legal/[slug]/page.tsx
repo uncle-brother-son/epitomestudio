@@ -36,7 +36,7 @@ export default async function LegalPage({ params }: { params: Promise<{ slug: st
   }
 
   return (
-    <main className="grid_ my-xl">
+    <main className="grid_ my-xl grow">
 
       <div className="col-start-1 col-span-12 lg:col-start-7 lg:col-span-12 flex flex-col gap-y-16 lg:gap-y-20">
         <h1>{legal.header}</h1>

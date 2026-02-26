@@ -1,18 +1,57 @@
 import { client } from '@/lib/sanityClient'
 
+export interface Card {
+  _key: string
+  title: string
+  image?: {
+    asset: {
+      _ref: string
+      _type: 'reference'
+    }
+  }
+  video?: {
+    asset: {
+      _ref: string
+      _type: 'reference'
+      url?: string
+    }
+  }
+  linkType: 'home' | 'studio' | 'equipment' | 'production' | 'contact' | 'legal'
+  legalPage?: {
+    slug: {
+      current: string
+    }
+  }
+}
+
 export interface Home {
   _id: string
-  title: string
-  description?: string
-  content?: any
+  cards?: Card[]
+  metaDescription?: string
 }
 
 export async function getHome(): Promise<Home | null> {
   const query = `*[_type == "home" && _id == "home"][0] {
     _id,
-    title,
-    description,
-    content
+    metaDescription,
+    cards[] {
+      _key,
+      title,
+      image {
+        asset
+      },
+      video {
+        asset-> {
+          _ref,
+          _type,
+          url
+        }
+      },
+      linkType,
+      legalPage-> {
+        slug
+      }
+    }
   }`
 
   return await client.fetch(query, {}, {

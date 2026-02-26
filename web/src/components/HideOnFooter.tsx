@@ -53,7 +53,7 @@ export function HideOnFooter({ children, className = '' }: HideOnFooterProps) {
   return (
     <>
       {React.cloneElement(child, {
-        className: `${child.props.className || ''} ${className} transition-transform duration-500 ${
+        className: `${child.props.className || ''} ${className} transition-transform duration-lg ease-es ${
           isMobile && !isVisible ? 'translate-y-20' : 'translate-y-0'
         }`.trim()
       })}

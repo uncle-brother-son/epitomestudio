@@ -1,3 +1,4 @@
+import { svg } from 'framer-motion/client';
 import React from 'react';
 
 // Map of icon names to <g> elements
@@ -39,7 +40,7 @@ export const IconGroups: Record<string, React.ReactNode> = {
   ),
   'icon-date': (
     <>
-      <path fill-rule="evenodd" clip-rule="evenodd" d="M11.1002 2.89999H12.0992V12.0992H1.90002V2.89999H2.90002V1.89999H4.10022V2.89999H9.90002V1.89999H11.1002V2.89999ZM3.09924 10.9H10.9V6.09921H3.09924V10.9Z"/>
+      <path fillRule="evenodd" clipRule="evenodd" d="M11.1002 2.89999H12.0992V12.0992H1.90002V2.89999H2.90002V1.89999H4.10022V2.89999H9.90002V1.89999H11.1002V2.89999ZM3.09924 10.9H10.9V6.09921H3.09924V10.9Z"/>
     </>
   ),
   'icon-time': (
@@ -50,8 +51,8 @@ export const IconGroups: Record<string, React.ReactNode> = {
   ),
   'icon-subArrow': (
     <>
-      <path d="M1 1V7H13" stroke="#121214" stroke-width="1.2"/>
-      <path d="M10.1684 4.16999L12.9968 6.99841L10.1684 9.82684" stroke="#121214" stroke-width="1.2"/>
+      <path d="M1.59961 1V6.40039H13V7.59961H0.400391V1H1.59961Z"/>
+      <path d="M10.5924 10.2508L9.7444 9.40285L12.1488 6.99841L9.7444 4.59397L10.5924 3.746L13.8448 6.99841L10.5924 10.2508Z"/>
     </>
   ),
   'icon-info': (
@@ -63,7 +64,7 @@ export const IconGroups: Record<string, React.ReactNode> = {
   ),
   'icon-search': (
     <>
-      <path fill-rule="evenodd" clip-rule="evenodd" d="M6 1C8.76142 1 11 3.23858 11 6C11 7.16463 10.6003 8.23504 9.93262 9.08496L12.9238 12.0762L12.0762 12.9238L9.08496 9.93262C8.23504 10.6003 7.16463 11 6 11C3.23858 11 1 8.76142 1 6C1 3.23858 3.23858 1 6 1ZM6 2.2002C3.90132 2.2002 2.2002 3.90132 2.2002 6C2.2002 8.09868 3.90132 9.7998 6 9.7998C8.09868 9.7998 9.7998 8.09868 9.7998 6C9.7998 3.90132 8.09868 2.2002 6 2.2002Z"/>
+      <path fillRule="evenodd" clipRule="evenodd" d="M6 1C8.76142 1 11 3.23858 11 6C11 7.16463 10.6003 8.23504 9.93262 9.08496L12.9238 12.0762L12.0762 12.9238L9.08496 9.93262C8.23504 10.6003 7.16463 11 6 11C3.23858 11 1 8.76142 1 6C1 3.23858 3.23858 1 6 1ZM6 2.2002C3.90132 2.2002 2.2002 3.90132 2.2002 6C2.2002 8.09868 3.90132 9.7998 6 9.7998C8.09868 9.7998 9.7998 8.09868 9.7998 6C9.7998 3.90132 8.09868 2.2002 6 2.2002Z"/>
     </>
   ),
   'icon-plus': (
@@ -74,7 +75,7 @@ export const IconGroups: Record<string, React.ReactNode> = {
   ),
   'icon-minus': (
     <>
-      <path d="M7.60002 1V13H6.40002V1H7.60002Z"/>
+      <path d="M13 6.39999V7.59999H1V6.39999H13Z"/>
     </>
   ),
   'icon-close': (
@@ -113,8 +114,24 @@ export const IconGroups: Record<string, React.ReactNode> = {
       <path d="M5.27574 11.5245L9.8015 6.99873L5.27574 2.47297L6.12372 1.625L11.4975 6.99873L6.12372 12.3725L5.27574 11.5245Z"/>
     </>
   ),
-
-  
+  'icon-image': (
+    <>
+      <rect width="9" height="12" transform="translate(1.5)"/>
+    </>
+  ),
+  'icon-list': (
+    <>
+      <rect width="9" height="1.6" transform="translate(1.5)"/>
+      <rect width="9" height="1.6" transform="translate(1.5 3.46666)"/>
+      <rect width="9" height="1.6" transform="translate(1.5 6.93333)"/>
+      <rect width="9" height="1.6" transform="translate(1.5 10.4)"/>
+    </>
+  ),
+  'icon-tick': (
+    <>
+      <path d="M11.9494 4.81742L5.34732 11.4195L2.04749 8.11967L3.28492 6.88224L5.34732 8.94463L10.712 3.57999L11.9494 4.81742Z"/>
+    </>
+  ),
 };
 
 // Reusable Icon component

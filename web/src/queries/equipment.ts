@@ -8,17 +8,25 @@ export interface Equipment {
 
 export interface EquipmentItem {
   _id: string
-  title: string
-  slug: { current: string }
-  description?: string
+  brand: string
+  name: string
+  price: number
+  description?: any
+  category?: {
+    _id: string
+    name: string
+    slug: { current: string }
+    parent?: {
+      _id: string
+      name: string
+      slug: { current: string }
+    }
+  }
   image?: {
     asset: any
-    alt?: string
     hotspot?: any
     crop?: any
   }
-  content?: any
-  publishedAt?: string
 }
 
 export async function getEquipment(): Promise<Equipment | null> {
@@ -34,18 +42,57 @@ export async function getEquipment(): Promise<Equipment | null> {
 }
 
 export async function getAllEquipmentItems(): Promise<EquipmentItem[]> {
-  const query = `*[_type == "equipmentItem"] | order(publishedAt desc) {
+  const query = `*[_type == "equipmentItem"] | order(name asc) {
     _id,
-    title,
-    slug,
+    brand,
+    name,
+    price,
     description,
+    category-> {
+      _id,
+      name,
+      slug,
+      parent-> {
+        _id,
+        name,
+        slug
+      }
+    },
     image {
       asset,
-      alt,
       hotspot,
       crop
+    }
+  }`
+
+  return await client.fetch(query, {}, {
+    next: { revalidate: 60 }
+  })
+}
+
+export interface Category {
+  _id: string
+  name: string
+  slug: { current: string }
+  parent?: {
+    _id: string
+    name: string
+    slug: { current: string }
+  }
+  order: number
+}
+
+export async function getAllCategories(): Promise<Category[]> {
+  const query = `*[_type == "category"] | order(order asc) {
+    _id,
+    name,
+    slug,
+    parent-> {
+      _id,
+      name,
+      slug
     },
-    publishedAt
+    order
   }`
 
   return await client.fetch(query, {}, {

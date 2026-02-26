@@ -6,6 +6,8 @@ import { contact } from './contact'
 import { legal } from './legal'
 import { global } from './global'
 import { portableText } from './portableText'
+import { category } from './category'
+import { card } from './card'
 
 export const schemaTypes = [
   // Singleton pages
@@ -16,8 +18,11 @@ export const schemaTypes = [
   contact,
   global,
   // Multi-page collections
+  category,
   equipmentItem,
   legal,
   // Portable text
   portableText,
+  // Objects
+  card,
 ]

@@ -41,8 +41,8 @@ export function Header({ global }: { global: Global | null }) {
   }, [translateY])
 
   const navigation = global?.headerNavigation || [
-    { label: 'Studio', url: '/studio' },
-    { label: 'Equipment', url: '/equipment' },
+    { label: 'Studio', url: '/studio-hire' },
+    { label: 'Equipment', url: '/equipment-hire' },
     { label: 'Production', url: '/production' },
     { label: 'Contact', url: '/contact' },
   ]
@@ -53,12 +53,12 @@ export function Header({ global }: { global: Global | null }) {
   return (
     <header 
       ref={headerRef}
-      className="grid_ px-4 py-4 bg-natural dark:bg-black fixed top-0 left-0 right-0 z-20"
+      className="grid_ px-4 py-4 bg-natural dark:bg-black fixed top-0 left-0 right-0 z-20 transition-colors duration-md ease-es"
       style={{ transform: `translateY(${translateY}px)` }}
     >
       <div className="col-start-1 col-span-9 flex items-start justify-start">
         <Link href="/">
-          <Icon name="icon-logo" className="icon-logo fill-black h-5 lg:h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 266 24"><title>Epitomestudio</title></Icon>
+          <Icon name="icon-logo" className="icon-logo fill-black dark:fill-natural h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 266 24"><title>Epitomestudio</title></Icon>
         </Link>
       </div>
       <nav className="col-start-10 col-span-3 lg:col-span-8 hidden lg:flex items-start justify-end gap-6">
