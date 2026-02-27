@@ -6,6 +6,10 @@ import { useEquipmentCart } from '@/contexts/EquipmentCartContext'
 import { Icon } from './Icons'
 import { AnimatedMessage } from './AnimatedMessage'
 import { COUNTRY_CODES } from '@/lib/constants'
+import { SlidePanel } from './SlidePanel'
+import { EquipmentTerms } from './EquipmentTerms'
+import type { Equipment } from '@/queries/equipment'
+import type { Global } from '@/queries/global'
 
 interface CartItem {
   id: string
@@ -33,13 +37,19 @@ interface FormData {
   
   // Equipment items (managed separately)
   items: CartItem[]
+  
+  // Checkboxes
+  agreeToTerms: boolean
+  subscribeToNewsletter: boolean
 }
 
 interface Props {
   onClose: () => void
+  equipment?: Equipment | null
+  global?: Global | null
 }
 
-export function EquipmentHireForm({ onClose }: Props) {
+export function EquipmentHireForm({ onClose, equipment, global }: Props) {
   const { getCartSummary, clearCart } = useEquipmentCart()
   const [currentStep, setCurrentStep] = useState(1)
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -47,6 +57,8 @@ export function EquipmentHireForm({ onClose }: Props) {
   const [isSummaryOpen, setIsSummaryOpen] = useState(false)
   const [isTransitioning, setIsTransitioning] = useState(false)
   const [showPriceInfo, setShowPriceInfo] = useState(false)
+  const [isTermsDrawerOpen, setIsTermsDrawerOpen] = useState(false)
+  const [hasStudioData, setHasStudioData] = useState(false)
   const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>({})
   const [formData, setFormData] = useState<FormData>({
     name: '',
@@ -61,7 +73,9 @@ export function EquipmentHireForm({ onClose }: Props) {
     dropOffTime: '18:00',
     hireStudio: false,
     message: '',
-    items: []
+    items: [],
+    agreeToTerms: false,
+    subscribeToNewsletter: false
   })
 
   const today = new Date().toISOString().split('T')[0]
@@ -70,6 +84,8 @@ export function EquipmentHireForm({ onClose }: Props) {
   useEffect(() => {
     const studioData = getHireStudioData()
     if (studioData) {
+      setHasStudioData(true)
+      setCurrentStep(3) // Skip to review step since we have their info
       setFormData(prev => ({
         ...prev,
         name: studioData.name,
@@ -82,6 +98,7 @@ export function EquipmentHireForm({ onClose }: Props) {
         days: studioData.days,
         pickUpTime: studioData.arrivalTime,
         dropOffTime: studioData.leavingTime,
+        hireStudio: true, // Auto-set to Yes since they came from Studio Hire
       }))
     }
     
@@ -217,6 +234,12 @@ export function EquipmentHireForm({ onClose }: Props) {
   }
 
   const handleSubmit = async () => {
+    // Validate terms agreement
+    if (!formData.agreeToTerms) {
+      setErrors({ agreeToTerms: 'You must agree to the Equipment Hire Policy to continue' })
+      return
+    }
+
     setIsSubmitting(true)
 
     try {
@@ -246,6 +269,7 @@ export function EquipmentHireForm({ onClose }: Props) {
 
   if (isSuccess) {
     return (
+      <>
       <div className="grow flex flex-col p-4 pt-20">
       
         <button onClick={onClose} className="close absolute top-4 right-4">
@@ -264,10 +288,19 @@ export function EquipmentHireForm({ onClose }: Props) {
           </div>
         </div>
       </div>
+      
+      {/* Terms Slide Panel */}
+      {equipment && global && (
+        <SlidePanel isOpen={isTermsDrawerOpen} onClose={() => setIsTermsDrawerOpen(false)}>
+          <EquipmentTerms onClose={() => setIsTermsDrawerOpen(false)} equipment={equipment} global={global} />
+        </SlidePanel>
+      )}
+      </>
     )
   }
 
   return (
+    <>
     <div className="grow flex flex-col gap-6 p-4 pt-20">
       
       <button onClick={onClose} className="close absolute top-4 right-4">
@@ -304,13 +337,13 @@ export function EquipmentHireForm({ onClose }: Props) {
                           <div key={item.id} className="flex justify-between">
                             <div className='basis-4/6'>{item.name}</div>
                             <div className='basis-1/6 text-right'>&#120273; {item.quantity}</div>
-                            <div className='basis-1/6 text-right'>£{calculateItemTotal(item)}</div>
+                            <div className='basis-1/6 text-right'>£{item.price}</div> {/* calculateItemTotal(item) */}
                           </div>
                         ))}
                       </div>
                       <div className='flex flex-col gap-0'>
                         <div className="flex justify-between">
-                            <span>Subtotal</span>
+                            <span>Total Per Day</span>
                             <span>£{calculateSubtotal()}</span>
                         </div>
                         <div className="flex justify-between">
@@ -462,12 +495,12 @@ export function EquipmentHireForm({ onClose }: Props) {
 
             <div className="field-row">
               <div className="field basis-1/2">
-                <input type="time" id="pickUpTime" value={formData.pickUpTime} onChange={(e) => updateField('pickUpTime', e.target.value)} />
+                <input type="time" id="pickUpTime" value={formData.pickUpTime} onChange={(e) => updateField('pickUpTime', e.target.value)} step="900" />
                 <label htmlFor="pickUpTime">Pick Up Time</label>
                 <Icon name="icon-time" className="icon-time h-4 w-4 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Time Picker</title></Icon>
               </div>
               <div className="field basis-1/2">
-                <input type="time" id="dropOffTime" value={formData.dropOffTime} onChange={(e) => updateField('dropOffTime', e.target.value)} />
+                <input type="time" id="dropOffTime" value={formData.dropOffTime} onChange={(e) => updateField('dropOffTime', e.target.value)} step="900" />
                 <label htmlFor="dropOffTime">Drop Off Time</label>
                 <Icon name="icon-time" className="icon-time h-4 w-4 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Time Picker</title></Icon>
               </div>
@@ -515,22 +548,45 @@ export function EquipmentHireForm({ onClose }: Props) {
           <div className={`row-start-2 lg:row-start-1 col-start-1 col-span-12 sm:col-start-2 sm:col-span-10 lg:col-start-5 lg:col-span-10 flex flex-col gap-6 transition-opacity duration-md ease-es ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}>
 
             <div className="text-lg flex flex-col gap-0.5">
-              <div className='flex gap-2'><div className='cd4 text-black/60 dark:text-natural/60'>Name:</div><div>{formData.name}</div></div>
-              <div className='flex gap-2'><div className='cd4 text-black/60 dark:text-natural/60'>Business Type:</div><div>{capitalizeFirst(formData.businessType)}</div></div>
-              {formData.companyName && <div className='flex gap-2'><div className='cd4 text-black/60 dark:text-natural/60'>Company:</div><div>{formData.companyName}</div></div>}
-              <div className='flex gap-2'><div className='cd4 text-black/60 dark:text-natural/60'>Email:</div><div>{formData.email}</div></div>
-              <div className='flex gap-2'><div className='cd4 text-black/60 dark:text-natural/60'>Phone:</div><div>{formData.countryCode} {formData.phoneNumber}</div></div>
+              <div className='flex gap-2'><div className='cd4 text-black/60 dark:text-natural/60'>Name:</div><div className='grow'>{formData.name}</div></div>
+              <div className='flex gap-2'><div className='cd4 text-black/60 dark:text-natural/60'>Business Type:</div><div className='grow'>{capitalizeFirst(formData.businessType)}</div></div>
+              {formData.companyName && <div className='flex gap-2'><div className='cd4 text-black/60 dark:text-natural/60'>Company:</div><div className='grow'>{formData.companyName}</div></div>}
+              <div className='flex gap-2'><div className='cd4 text-black/60 dark:text-natural/60'>Email:</div><div className='grow'>{formData.email}</div></div>
+              <div className='flex gap-2'><div className='cd4 text-black/60 dark:text-natural/60'>Phone:</div><div className='grow'>{formData.countryCode} {formData.phoneNumber}</div></div>
             </div>
 
             <div className="text-lg flex flex-col gap-0.5">
-              <div className='flex gap-2'><div className='cd4 text-black/60 dark:text-natural/60'>Start Date:</div><div>{formatDate(formData.hireStartDate)}</div></div>
-              <div className='flex gap-2'><div className='cd4 text-black/60 dark:text-natural/60'>Days:</div><div>&#120273; {formData.days}</div></div>
-              <div className='flex gap-2'><div className='cd4 text-black/60 dark:text-natural/60'>Times:</div><div>{formData.pickUpTime} - {formData.dropOffTime}</div></div>
-              <div className='flex gap-2'><div className='cd4 text-black/60 dark:text-natural/60'>Hire Studio:</div><div>{formData.hireStudio ? 'Yes' : 'No'}</div></div>
+              <div className='flex gap-2'><div className='cd4 text-black/60 dark:text-natural/60'>Start Date:</div><div className='grow'>{formatDate(formData.hireStartDate)}</div></div>
+              <div className='flex gap-2'><div className='cd4 text-black/60 dark:text-natural/60'>Days:</div><div className='grow'>&#120273; {formData.days}</div></div>
+              <div className='flex gap-2'><div className='cd4 text-black/60 dark:text-natural/60'>Times:</div><div className='grow'>{formData.pickUpTime} - {formData.dropOffTime}</div></div>
+              <div className='flex gap-2'><div className='cd4 text-black/60 dark:text-natural/60'>Hire Studio:</div><div className='grow'>{formData.hireStudio ? 'Yes' : 'No'}</div></div>
             </div>
 
-            <div className="text-lg flex flex-col gap-0.5">
-              {formData.message && <div className='flex flex-col gap-2'><div className='text-black/60 dark:text-natural/60'>Message:</div><div className='max-h-40 overflow-scroll'>{formData.message}</div></div>}
+            
+            {formData.message && 
+              <div className="text-lg flex flex-col gap-0.5">
+                <div className='flex flex-col gap-2'><div className='text-black/60 dark:text-natural/60'>Message:</div><div className='max-h-40 overflow-scroll whitespace-pre-wrap'>{formData.message}</div></div>
+              </div>
+            }
+
+            <div className='flex flex-col gap-4 mt-4'>
+              <div className='field-wrapper'>
+                <label className='checkbox-simple'>
+                  <input type='checkbox' checked={formData.agreeToTerms} onChange={(e) => updateField('agreeToTerms', e.target.checked)} />
+                  <Icon name="icon-tick" className="icon-tick h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Check</title></Icon>
+                  <span>Equipment hire is subject to agreement with our <button type="button" className="underline" onClick={(e) => { e.preventDefault(); setIsTermsDrawerOpen(true); }}>Equipment Hire Policy</button></span>
+                </label>              
+                <AnimatedMessage show={!!errors.agreeToTerms} className="error">
+                  <Icon name="icon-subArrow" className="icon-subArrow h-3 w-3 fill-red mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Error note</title></Icon>
+                  <span id="agreeToTerms-error">{errors.agreeToTerms}</span>
+                </AnimatedMessage>
+              </div>
+
+              <label className='checkbox-simple'>
+                <input type='checkbox' checked={formData.subscribeToNewsletter} onChange={(e) => updateField('subscribeToNewsletter', e.target.checked)} />
+                <Icon name="icon-tick" className="icon-tick h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Check</title></Icon>
+                <span>Sign up to our newsletter to receive updates on new equipment.</span>
+              </label>
             </div>
 
             <div className="flex flex-row gap-4 items-center justify-between mt-4">
@@ -539,7 +595,7 @@ export function EquipmentHireForm({ onClose }: Props) {
                 <span>Back</span>
               </button>
               <button onClick={handleSubmit} className="btn self-end" disabled={isSubmitting}>
-                {isSubmitting ? 'Submitting...' : 'Submit Hire Request'}
+                {isSubmitting ? 'Submitting...' : 'Submit Request'}
               </button>
             </div>
           </div>
@@ -548,5 +604,13 @@ export function EquipmentHireForm({ onClose }: Props) {
       </div>
 
     </div>
+    
+    {/* Terms Slide Panel */}
+    {equipment && global && (
+      <SlidePanel isOpen={isTermsDrawerOpen} onClose={() => setIsTermsDrawerOpen(false)}>
+        <EquipmentTerms onClose={() => setIsTermsDrawerOpen(false)} equipment={equipment} global={global} />
+      </SlidePanel>
+    )}
+    </>
   )
 }

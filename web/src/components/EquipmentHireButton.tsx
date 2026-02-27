@@ -4,13 +4,17 @@ import { useState } from 'react'
 import { Drawer } from './Drawer'
 import { EquipmentHireForm } from './EquipmentHireForm'
 import { useEquipmentCart } from '@/contexts/EquipmentCartContext'
+import type { Equipment } from '@/queries/equipment'
+import type { Global } from '@/queries/global'
 
 interface Props {
   label: string
   className?: string
+  equipment?: Equipment | null
+  global?: Global | null
 }
 
-export function EquipmentHireButton({ label, className }: Props) {
+export function EquipmentHireButton({ label, className, equipment, global }: Props) {
   const [isOpen, setIsOpen] = useState(false)
   const [showPrompt, setShowPrompt] = useState(false)
   const { getTotalItems } = useEquipmentCart()
@@ -56,7 +60,7 @@ export function EquipmentHireButton({ label, className }: Props) {
       </button>
 
       <Drawer isOpen={isOpen} onClose={handleClose}>
-        <EquipmentHireForm onClose={handleClose} />
+        <EquipmentHireForm onClose={handleClose} equipment={equipment} global={global} />
       </Drawer>
     </>
   )

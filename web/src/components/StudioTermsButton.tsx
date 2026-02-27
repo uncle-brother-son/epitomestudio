@@ -1,8 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { createPortal } from 'react-dom'
-import { Drawer } from './Drawer'
+import { SlidePanel } from './SlidePanel'
 import { StudioTerms } from './StudioTerms'
 import type { Studio } from '@/queries/studio'
 import type { Global } from '@/queries/global'
@@ -30,12 +29,9 @@ export function StudioTermsButton({ className, studio, global }: Props) {
         <span>{studio.termsHeader || 'Studio Hire Policy'}</span>
       </button>
 
-      {typeof document !== 'undefined' && createPortal(
-        <Drawer isOpen={isOpen} onClose={handleClose}>
-          <StudioTerms onClose={handleClose} studio={studio} global={global} />
-        </Drawer>,
-        document.body
-      )}
+      <SlidePanel isOpen={isOpen} onClose={handleClose}>
+        <StudioTerms onClose={handleClose} studio={studio} global={global} />
+      </SlidePanel>
     </>
   )
 }

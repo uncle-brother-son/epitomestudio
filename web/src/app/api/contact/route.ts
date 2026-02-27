@@ -46,6 +46,8 @@ export async function POST(request: NextRequest) {
               @media only screen and (max-width: 480px) {
                 .header-cell { display: block !important; width: 100% !important; text-align: left !important; }
                 .header-space { padding-bottom: 16px !important; }
+                .list-cell { display: block !important; width: 100% !important; text-align: left !important; }
+                .list-space { padding-bottom: 12px !important; }
               }
             </style>
           </head>
@@ -100,11 +102,17 @@ export async function POST(request: NextRequest) {
                       </td>
                     </tr>
                     <tr>
-                      <td style="padding: 0 0 400px; width: 128px; vertical-align: top;">
-                        <div style="font-size: 10px; font-weight: 500; color: #121214; text-transform: uppercase; width: 80px;">Message</div>
-                      </td>
-                      <td style="padding: 0 0 400px;">
-                        <div style="font-size: 12px; color: #121214; word-break: break-word;">${message}</div>
+                      <td colspan="2" style="padding: 0 0 400px;">
+                        <table width="100%" cellpadding="0" cellspacing="0">
+                          <tr>
+                            <td class="list-cell list-space" style="padding: 0; width: 128px; vertical-align: top;">
+                              <div style="font-size: 10px; font-weight: 500; color: #121214; text-transform: uppercase;">Message</div>
+                            </td>
+                            <td class="list-cell" style="padding: 0;">
+                              <div style="font-size: 12px; color: #121214; white-space: pre-wrap; word-break: break-word;">${message}</div>
+                            </td>
+                          </tr>
+                        </table>
                       </td>
                     </tr>
                   </table>

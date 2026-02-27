@@ -5,6 +5,10 @@ import { saveHireStudioData } from '@/lib/formStorage'
 import { Icon } from './Icons'
 import { AnimatedMessage } from './AnimatedMessage'
 import { COUNTRY_CODES } from '@/lib/constants'
+import { SlidePanel } from './SlidePanel'
+import { StudioTerms } from './StudioTerms'
+import type { Studio } from '@/queries/studio'
+import type { Global } from '@/queries/global'
 
 interface FormData {
   // Step 1: Your Info
@@ -24,17 +28,24 @@ interface FormData {
   attendees: number
   hireEquipment: boolean
   message: string
+  
+  // Checkboxes
+  agreeToTerms: boolean
+  subscribeToNewsletter: boolean
 }
 
 interface Props {
   onClose: () => void
+  studio?: Studio | null
+  global?: Global | null
 }
 
-export function StudioHireForm({ onClose }: Props) {
+export function StudioHireForm({ onClose, studio, global }: Props) {
   const [currentStep, setCurrentStep] = useState(1)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
   const [isTransitioning, setIsTransitioning] = useState(false)
+  const [isTermsDrawerOpen, setIsTermsDrawerOpen] = useState(false)
   const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>({})
   const [formData, setFormData] = useState<FormData>({
     name: '',
@@ -50,7 +61,9 @@ export function StudioHireForm({ onClose }: Props) {
     typeOfBooking: '',
     attendees: 10,
     hireEquipment: false,
-    message: ''
+    message: '',
+    agreeToTerms: false,
+    subscribeToNewsletter: false
   })
 
   const today = new Date().toISOString().split('T')[0]
@@ -157,6 +170,12 @@ export function StudioHireForm({ onClose }: Props) {
   }
 
   const handleSubmit = async () => {
+    // Validate terms agreement
+    if (!formData.agreeToTerms) {
+      setErrors({ agreeToTerms: 'You must agree to the Studio Hire Policy to continue' })
+      return
+    }
+
     setIsSubmitting(true)
 
     try {
@@ -185,6 +204,7 @@ export function StudioHireForm({ onClose }: Props) {
 
   if (isSuccess) {
     return (
+    <>
     <div className="grow flex flex-col p-4 pt-20">
       
           <button onClick={onClose} className="close absolute top-4 right-4">
@@ -200,7 +220,7 @@ export function StudioHireForm({ onClose }: Props) {
             {formData.hireEquipment && (
             <div className="flex flex-col gap-4">
                 <p>You indicated you'd like to hire equipment.</p>
-                <a href="/equipment-hire" className="btn self-start">Browse Equipment</a>
+                <a href="/equipment-hire" onClick={onClose} className="btn self-start">Browse Equipment</a>
             </div>
             )}
             
@@ -212,10 +232,19 @@ export function StudioHireForm({ onClose }: Props) {
         </div>
       </div>
     </div>
+        
+    {/* Terms Slide Panel */}
+    {studio && global && (
+      <SlidePanel isOpen={isTermsDrawerOpen} onClose={() => setIsTermsDrawerOpen(false)}>
+        <StudioTerms onClose={() => setIsTermsDrawerOpen(false)} studio={studio} global={global} />
+      </SlidePanel>
+    )}
+    </>
     )
   }
 
   return (
+    <>
     <div className="grow flex flex-col gap-6 p-4 pt-20">
       
       <button onClick={onClose} className="close absolute top-4 right-4">
@@ -348,12 +377,12 @@ export function StudioHireForm({ onClose }: Props) {
 
             <div className="field-row">
               <div className="field grow">
-                <input type="time" id="arrivalTime" value={formData.arrivalTime} onChange={(e) => updateField('arrivalTime', e.target.value)} placeholder='' />
+                <input type="time" id="arrivalTime" value={formData.arrivalTime} onChange={(e) => updateField('arrivalTime', e.target.value)} placeholder='' step="900" />
                 <label htmlFor="arrivalTime">Arrival Time</label>
                 <Icon name="icon-time" className="icon-time h-4 w-4 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Time Picker</title></Icon>
               </div>
               <div className="field grow">
-                <input type="time" id="leavingTime" value={formData.leavingTime} onChange={(e) => updateField('leavingTime', e.target.value)} placeholder='' />
+                <input type="time" id="leavingTime" value={formData.leavingTime} onChange={(e) => updateField('leavingTime', e.target.value)} placeholder='' step="900" />
                 <label htmlFor="leavingTime">Leaving Time</label>
                 <Icon name="icon-time" className="icon-time h-4 w-4 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Time Picker</title></Icon>
               </div>
@@ -433,24 +462,47 @@ export function StudioHireForm({ onClose }: Props) {
             <div className={`col-start-1 col-span-12 sm:col-start-2 sm:col-span-10 lg:col-start-8 lg:col-span-10 flex flex-col gap-6 transition-opacity duration-md ease-es ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}>
 
                 <div className="text-lg flex flex-col gap-0.5">
-                    <div className='flex gap-2'><div className='cd4 text-black/60 dark:text-natural/60'>Name:</div><div>{formData.name}</div></div>
-                    <div className='flex gap-2'><div className='cd4 text-black/60 dark:text-natural/60'>Business Type:</div><div>{capitalizeFirst(formData.businessType)}</div></div>
-                    {formData.companyName && <div className='flex gap-2'><div className='cd4 text-black/60 dark:text-natural/60'>Company:</div><div>{formData.companyName}</div></div>}
-                    <div className='flex gap-2'><div className='cd4 text-black/60 dark:text-natural/60'>Email:</div><div>{formData.email}</div></div>
-                    <div className='flex gap-2'><div className='cd4 text-black/60 dark:text-natural/60'>Phone:</div><div>{formData.countryCode} {formData.phoneNumber}</div></div>
+                    <div className='flex gap-2'><div className='cd4 text-black/60 dark:text-natural/60'>Name:</div><div className='grow'>{formData.name}</div></div>
+                    <div className='flex gap-2'><div className='cd4 text-black/60 dark:text-natural/60'>Business Type:</div><div className='grow'>{capitalizeFirst(formData.businessType)}</div></div>
+                    {formData.companyName && <div className='flex gap-2'><div className='cd4 text-black/60 dark:text-natural/60'>Company:</div><div className='grow'>{formData.companyName}</div></div>}
+                    <div className='flex gap-2'><div className='cd4 text-black/60 dark:text-natural/60'>Email:</div><div className='grow'>{formData.email}</div></div>
+                    <div className='flex gap-2'><div className='cd4 text-black/60 dark:text-natural/60'>Phone:</div><div className='grow'>{formData.countryCode} {formData.phoneNumber}</div></div>
                 </div>
 
                 <div className="text-lg flex flex-col gap-0.5">
-                    <div className='flex gap-2'><div className='cd4 text-black/60 dark:text-natural/60'>Start Date:</div><div>{formatDate(formData.hireStartDate)}</div></div>
-                    <div className='flex gap-2'><div className='cd4 text-black/60 dark:text-natural/60'>Days:</div><div>{formData.days}</div></div>
-                    <div className='flex gap-2'><div className='cd4 text-black/60 dark:text-natural/60'>Times:</div><div>{formData.arrivalTime} - {formData.leavingTime}</div></div>
-                    <div className='flex gap-2'><div className='cd4 text-black/60 dark:text-natural/60'>Type:</div><div>{formatTypeOfBooking(formData.typeOfBooking)}</div></div>
-                    <div className='flex gap-2'><div className='cd4 text-black/60 dark:text-natural/60'>Attendees:</div><div>{formData.attendees}</div></div>
-                    <div className='flex gap-2'><div className='cd4 text-black/60 dark:text-natural/60'>Hire Equipment:</div><div>{formData.hireEquipment ? 'Yes' : 'No'}</div></div>
+                    <div className='flex gap-2'><div className='cd4 text-black/60 dark:text-natural/60'>Start Date:</div><div className='grow'>{formatDate(formData.hireStartDate)}</div></div>
+                    <div className='flex gap-2'><div className='cd4 text-black/60 dark:text-natural/60'>Days:</div><div className='grow'>{formData.days}</div></div>
+                    <div className='flex gap-2'><div className='cd4 text-black/60 dark:text-natural/60'>Times:</div><div className='grow'>{formData.arrivalTime} - {formData.leavingTime}</div></div>
+                    <div className='flex gap-2'><div className='cd4 text-black/60 dark:text-natural/60'>Type:</div><div className='grow'>{formatTypeOfBooking(formData.typeOfBooking)}</div></div>
+                    <div className='flex gap-2'><div className='cd4 text-black/60 dark:text-natural/60'>Attendees:</div><div className='grow'>{formData.attendees}</div></div>
+                    <div className='flex gap-2'><div className='cd4 text-black/60 dark:text-natural/60'>Hire Equipment:</div><div className='grow'>{formData.hireEquipment ? 'Yes' : 'No'}</div></div>
                 </div>
 
-                <div className="text-lg flex flex-col gap-0.5">
-                    {formData.message && <div className='flex flex-col gap-2'><div className='text-black/60 dark:text-natural/60'>Message:</div><div className='max-h-40 overflow-scroll'>{formData.message}</div></div>}
+                
+                {formData.message && 
+                  <div className="text-lg flex flex-row gap-0.5">
+                    <div className='flex flex-col gap-2'><div className='text-black/60 dark:text-natural/60'>Message:</div><div className='max-h-40 overflow-scroll whitespace-pre-wrap'>{formData.message}</div></div>
+                  </div>
+                }
+
+                <div className='flex flex-col gap-4 mt-4'>
+                  <div className='field-wrapper'>
+                    <label className='checkbox-simple'>
+                      <input type='checkbox' checked={formData.agreeToTerms} onChange={(e) => updateField('agreeToTerms', e.target.checked)} />
+                      <Icon name="icon-tick" className="icon-tick h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Check</title></Icon>
+                      <span>Studio hire is subject to agreement with our <button type="button" className="underline" onClick={(e) => { e.preventDefault(); setIsTermsDrawerOpen(true); }}>Studio Hire Policy</button></span>
+                    </label>
+                    <AnimatedMessage show={!!errors.agreeToTerms} className="error">
+                      <Icon name="icon-subArrow" className="icon-subArrow h-3 w-3 fill-red mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Error note</title></Icon>
+                      <span id="agreeToTerms-error">{errors.agreeToTerms}</span>
+                    </AnimatedMessage>
+                  </div>
+
+                  <label className='checkbox-simple'>
+                    <input type='checkbox' checked={formData.subscribeToNewsletter} onChange={(e) => updateField('subscribeToNewsletter', e.target.checked)} />
+                    <Icon name="icon-tick" className="icon-tick h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Check</title></Icon>
+                    <span>Sign up to our newsletter to receive updates on our studio space.</span>
+                  </label>
                 </div>
 
                 <div className="flex flex-row gap-4 items-center justify-between mt-4">
@@ -459,7 +511,7 @@ export function StudioHireForm({ onClose }: Props) {
                         <span>Back</span>
                     </button>
                     <button onClick={handleSubmit} className="btn self-end" disabled={isSubmitting}>
-                        {isSubmitting ? 'Submitting...' : 'Submit Hire Request'}
+                        {isSubmitting ? 'Submitting...' : 'Submit Request'}
                     </button>
                 </div>
             </div>
@@ -468,5 +520,13 @@ export function StudioHireForm({ onClose }: Props) {
       </div>
 
     </div>
+    
+    {/* Terms Slide Panel */}
+    {studio && global && (
+      <SlidePanel isOpen={isTermsDrawerOpen} onClose={() => setIsTermsDrawerOpen(false)}>
+        <StudioTerms onClose={() => setIsTermsDrawerOpen(false)} studio={studio} global={global} />
+      </SlidePanel>
+    )}
+    </>
   )
 }

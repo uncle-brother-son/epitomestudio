@@ -105,15 +105,21 @@
   label.checkbox:hover svg { @apply fill-natural dark:fill-black opacity-40; }
   label.checkbox input:checked + svg { @apply fill-natural dark:fill-black opacity-100; }
 
+  label.checkbox-simple { @apply relative grow rounded flex flex-row items-center justify-start gap-2 duration-md ease-es cursor-pointer; }
+  label.checkbox-simple input { @apply appearance-none h-4 w-4 rounded bg-black/10 dark:bg-natural/10 cursor-pointer duration-sm ease-es; }
+  label.checkbox-simple svg { @apply absolute left-0 top-0 fill-black/0 dark:fill-natural/0 transition-colors duration-sm ease-es opacity-100; }
+  label.checkbox-simple:hover svg { @apply fill-black/40 dark:fill-natural/40; }
+  label.checkbox-simple input:checked + svg { @apply fill-black dark:fill-natural; }
+
   .error { @apply flex gap-2 text-xs font-medium text-red px-3 mt-1; }
   .error svg { @apply static; }
   .note { @apply flex gap-2 text-xs text-black/60 dark:text-natural/60 px-3 mt-1 items-start; }
   .note svg { @apply static; }
 
-  .cd4 { @apply w-[calc(((100vw-216px)/6)+24px)]; }
+  .cd4 { @apply w-[calc(((100vw-120px)/3)+23px)] sm:w-[calc(((100vw-120px)/4)+23px)] lg:w-[calc(((100vw-216px)/8)+16px)]; }
 
   /* Accessibility */
-  .sr-only { @apply opacity-0 focus-visible:opacity-100 absolute w-[1px] h-[1px] p-0 -m-[1px] overflow-hidden whitespace-nowrap border-0; }
+  .sr-only { @apply opacity-0 focus-visible:opacity-100 absolute w-px h-px p-0 -m-px overflow-hidden whitespace-nowrap border-0; }
 
 }
 

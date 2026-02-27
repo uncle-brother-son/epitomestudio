@@ -155,22 +155,12 @@ export function EquipmentFilterAndList({ categories, items, equipmentListUrl, eq
                     <div>{totalItems}</div>
                 </div>
                 <div className='flex flex-row gap-2 justify-between items-center'>
-                    <div>Total per day (excl. VAT)</div>
+                    <div>Total Per Day (excl. VAT)</div>
                     <div>£{totalPrice}</div>
                 </div>
             </div>
-            <EquipmentHireButton label="Hire Equipment" className="btn justify-center" />
+            <EquipmentHireButton label="Hire Equipment" className="btn justify-center" equipment={equipment} global={global} />
         </div>
-        <div className='flex flex-col gap-4'>
-          {equipment && global && (
-            <EquipmentTermsButton 
-              className="link line self-start"
-              equipment={equipment}
-              global={global}
-            />
-          )}
-        </div>
-        
       </div>
     </>
   )

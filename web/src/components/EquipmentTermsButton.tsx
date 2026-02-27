@@ -1,8 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { createPortal } from 'react-dom'
-import { Drawer } from './Drawer'
+import { SlidePanel } from './SlidePanel'
 import { EquipmentTerms } from './EquipmentTerms'
 import type { Equipment } from '@/queries/equipment'
 import type { Global } from '@/queries/global'
@@ -30,12 +29,9 @@ export function EquipmentTermsButton({ className, equipment, global }: Props) {
         <span>{equipment.termsHeader || 'Equipment Hire Policy'}</span>
       </button>
 
-      {typeof document !== 'undefined' && createPortal(
-        <Drawer isOpen={isOpen} onClose={handleClose}>
-          <EquipmentTerms onClose={handleClose} equipment={equipment} global={global} />
-        </Drawer>,
-        document.body
-      )}
+      <SlidePanel isOpen={isOpen} onClose={handleClose}>
+        <EquipmentTerms onClose={handleClose} equipment={equipment} global={global} />
+      </SlidePanel>
     </>
   )
 }

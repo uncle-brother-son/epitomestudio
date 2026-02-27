@@ -19,7 +19,8 @@ export async function POST(request: NextRequest) {
       typeOfBooking,
       attendees,
       hireEquipment,
-      message
+      message,
+      subscribeToNewsletter
     } = await request.json()
 
     // Basic validation
@@ -91,6 +92,8 @@ export async function POST(request: NextRequest) {
               @media only screen and (max-width: 480px) {
                 .header-cell { display: block !important; width: 100% !important; text-align: left !important; }
                 .header-space { padding-bottom: 16px !important; }
+                .list-cell { display: block !important; width: 100% !important; text-align: left !important; }
+                .list-space { padding-bottom: 12px !important; }
               }
             </style>
           </head>
@@ -206,11 +209,17 @@ export async function POST(request: NextRequest) {
                     </tr>
                     ${message ? `
                     <tr>
-                      <td style="padding: 0 0 400px; width: 128px; vertical-align: top;">
-                        <div style="font-size: 10px; font-weight: 500; color: #121214; text-transform: uppercase;">Message</div>
-                      </td>
-                      <td style="padding: 0 0 400px;">
-                        <div style="font-size: 12px; color: #121214; white-space: pre-wrap; word-break: break-word;">${message}</div>
+                      <td colspan="2" style="padding: 0 0 400px;">
+                        <table width="100%" cellpadding="0" cellspacing="0">
+                          <tr>
+                            <td class="list-cell list-space" style="padding: 0; width: 128px; vertical-align: top;">
+                              <div style="font-size: 10px; font-weight: 500; color: #121214; text-transform: uppercase;">Message</div>
+                            </td>
+                            <td class="list-cell" style="padding: 0;">
+                              <div style="font-size: 12px; color: #121214; white-space: pre-wrap; word-break: break-word;">${message}</div>
+                            </td>
+                          </tr>
+                        </table>
                       </td>
                     </tr>
                     ` : ''}
@@ -223,6 +232,50 @@ export async function POST(request: NextRequest) {
         </html>
       `,
     })
+
+    // Handle newsletter subscription
+    if (subscribeToNewsletter) {
+      const topicId = process.env.RESEND_STUDIO_TOPIC_ID
+      
+      if (!topicId) {
+        console.warn('Newsletter signup attempted but RESEND_STUDIO_TOPIC_ID is not set')
+      } else {
+        try {
+          // Add contact to newsletter using Resend API
+          const response = await fetch('https://api.resend.com/contacts', {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              email,
+              firstName: name.split(' ')[0],
+              lastName: name.split(' ').slice(1).join(' ') || undefined,
+              unsubscribed: false,
+              topics: [
+                {
+                  id: topicId,
+                  subscription: 'opt_in'
+                }
+              ]
+            }),
+          })
+          
+          const contactResult = await response.json()
+          if (response.status === 201) {
+            console.log('✓ Contact subscribed to Studio Hire newsletter:', email)
+          } else {
+            console.error('Newsletter subscription failed:', contactResult)
+          }
+        } catch (newsletterError: any) {
+          // Log but don't fail the request if newsletter signup fails
+          console.error('Newsletter subscription error:', newsletterError)
+          console.error('Error message:', newsletterError?.message)
+          console.error('Error response:', newsletterError?.response?.data)
+        }
+      }
+    }
 
     return NextResponse.json({ success: true, data })
   } catch (error) {

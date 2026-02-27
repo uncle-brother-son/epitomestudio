@@ -93,11 +93,6 @@ export function EquipmentTerms({ onClose, equipment, global }: Props) {
                 <a href={`mailto:${global.email}`}><span>{global.email}</span></a>
             )}
 
-            {/* Company Name */}
-            {global?.companyName && (
-                <div>{global.companyName}</div>
-            )}
-
             {/* Company Info */}
             {global?.companyInfo && (
                 <div className="rich"><PortableText value={global.companyInfo} /></div>

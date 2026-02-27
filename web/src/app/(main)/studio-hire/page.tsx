@@ -67,6 +67,8 @@ export default async function StudioPage() {
             <StudioHireButton 
               label={studio.hireStudioButtonLabel}
               className="btn self-start fixed bottom-10 left-1/2 lg:left-0 -translate-x-1/2 lg:translate-x-0 z-10 lg:sticky lg:bottom-20 lg:mt-auto"
+              studio={studio}
+              global={global}
             />
           </HideOnFooter>
         )}

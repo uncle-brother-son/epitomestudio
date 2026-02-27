@@ -18,7 +18,8 @@ export async function POST(request: NextRequest) {
       dropOffTime,
       hireStudio,
       message,
-      items
+      items,
+      subscribeToNewsletter
     } = await request.json()
 
     // Basic validation
@@ -65,14 +66,17 @@ export async function POST(request: NextRequest) {
 
     // Build equipment items HTML
     const equipmentItemsHtml = items.map((item: any) => `
-      <tr>
-        <td style="padding: 0 0 8px;">
-          <div style="font-size: 12px; color: #121214;">${item.name} × ${item.quantity}</div>
-        </td>
-        <td style="padding: 0 0 8px; text-align: right;">
-          <div style="font-size: 12px; color: #121214;">£${calculateItemTotal(item)}</div>
-        </td>
-      </tr>
+        <tr>
+          <td style="padding: 0 0 8px;">
+            <div style="font-size: 12px; color: #121214;">${item.name}</div>
+          </td>
+          <td style="padding: 0 0 8px; width: 60px; text-align: right;">
+            <div style="font-size: 12px; color: #121214;">× ${item.quantity}</div>
+          </td>
+          <td style="padding: 0 0 8px; width: 60px; text-align: right;">
+            <div style="font-size: 12px; color: #121214;">£${item.price}</div>
+          </td>
+        </tr>
     `).join('')
 
     // Send email
@@ -94,6 +98,8 @@ export async function POST(request: NextRequest) {
               @media only screen and (max-width: 480px) {
                 .header-cell { display: block !important; width: 100% !important; text-align: left !important; }
                 .header-space { padding-bottom: 16px !important; }
+                .list-cell { display: block !important; width: 100% !important; text-align: left !important; }
+                .list-space { padding-bottom: 12px !important; }
               }
             </style>
           </head>
@@ -192,54 +198,69 @@ export async function POST(request: NextRequest) {
                       </td>
                     </tr>
 
-                    <!-- Equipment Items -->
-                    ${items && items.length > 0 ? `
+                    ${message ? `
                     <tr>
-                      <td colspan="2" style="padding: 0 0 16px;">
-                        <div style="font-size: 10px; font-weight: 500; color: #121214; text-transform: uppercase;">Equipment</div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td colspan="2" style="padding: 0;">
+                      <td colspan="2">
                         <table width="100%" cellpadding="0" cellspacing="0">
-                          ${equipmentItemsHtml}
                           <tr>
-                            <td style="padding: 8px 0 0; border-top: 1px solid rgba(18, 18, 20, 0.1);">
-                              <div style="font-size: 12px; font-weight: 500; color: #121214;">Subtotal</div>
+                            <td class="list-cell list-space" style="padding: 0 0 40px; width: 128px; vertical-align: top;">
+                              <div style="font-size: 10px; font-weight: 500; color: #121214; text-transform: uppercase;">Message</div>
                             </td>
-                            <td style="padding: 8px 0 0; text-align: right; border-top: 1px solid rgba(18, 18, 20, 0.1);">
-                              <div style="font-size: 12px; color: #121214;">£${calculateSubtotal()}</div>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td style="padding: 4px 0 0;">
-                              <div style="font-size: 12px; color: rgba(18, 18, 20, 0.6);">× ${days} ${days === 1 ? 'day' : 'days'}</div>
-                            </td>
-                            <td style="padding: 4px 0 0; text-align: right;">
-                              <div style="font-size: 12px; font-weight: 500; color: #121214;">£${calculateTotal()}</div>
+                            <td class="list-cell" style="padding: 0 0 40px;">
+                              <div style="font-size: 12px; color: #121214; white-space: pre-wrap; word-break: break-word;">${message}</div>
                             </td>
                           </tr>
                         </table>
                       </td>
                     </tr>
-                    <tr>
-                      <td colspan="2" style="padding: ${message ? '40px' : '400px'} 0 0;"></td>
-                    </tr>
                     ` : ''}
 
-                    ${message ? `
+                    <!-- Equipment Items -->
+                    ${items && items.length > 0 ? `
                     <tr>
-                      <td colspan="2" style="padding: 0 0 16px;">
-                        <div style="font-size: 10px; font-weight: 500; color: #121214; text-transform: uppercase;">Message</div>
+                      <td colspan="2">
+                        <table width="100%" cellpadding="0" cellspacing="0">
+                          <tr>
+                            <td class="list-cell list-space" style="padding: 0 0 40px; width: 128px; vertical-align: top;">
+                              <div style="font-size: 10px; font-weight: 500; color: #121214; text-transform: uppercase;">Equipment</div>
+                            </td>
+                            <td class="list-cell" style="padding: 0 0 40px;">
+                              <div style="font-size: 10px; color: #121214;"><table>${equipmentItemsHtml}</table></div>
+                            </td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td style="padding: 0 0 8px; width: 128px; vertical-align: top;">
+                        <div style="font-size: 10px; font-weight: 500; color: #121214; text-transform: uppercase;">Subtotal</div>
+                      </td>
+                      <td style="padding: 0 0 8px;">
+                        <div style="font-size: 12px; color: #121214;">£${calculateSubtotal()}</div>
                       </td>
                     </tr>
                     <tr>
-                      <td colspan="2" style="padding: 0 0 400px;">
-                        <div style="font-size: 12px; color: #121214; white-space: pre-wrap;">${message}</div>
+                      <td style="padding: 0 0 8px; width: 128px; vertical-align: top;">
+                        <div style="font-size: 10px; font-weight: 500; color: #121214; text-transform: uppercase;">Days</div>
+                      </td>
+                      <td style="padding: 0 0 8px;">
+                        <div style="font-size: 12px; color: #121214;">× ${days}</div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="padding: 0 0 400px; width: 128px; vertical-align: top;">
+                        <div style="font-size: 10px; font-weight: 500; color: #121214; text-transform: uppercase;">Total (excl. VAT)</div>
+                      </td>
+                      <td style="padding: 0 0 400px;">
+                        <div style="font-size: 12px; color: #121214;">£${calculateTotal()}</div>
                       </td>
                     </tr>
                     ` : ''}
 
+
+
+                    
                   </table>
 
                 </td>
@@ -249,6 +270,50 @@ export async function POST(request: NextRequest) {
         </html>
       `,
     })
+
+    // Handle newsletter subscription
+    if (subscribeToNewsletter) {
+      const topicId = process.env.RESEND_EQUIPMENT_TOPIC_ID
+      
+      if (!topicId) {
+        console.warn('Newsletter signup attempted but RESEND_EQUIPMENT_TOPIC_ID is not set')
+      } else {
+        try {
+          // Add contact to newsletter using Resend API
+          const response = await fetch('https://api.resend.com/contacts', {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              email,
+              firstName: name.split(' ')[0],
+              lastName: name.split(' ').slice(1).join(' ') || undefined,
+              unsubscribed: false,
+              topics: [
+                {
+                  id: topicId,
+                  subscription: 'opt_in'
+                }
+              ]
+            }),
+          })
+          
+          const contactResult = await response.json()
+          if (response.status === 201) {
+            console.log('✓ Contact subscribed to Equipment Hire newsletter:', email)
+          } else {
+            console.error('Newsletter subscription failed:', contactResult)
+          }
+        } catch (newsletterError: any) {
+          // Log but don't fail the request if newsletter signup fails
+          console.error('Newsletter subscription error:', newsletterError)
+          console.error('Error message:', newsletterError?.message)
+          console.error('Error response:', newsletterError?.response?.data)
+        }
+      }
+    }
 
     return NextResponse.json({ success: true, data })
   } catch (error) {
