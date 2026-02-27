@@ -1,9 +1,11 @@
 import Image from 'next/image'
 import { PortableText } from '@portabletext/react'
 import { getStudio } from '@/queries/studio'
+import { getGlobal } from '@/queries/global'
 import { urlFor } from '@/lib/sanityImage'
 import { HideOnFooter } from '@/components/HideOnFooter'
-import { HireStudioButton } from '@/components/HireStudioButton'
+import { StudioHireButton } from '@/components/StudioHireButton'
+import { StudioInfoButton } from '@/components/StudioInfoButton'
 import type { Metadata } from 'next'
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -17,6 +19,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function StudioPage() {
   const studio = await getStudio()
+  const global = await getGlobal()
 
 
 
@@ -44,21 +47,24 @@ export default async function StudioPage() {
         
         <div className="flex flex-col gap-8 lg:sticky lg:top-20">
           {studio?.content && (
-            <div className="flex flex-col gap-8">
+            <div className="flex flex-col gap-8 rich">
               <PortableText value={studio.content} />
             </div>
           )}
 
-          {studio?.moreInfoButtonLabel && (
-            <button className="link line self-start">
-              {studio.moreInfoButtonLabel}
-            </button>
+          {studio?.moreInfoButtonLabel && global && (
+            <StudioInfoButton 
+              label={studio.moreInfoButtonLabel}
+              className="link line self-start"
+              studio={studio}
+              global={global}
+            />
           )}
         </div>
 
         {studio?.hireStudioButtonLabel && (
           <HideOnFooter>
-            <HireStudioButton 
+            <StudioHireButton 
               label={studio.hireStudioButtonLabel}
               className="btn self-start fixed bottom-10 left-1/2 lg:left-0 -translate-x-1/2 lg:translate-x-0 z-10 lg:sticky lg:bottom-20 lg:mt-auto"
             />

@@ -42,7 +42,7 @@ export default function VideoPlayer({ src, className = '' }: VideoPlayerProps) {
 
       <button onClick={togglePlay} className="group absolute inset-0 flex items-start justify-end p-4" aria-label={isPlaying ? 'Pause video' : 'Play video'}>
         <div className="p-1 rounded flex items-center justify-center bg-natural/5 group-hover:bg-natural/40 transition-colors duration-lg ease-es sticky bottom-4">
-          <Icon name={isPlaying ? 'icon-pause' : 'icon-play'} className="w-4 h-4 fill-black" viewBox="0 0 14 14" />
+          <Icon name={isPlaying ? 'icon-pause' : 'icon-play'} className={`${isPlaying ? 'icon-pause' : 'icon-play'} w-4 h-4 fill-black`} viewBox="0 0 14 14" />
         </div>
       </button>
     </div>

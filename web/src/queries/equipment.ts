@@ -4,6 +4,19 @@ export interface Equipment {
   _id: string
   title: string
   metaDescription?: string
+  equipmentList?: {
+    asset: {
+      url: string
+    }
+  }
+  equipmentListButtonLabel?: string
+  termsHeader?: string
+  termsTitle?: string
+  termsIntro?: any
+  termsAndConditions?: Array<{
+    title: string
+    content: any
+  }>
 }
 
 export interface EquipmentItem {
@@ -33,7 +46,20 @@ export async function getEquipment(): Promise<Equipment | null> {
   const query = `*[_type == "equipment"][0] {
     _id,
     title,
-    metaDescription
+    metaDescription,
+    equipmentList {
+      asset-> {
+        url
+      }
+    },
+    equipmentListButtonLabel,
+    termsHeader,
+    termsTitle,
+    termsIntro,
+    termsAndConditions[] {
+      title,
+      content
+    }
   }`
 
   return await client.fetch(query, {}, {

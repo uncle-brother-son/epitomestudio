@@ -110,7 +110,7 @@ export default function ContactForm() {
           <label htmlFor="name">Name</label>
         </div>
         <AnimatedMessage show={!!errors.name} className="flex items-center gap-2 error">
-          <Icon name="icon-subArrow" className="h-3 w-3 fill-red mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Error note</title></Icon>
+          <Icon name="icon-subArrow" className="icon-subArrow h-3 w-3 fill-red mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Error note</title></Icon>
           <span id="name-error">{errors.name}</span>
         </AnimatedMessage>
       </div>
@@ -121,13 +121,13 @@ export default function ContactForm() {
           <label htmlFor="email">Email</label>
         </div>
         <AnimatedMessage show={!!errors.email} className="flex items-center gap-2 error">
-          <Icon name="icon-subArrow" className="h-3 w-3 fill-red mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Error note</title></Icon>
+          <Icon name="icon-subArrow" className="icon-subArrow h-3 w-3 fill-red mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Error note</title></Icon>
           <span id="email-error">{errors.email}</span>
         </AnimatedMessage>
       </div>
 
       <div className="field-row">
-        <div className='field flex-1'>
+        <div className='field flex-2'>
           <select value={formData.countryCode} onChange={(e) => updateField('countryCode', e.target.value)} disabled={status === 'loading'}>
             {COUNTRY_CODES.map((item) => (
               <option key={item.code} value={item.code}>
@@ -136,9 +136,9 @@ export default function ContactForm() {
             ))}
           </select>
           <label htmlFor="countryCode">Country</label>
-          <Icon name="icon-chevron" className="h-3 w-3 fill-black dark:fill-natural rotate-90" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Dropdown</title></Icon>
+          <Icon name="icon-chevron" className="icon-chevron h-3 w-3 fill-black dark:fill-natural rotate-90" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Dropdown</title></Icon>
         </div>
-        <div className='field'>
+        <div className='field flex-7'>
           <input type="tel" id="phone" value={formData.phone} onChange={(e) => updateField('phone', e.target.value)} disabled={status === 'loading'} placeholder="" />
           <label htmlFor="phone">Phone Number</label>
         </div>
@@ -155,10 +155,10 @@ export default function ContactForm() {
             ))}
           </select>
           <label htmlFor="subject">Select a subject</label>
-          <Icon name="icon-chevron" className="h-3 w-3 fill-black dark:fill-natural rotate-90" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Dropdown</title></Icon>
+          <Icon name="icon-chevron" className="icon-chevron h-3 w-3 fill-black dark:fill-natural rotate-90" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Dropdown</title></Icon>
         </div>
         <AnimatedMessage show={!!errors.subject} className="flex items-center gap-2 error">
-          <Icon name="icon-subArrow" className="h-3 w-3 fill-red mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Error note</title></Icon>
+          <Icon name="icon-subArrow" className="icon-subArrow h-3 w-3 fill-red mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Error note</title></Icon>
           <span id="subject-error">{errors.subject}</span>
         </AnimatedMessage>
       </div>
@@ -169,7 +169,7 @@ export default function ContactForm() {
           <label htmlFor="message">Message</label>
         </div>
         <AnimatedMessage show={!!errors.message} className="flex items-center gap-2 error">
-          <Icon name="icon-subArrow" className="h-3 w-3 fill-red mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Error note</title></Icon>
+          <Icon name="icon-subArrow" className="icon-subArrow h-3 w-3 fill-red mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Error note</title></Icon>
           <span id="message-error">{errors.message}</span>
         </AnimatedMessage>
       </div>
@@ -179,12 +179,12 @@ export default function ContactForm() {
       </button>
 
       <AnimatedMessage show={status === 'success'} className="flex items-center gap-2 note mt-4">
-        <Icon name="icon-subArrow" className="h-3 w-3 fill-green mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Success</title></Icon>
+        <Icon name="icon-subArrow" className="icon-subArrow h-3 w-3 fill-green mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Success</title></Icon>
         <span>Message sent successfully! We'll get back to you soon.</span>
       </AnimatedMessage>
 
       <AnimatedMessage show={status === 'error'} className="flex items-center gap-2 error mt-4">
-        <Icon name="icon-subArrow" className="h-3 w-3 fill-red mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Error</title></Icon>
+        <Icon name="icon-subArrow" className="icon-subArrow h-3 w-3 fill-red mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Error</title></Icon>
         <span>{errorMessage || 'Failed to send message. Please try again.'}</span>
       </AnimatedMessage>
     </form>

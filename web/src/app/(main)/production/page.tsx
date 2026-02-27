@@ -28,7 +28,7 @@ export default async function ProductionPage() {
         {production?.link?.url && production?.link?.label && (
           <div className='lg:sticky lg:bottom-20 lg:mt-auto self-start'> 
             <a href={production.link.url} target="_blank" rel="noopener noreferrer" className="link line">
-              {production.link.label}
+              <span>{production.link.label}</span>
               <Icon name="icon-arrowAngle" className="icon-arrowAngle fill-black dark:fill-natural h-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>External Link</title></Icon>
             </a>
           </div>
@@ -36,7 +36,7 @@ export default async function ProductionPage() {
       </div>
 
       {production?.video?.asset && (
-        <div className="col-start-1 col-span-12 lg:col-start-10 lg:col-span-13">
+        <div className="col-start-1 col-span-12 lg:col-start-12 lg:col-span-13">
           <VideoPlayer
             src={`https://cdn.sanity.io/files/${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}/${process.env.NEXT_PUBLIC_SANITY_DATASET}/${production.video.asset._ref.replace('file-', '').replace('-mp4', '.mp4').replace('-mov', '.mov').replace('-webm', '.webm')}`}
             className="aspect-9/16 lg:aspect-4/5"

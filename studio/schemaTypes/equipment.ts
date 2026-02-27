@@ -68,6 +68,24 @@ export const equipment = defineType({
   name: 'equipment',
   title: 'Equipment Page',
   type: 'document',
+  groups: [
+    {
+      name: 'page',
+      title: 'Page',
+      default: true,
+    },
+    {
+      name: 'terms',
+      title: 'Terms',
+    },
+  ],
+  fieldsets: [
+    {
+      name: 'equipmentListDownload',
+      title: 'Equipment List Download',
+      options: { collapsible: true, collapsed: false },
+    },
+  ],
   fields: [
     {
       name: 'title',
@@ -75,6 +93,26 @@ export const equipment = defineType({
       type: 'string',
       validation: (Rule) => Rule.required(),
       description: 'Main heading for the equipment page',
+      group: 'page',
+    },
+    {
+      name: 'equipmentList',
+      title: 'Equipment List',
+      type: 'file',
+      options: {
+        accept: '.pdf',
+      },
+      description: 'Upload a PDF file for the equipment list',
+      group: 'page',
+      fieldset: 'equipmentListDownload',
+    },
+    {
+      name: 'equipmentListButtonLabel',
+      title: 'Button Label',
+      type: 'string',
+      description: 'Label for the equipment list download button',
+      group: 'page',
+      fieldset: 'equipmentListDownload',
     },
     {
       name: 'metaDescription',
@@ -82,6 +120,57 @@ export const equipment = defineType({
       type: 'text',
       rows: 3,
       description: 'SEO description for search engines',
+      group: 'page',
+    },
+    {
+      name: 'termsHeader',
+      title: 'Header',
+      type: 'string',
+      description: 'Header for the terms section',
+      group: 'terms',
+    },
+    {
+      name: 'termsTitle',
+      title: 'Title',
+      type: 'string',
+      description: 'Title for the terms section',
+      group: 'terms',
+    },
+    {
+      name: 'termsIntro',
+      title: 'Intro',
+      type: 'portableText',
+      description: 'Introduction text for the terms section',
+      group: 'terms',
+    },
+    {
+      name: 'termsAndConditions',
+      title: 'Terms & Conditions',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            {
+              name: 'title',
+              title: 'Title',
+              type: 'string',
+              validation: (Rule) => Rule.required(),
+            },
+            {
+              name: 'content',
+              title: 'Content',
+              type: 'portableText',
+            },
+          ],
+          preview: {
+            select: {
+              title: 'title',
+            },
+          },
+        },
+      ],
+      group: 'terms',
     },
   ],
   preview: {

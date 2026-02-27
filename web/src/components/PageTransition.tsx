@@ -72,10 +72,8 @@ export function PageTransition({ children }: { children: ReactNode }) {
         setIsWaitingForContent(false);
         setWipePhase('out');
         setTimeout(() => {
-          setTransitionType(null);
-        }, 200);
-        setTimeout(() => {
           setWipePhase(null);
+          setTransitionType(null);
         }, 960);
         
       } else if (transitionType === 'home-to-page') {

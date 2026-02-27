@@ -57,7 +57,7 @@ export default async function ContactPage() {
 
           {contact?.mapLinkLabel && global?.addressUrl && (
               <a href={global.addressUrl} target="_blank" rel="noopener noreferrer" className="link line self-start">
-                {contact.mapLinkLabel}
+                <span>{contact.mapLinkLabel}</span>
                 <Icon name="icon-arrowAngle" className="icon-arrowAngle fill-black dark:fill-natural h-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>External Link</title></Icon>
               </a>
           )}

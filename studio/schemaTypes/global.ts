@@ -12,6 +12,12 @@ export const global = defineType({
       validation: (Rule) => Rule.required(),
     },
     {
+      name: 'companyName',
+      title: 'Company Name',
+      type: 'string',
+      description: 'Full company name',
+    },
+    {
       name: 'headerNavigation',
       title: 'Header Navigation',
       type: 'array',
@@ -58,6 +64,12 @@ export const global = defineType({
       title: 'Phone',
       type: 'string',
       description: 'Phone number',
+    },
+    {
+      name: 'companyInfo',
+      title: 'Company Info',
+      type: 'portableText',
+      description: 'Company information',
     },
     {
       name: 'instagram',

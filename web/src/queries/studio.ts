@@ -14,6 +14,24 @@ export interface Studio {
     crop?: any
   }>
   metaDescription?: string
+  infoPack?: {
+    asset: {
+      url: string
+    }
+  }
+  features?: any
+  clients?: any
+  studioInformation?: Array<{
+    title: string
+    content?: any
+  }>
+  termsHeader?: string
+  termsTitle?: string
+  termsIntro?: any
+  termsAndConditions?: Array<{
+    title: string
+    content?: any
+  }>
 }
 
 export async function getStudio(): Promise<Studio | null> {
@@ -30,7 +48,25 @@ export async function getStudio(): Promise<Studio | null> {
       hotspot,
       crop
     },
-    metaDescription
+    metaDescription,
+    infoPack {
+      asset-> {
+        url
+      }
+    },
+    features,
+    clients,
+    studioInformation[] {
+      title,
+      content
+    },
+    termsHeader,
+    termsTitle,
+    termsIntro,
+    termsAndConditions[] {
+      title,
+      content
+    }
   }`
 
   return await client.fetch(query, {}, {

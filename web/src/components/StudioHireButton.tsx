@@ -3,14 +3,14 @@
 import { useState } from 'react'
 import { createPortal } from 'react-dom'
 import { Drawer } from './Drawer'
-import { HireStudioForm } from './HireStudioForm'
+import { StudioHireForm } from './StudioHireForm'
 
 interface Props {
   label: string
   className?: string
 }
 
-export function HireStudioButton({ label, className }: Props) {
+export function StudioHireButton({ label, className }: Props) {
   const [isOpen, setIsOpen] = useState(false)
 
   const handleOpen = () => {
@@ -24,12 +24,12 @@ export function HireStudioButton({ label, className }: Props) {
   return (
     <>
       <button className={className} onClick={handleOpen}>
-        {label}
+        <span>{label}</span>
       </button>
 
       {typeof document !== 'undefined' && createPortal(
         <Drawer isOpen={isOpen} onClose={handleClose}>
-          <HireStudioForm onClose={handleClose} />
+          <StudioHireForm onClose={handleClose} />
         </Drawer>,
         document.body
       )}

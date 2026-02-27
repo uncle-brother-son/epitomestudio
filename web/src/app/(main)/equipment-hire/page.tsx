@@ -1,4 +1,5 @@
 import { getEquipment, getAllEquipmentItems, getAllCategories } from '@/queries/equipment'
+import { getGlobal } from '@/queries/global'
 import type { Metadata } from 'next'
 import { EquipmentFilterAndList } from '@/components/EquipmentFilterAndList'
 
@@ -15,11 +16,19 @@ export default async function EquipmentPage() {
   const page = await getEquipment()
   const equipmentItems = await getAllEquipmentItems()
   const categories = await getAllCategories()
+  const global = await getGlobal()
 
   return (
     <main className="grid_ my-xl gap-y-lg grow">
 
-      <EquipmentFilterAndList categories={categories} items={equipmentItems} />
+      <EquipmentFilterAndList 
+        categories={categories} 
+        items={equipmentItems} 
+        equipmentListUrl={page?.equipmentList?.asset?.url}
+        equipmentListButtonLabel={page?.equipmentListButtonLabel}
+        equipment={page}
+        global={global}
+      />
 
     </main>
   )

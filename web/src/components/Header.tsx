@@ -64,14 +64,14 @@ export function Header({ global }: { global: Global | null }) {
       <nav className="col-start-10 col-span-3 lg:col-span-8 hidden lg:flex items-start justify-end gap-6">
         {mainNav.map((item, index) => (
           <Link key={index} href={item.url} className="link" >
-            {item.label}
+            <span>{item.label}</span>
           </Link>
         ))}
       </nav>
       {lastNav && (
         <div className="col-start-10 col-span-3 lg:col-start-18 lg:col-span-7 hidden lg:flex items-start justify-end">
           <Link href={lastNav.url} className="link">
-            {lastNav.label}
+            <span>{lastNav.label}</span>
           </Link>
         </div>
       )}

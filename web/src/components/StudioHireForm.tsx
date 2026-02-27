@@ -30,7 +30,7 @@ interface Props {
   onClose: () => void
 }
 
-export function HireStudioForm({ onClose }: Props) {
+export function StudioHireForm({ onClose }: Props) {
   const [currentStep, setCurrentStep] = useState(1)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
@@ -185,13 +185,13 @@ export function HireStudioForm({ onClose }: Props) {
 
   if (isSuccess) {
     return (
-    <div className="grid_ py-4 gap-y-6">
-        <div className="col-start-1 col-span-full flex justify-end">
-          <button onClick={onClose} className="close">
-            <span>Close</span><Icon name="icon-close" className="w-3 h-3 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Close</title></Icon>
+    <div className="grow flex flex-col p-4 pt-20">
+      
+          <button onClick={onClose} className="close absolute top-4 right-4">
+            <span>Close</span><Icon name="icon-close" className="icon-close w-3 h-3 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Close</title></Icon>
           </button>
-        </div>
 
+      <div className="grow grid_ gap-y-6 overflow-y-scroll lg:overflow-y-auto">
         <div className="col-start-1 col-span-12 sm:col-start-2 sm:col-span-10 lg:col-start-8 lg:col-span-10 flex flex-col gap-4 mt-11">
             <p>Thank you.</p>
             <p>Your studio hire enquiry has been submitted.</p>
@@ -211,25 +211,28 @@ export function HireStudioForm({ onClose }: Props) {
             )}
         </div>
       </div>
+    </div>
     )
   }
 
   return (
-    <div className="grid_ py-4 gap-y-6">
+    <div className="grow flex flex-col gap-6 p-4 pt-20">
       
-        <div className="col-start-1 col-span-full flex justify-end">
-          <button onClick={onClose} className="close">
-            <span>Close</span><Icon name="icon-close" className="w-3 h-3 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Close</title></Icon>
-          </button>
-        </div>
-
-        <div className="col-start-1 col-span-12 sm:col-start-2 sm:col-span-10 lg:col-start-8 lg:col-span-10 mt-11 flex flex-row gap-2 justify-start items-center">
+      <button onClick={onClose} className="close absolute top-4 right-4">
+        <span>Close</span><Icon name="icon-close" className="icon-close w-3 h-3 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Close</title></Icon>
+      </button>
+      
+      <div className="grid_">
+        <div className="col-start-1 col-span-12 sm:col-start-2 sm:col-span-10 lg:col-start-8 lg:col-span-10 flex flex-row gap-2 justify-start items-center">
           <button onClick={() => setCurrentStep(1)} className={`label transition-opacity duration-md ease-es ${currentStep >= 1 ? 'opacity-100' : 'opacity-40'} ${currentStep > 1 ? 'cursor-pointer hover:opacity-80' : 'cursor-default'}`} >Your Info</button>
-          <Icon name="icon-chevron" className="w-3 h-3 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Arrow Right</title></Icon>
+          <Icon name="icon-chevron" className="icon-chevron w-3 h-3 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Arrow Right</title></Icon>
           <button onClick={() => currentStep > 2 && setCurrentStep(2)} className={`label transition-opacity duration-md ease-es ${currentStep >= 2 ? 'opacity-100' : 'opacity-40'} ${currentStep > 2 ? 'cursor-pointer hover:opacity-80' : 'cursor-default'}`}>Studio Enquiry</button>
-          <Icon name="icon-chevron" className="w-3 h-3 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Arrow Right</title></Icon>
+          <Icon name="icon-chevron" className="icon-chevron w-3 h-3 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Arrow Right</title></Icon>
           <button className={`label transition-opacity duration-md ease-es ${currentStep >= 3 ? 'opacity-100' : 'opacity-40'} cursor-default`}>Review</button> 
         </div>
+      </div>
+
+      <div className="grid_ gap-y-6">
 
         {/* Step 1: Your Info */}
         {currentStep === 1 && (
@@ -240,8 +243,8 @@ export function HireStudioForm({ onClose }: Props) {
                 <input type="text" id="name" value={formData.name} onChange={(e) => updateField('name', e.target.value)} placeholder="" aria-invalid={!!errors.name} aria-describedby={errors.name ? "name-error" : undefined} />
                 <label htmlFor="name">Name</label>
               </div>
-              <AnimatedMessage show={!!errors.name} className="flex items-center gap-2 error">
-                <Icon name="icon-subArrow" className="h-3 w-3 fill-red mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Error note</title></Icon>
+              <AnimatedMessage show={!!errors.name} className="error">
+                <Icon name="icon-subArrow" className="icon-subArrow h-3 w-3 fill-red mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Error note</title></Icon>
                 <span id="name-error">{errors.name}</span>
               </AnimatedMessage>
             </div>
@@ -254,10 +257,10 @@ export function HireStudioForm({ onClose }: Props) {
                     <option value="freelance">Freelance</option>
                 </select>
                 <label htmlFor="businessType">Business Type</label>
-                <Icon name="icon-chevron" className="h-3 w-3 fill-black dark:fill-natural rotate-90" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Dropdown</title></Icon>
+                <Icon name="icon-chevron" className="icon-chevron h-3 w-3 fill-black dark:fill-natural rotate-90" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Dropdown</title></Icon>
               </div>
-              <AnimatedMessage show={!!errors.businessType} className="flex items-center gap-2 error">
-                <Icon name="icon-subArrow" className="h-3 w-3 fill-red mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Error note</title></Icon>
+              <AnimatedMessage show={!!errors.businessType} className="error">
+                <Icon name="icon-subArrow" className="icon-subArrow h-3 w-3 fill-red mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Error note</title></Icon>
                 <span id="businessType-error">{errors.businessType}</span>
               </AnimatedMessage>
             </div>
@@ -269,8 +272,8 @@ export function HireStudioForm({ onClose }: Props) {
                     <input type="text" id="companyName" value={formData.companyName} onChange={(e) => updateField('companyName', e.target.value)} placeholder="" aria-invalid={!!errors.companyName} aria-describedby={errors.companyName ? "companyName-error" : undefined} />
                     <label htmlFor="companyName">Company Name</label>
                   </div>
-                  <AnimatedMessage show={!!errors.companyName} className="flex items-center gap-2 error">
-                    <Icon name="icon-subArrow" className="h-3 w-3 fill-red mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Error note</title></Icon>
+                  <AnimatedMessage show={!!errors.companyName} className="error">
+                    <Icon name="icon-subArrow" className="icon-subArrow h-3 w-3 fill-red mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Error note</title></Icon>
                     <span id="companyName-error">{errors.companyName}</span>
                   </AnimatedMessage>
                 </div>
@@ -282,14 +285,14 @@ export function HireStudioForm({ onClose }: Props) {
                 <input type="email" id="email" value={formData.email} onChange={(e) => updateField('email', e.target.value)} placeholder="" aria-invalid={!!errors.email} aria-describedby={errors.email ? "email-error" : undefined} />
                 <label htmlFor="email">Email</label>
               </div>
-              <AnimatedMessage show={!!errors.email} className="flex items-center gap-2 error">
-                <Icon name="icon-subArrow" className="h-3 w-3 fill-red mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Error note</title></Icon>
+              <AnimatedMessage show={!!errors.email} className="error">
+                <Icon name="icon-subArrow" className="icon-subArrow h-3 w-3 fill-red mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Error note</title></Icon>
                 <span id="email-error">{errors.email}</span>
               </AnimatedMessage>
             </div>
 
-            <div className="flex flex-row gap-2">
-              <div className="field flex-1">
+            <div className="field-row">
+              <div className="field flex-2">
                 <select id="countryCode" value={formData.countryCode} onChange={(e) => updateField('countryCode', e.target.value)}>
                   {COUNTRY_CODES.map((item) => (
                   <option key={item.code} value={item.code}>
@@ -298,9 +301,9 @@ export function HireStudioForm({ onClose }: Props) {
                   ))}
                 </select>
                 <label htmlFor="countryCode">Country</label>
-                <Icon name="icon-chevron" className="h-3 w-3 fill-black dark:fill-natural rotate-90" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Dropdown</title></Icon>
+                <Icon name="icon-chevron" className="icon-chevron h-3 w-3 fill-black dark:fill-natural rotate-90" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Dropdown</title></Icon>
               </div>
-              <div className="field grow">
+              <div className="field flex-8">
                 <input type="tel" id="phoneNumber" value={formData.phoneNumber} onChange={(e) => updateField('phoneNumber', e.target.value)} placeholder="" />
                 <label htmlFor="phoneNumber">Phone Number</label>
               </div>
@@ -308,7 +311,7 @@ export function HireStudioForm({ onClose }: Props) {
 
             <button onClick={handleNext} className="btn self-end mt-4">
               <span>Next</span>
-              <Icon name="icon-arrow" className="w-3 h-3 fill-natural dark:fill-black" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Next</title></Icon>
+              <Icon name="icon-arrow" className="icon-arrow w-3 h-3 fill-natural dark:fill-black" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Next</title></Icon>
             </button>
           </div>
         )}
@@ -318,41 +321,41 @@ export function HireStudioForm({ onClose }: Props) {
           <div className={`col-start-1 col-span-12 sm:col-start-2 sm:col-span-10 lg:col-start-8 lg:col-span-10 flex flex-col gap-2 justify-start transition-opacity duration-md ease-es ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}>
 
             <div className='field-wrapper'>
-              <div className="flex flex-row gap-2">
+              <div className="field-row">
                 <div className="basis-1/2 field">
                   <input type="date" id="hireStartDate" value={formData.hireStartDate} onChange={(e) => updateField('hireStartDate', e.target.value)} min={today} placeholder="" aria-invalid={!!errors.hireStartDate} aria-describedby={errors.hireStartDate ? "hireStartDate-error" : undefined} />
                   <label htmlFor="hireStartDate">Hire Start Date</label>
-                  <Icon name="icon-date" className="h-4 w-4 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Date Picker</title></Icon>
+                  <Icon name="icon-date" className="icon-date h-4 w-4 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Date Picker</title></Icon>
                 </div>
                 <div className="basis-1/2 flex flex-row items-center justify-between bg-black/5 dark:bg-natural/5 rounded px-4 py-3.5">
                   <label className="text-lg leading-4 opacity-60">Days</label>
                   <div className="flex flex-row gap-1.5 items-center">
-                    <button type="button" className={`qty ${formData.days === 1 ? 'opacity-60' : ''}`} onClick={() => updateField('days', Math.max(1, formData.days - 1))}>
-                      <Icon name="icon-minus" className="w-3 h-3 fill-natural dark:fill-black" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Decrease</title></Icon>
+                    <button type="button" className={`qty-form ${formData.days === 1 ? 'opacity-60' : ''}`} onClick={() => updateField('days', Math.max(1, formData.days - 1))}>
+                      <Icon name="icon-minus" className="icon-minus w-3 h-3 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Decrease</title></Icon>
                     </button>
                     <span className="text-lg leading-4 w-4 text-center">{formData.days}</span>
-                    <button type="button" className="qty" onClick={() => updateField('days', formData.days + 1)}>
-                      <Icon name="icon-plus" className="w-3 h-3 fill-natural dark:fill-black" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Increase</title></Icon>
+                    <button type="button" className={`qty-form ${formData.days === 1 ? 'opacity-60' : ''}`} onClick={() => updateField('days', formData.days + 1)}>
+                      <Icon name="icon-plus" className="icon-plus w-3 h-3 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Increase</title></Icon>
                     </button>
                   </div>
                 </div>
               </div>
-              <AnimatedMessage show={!!errors.hireStartDate} className="flex items-center gap-2 error">
-                <Icon name="icon-subArrow" className="h-3 w-3 fill-red mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Error note</title></Icon>
+              <AnimatedMessage show={!!errors.hireStartDate} className="error">
+                <Icon name="icon-subArrow" className="icon-subArrow h-3 w-3 fill-red mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Error note</title></Icon>
                 <span id="hireStartDate-error">{errors.hireStartDate}</span>
               </AnimatedMessage>
             </div>
 
-            <div className="flex flex-row gap-2">
+            <div className="field-row">
               <div className="field grow">
                 <input type="time" id="arrivalTime" value={formData.arrivalTime} onChange={(e) => updateField('arrivalTime', e.target.value)} placeholder='' />
                 <label htmlFor="arrivalTime">Arrival Time</label>
-                <Icon name="icon-time" className="h-4 w-4 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Time Picker</title></Icon>
+                <Icon name="icon-time" className="icon-time h-4 w-4 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Time Picker</title></Icon>
               </div>
               <div className="field grow">
                 <input type="time" id="leavingTime" value={formData.leavingTime} onChange={(e) => updateField('leavingTime', e.target.value)} placeholder='' />
                 <label htmlFor="leavingTime">Leaving Time</label>
-                <Icon name="icon-time" className="h-4 w-4 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Time Picker</title></Icon>
+                <Icon name="icon-time" className="icon-time h-4 w-4 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Time Picker</title></Icon>
               </div>
             </div>
 
@@ -367,10 +370,10 @@ export function HireStudioForm({ onClose }: Props) {
                   <option value="other">Other</option>
                 </select>
                 <label htmlFor="typeOfBooking">Type of Booking</label>
-                <Icon name="icon-chevron" className="h-4 w-4 fill-black dark:fill-natural rotate-90" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Dropdown</title></Icon>
+                <Icon name="icon-chevron" className="icon-chevron h-4 w-4 fill-black dark:fill-natural rotate-90" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Dropdown</title></Icon>
               </div>
-              <AnimatedMessage show={!!errors.typeOfBooking} className="flex items-center gap-2 error">
-                <Icon name="icon-subArrow" className="h-3 w-3 fill-red mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Error note</title></Icon>
+              <AnimatedMessage show={!!errors.typeOfBooking} className="error">
+                <Icon name="icon-subArrow" className="icon-subArrow h-3 w-3 fill-red mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Error note</title></Icon>
                 <span id="typeOfBooking-error">{errors.typeOfBooking}</span>
               </AnimatedMessage>
             </div>
@@ -378,12 +381,12 @@ export function HireStudioForm({ onClose }: Props) {
             <div className="flex flex-row items-center justify-between bg-black/5 dark:bg-natural/5 rounded px-4 py-3.5">
               <label className="text-lg leading-4 opacity-60">Attendees</label>
               <div className="flex flex-row gap-1.5 items-center">
-                <button type="button" className={`qty ${formData.attendees === 10 ? 'opacity-60' : ''}`} onClick={() => updateField('attendees', Math.max(10, formData.attendees - 10))}>
-                  <Icon name="icon-minus" className="w-3 h-3 fill-natural dark:fill-black" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Decrease</title></Icon>
+                <button type="button" className={`qty-form ${formData.attendees === 10 ? 'opacity-60' : ''}`} onClick={() => updateField('attendees', Math.max(10, formData.attendees - 10))}>
+                  <Icon name="icon-minus" className="icon-minus w-3 h-3 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Decrease</title></Icon>
                 </button>
                 <span className="text-lg leading-4 w-4 text-center">{formData.attendees}</span>
-                <button type="button" className={`qty ${formData.attendees === 30 ? 'opacity-60' : ''}`} onClick={() => updateField('attendees', Math.min(30, formData.attendees + 10))}>
-                  <Icon name="icon-plus" className="w-3 h-3 fill-natural dark:fill-black" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Increase</title></Icon>
+                <button type="button" className={`qty-form ${formData.attendees === 30 ? 'opacity-60' : ''}`} onClick={() => updateField('attendees', Math.min(30, formData.attendees + 10))}>
+                  <Icon name="icon-plus" className="icon-plus w-3 h-3 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Increase</title></Icon>
                 </button>
               </div>
             </div>
@@ -401,8 +404,8 @@ export function HireStudioForm({ onClose }: Props) {
                   </div>
                 </label>
               </div>
-              <AnimatedMessage show={formData.hireEquipment} className="flex items-center gap-2 note">
-                <Icon name="icon-subArrow" className="h-3 w-3 fill-black/60 dark:fill-natural/60 mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Hire Equipment note</title></Icon>
+              <AnimatedMessage show={formData.hireEquipment} className="note">
+                <Icon name="icon-subArrow" className="icon-subArrow h-3 w-3 fill-black/60 dark:fill-natural/60 mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Hire Equipment note</title></Icon>
                 <span>You can select your equipment after submitting your studio hire request.</span>
               </AnimatedMessage>
             </div>
@@ -414,12 +417,12 @@ export function HireStudioForm({ onClose }: Props) {
 
             <div className="flex flex-row gap-4 items-center justify-between mt-4">
               <button onClick={handleBack} className="link">
-                <Icon name="icon-arrow" className="w-3 h-3 fill-black dark:fill-natural rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Back</title></Icon>
+                <Icon name="icon-arrow" className="icon-arrow w-3 h-3 fill-black dark:fill-natural rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Back</title></Icon>
                 <span>Back</span>
               </button>
               <button onClick={handleNext} className="btn self-end">
                 <span>Next</span>
-                <Icon name="icon-arrow" className="w-3 h-3 fill-natural dark:fill-black" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Next</title></Icon>
+                <Icon name="icon-arrow" className="icon-arrow w-3 h-3 fill-natural dark:fill-black" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Next</title></Icon>
               </button>
             </div>
           </div>
@@ -452,7 +455,7 @@ export function HireStudioForm({ onClose }: Props) {
 
                 <div className="flex flex-row gap-4 items-center justify-between mt-4">
                     <button onClick={handleBack} className="link">
-                        <Icon name="icon-arrow" className="w-3 h-3 fill-black dark:fill-natural rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Back</title></Icon>
+                        <Icon name="icon-arrow" className="icon-arrow w-3 h-3 fill-black dark:fill-natural rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Back</title></Icon>
                         <span>Back</span>
                     </button>
                     <button onClick={handleSubmit} className="btn self-end" disabled={isSubmitting}>
@@ -461,6 +464,9 @@ export function HireStudioForm({ onClose }: Props) {
                 </div>
             </div>
         )}
+
+      </div>
+
     </div>
   )
 }

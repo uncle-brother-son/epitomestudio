@@ -27,11 +27,9 @@
 
 @layer base {
   h1, h3, h4, .label { @apply text-sm font-medium uppercase; }
-  p { @apply text-md text-balance; }
+  p { @apply text-md; }
   b, strong { @apply font-medium; }
   button { @apply cursor-pointer; }
-  main .rich ul { @apply pl-4; }
-  main .rich ul li::marker { content: '—   '; }
 }
 
 @layer components {
@@ -39,10 +37,11 @@
   .grid_ { @apply grid grid-cols-12 lg:grid-cols-24 gap-2 px-2 lg:px-4; }
   
   .link { @apply text-sm font-medium uppercase text-black dark:text-natural flex flex-row gap-1 items-center justify-start transition-all duration-md ease-es; }
-  .link.line { @apply relative pb-2 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-px after:bg-black dark:after:bg-natural hover:after:bottom-0.5 after:transition-all after:duration-md after:ease-es; }
+  .link.line { @apply relative pb-1.5 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-px after:bg-black dark:after:bg-natural hover:after:bottom-0.5 after:transition-all after:duration-md after:ease-es; }
   .btn { @apply text-sm font-medium uppercase text-natural dark:text-black bg-black dark:bg-natural px-6 py-2 h-8 rounded flex flex-row gap-1 items-center justify-start; }
   .close { @apply text-sm font-medium uppercase text-black dark:text-natural hover:bg-black/5 hover:dark:bg-natural/5 px-4 py-1 rounded flex flex-row gap-1 items-center justify-start transition-colors duration-md ease-es; }
-  .qty { @apply p-1 bg-black dark:bg-natural text-natural dark:text-black flex items-center justify-center rounded transition duration-md ease-es; }
+  .qty { @apply p-1 bg-black dark:bg-natural flex items-center justify-center rounded transition duration-md ease-es; }
+  .qty-form { @apply p-1 bg-natural dark:bg-black flex items-center justify-center rounded transition duration-md ease-es; }
 
   .my-sm { @apply my-4 lg:my-6; }
   .my-md { @apply my-16 lg:my-20; }
@@ -55,10 +54,32 @@
   .gap-y-lg { @apply gap-y-20 lg:gap-y-30; }
   .gap-y-xl { @apply gap-y-30 lg:gap-y-40; }
 
-  form { @apply flex flex-col gap-1; }
+  .rich ul, .terms ul { @apply ml-3.5; }
+  .rich ul li, .terms ul li { @apply relative; }
+  .rich ul li::before, .terms ul li::before { @apply absolute top-0 -left-3.5; content: '—'; }
+  
+  ol.terms  { @apply ml-4 list-outside; counter-reset: item; }
+  ol.terms > li { @apply relative mb-2 text-lg; counter-increment: item; }
+  ol.terms > li::before { @apply absolute top-0 -left-4 text-xl; content: counter(item) ". "; }
+  ol.terms > li ol { @apply ml-5 list-outside; counter-reset: subitem; list-style-type: none; }
+  ol.terms > li ol > li { @apply relative mb-2 text-lg; counter-increment: subitem; }
+  ol.terms > li ol > li::before { @apply absolute top-0 -left-5 text-lg; content: counter(item) "." counter(subitem) " "; }
+  ol.terms > li ul { @apply ml-5; }
+  ol.terms > li ul > li { @apply relative; }
+  ol.terms > li ul > li ul li::before { @apply absolute top-0 -left-5; content: '—'; }
+  ol.terms > li ol > li ol { @apply ml-7 list-outside; counter-reset: subsubitem; list-style-type: none; }
+  ol.terms > li ol > li ol > li { @apply mb-2 text-lg; counter-increment: subsubitem; }
+  ol.terms > li ol > li ol > li::before { @apply absolute top-0 -left-7 text-lg; content: counter(item) "." counter(subitem) "." counter(subsubitem) " "; }
+
+  .terms p { @apply text-lg mb-2; }
+  .terms p:last-child { @apply mb-0; }
+
+  [class*="icon-"] { @apply shrink-0; }
+
+  form { @apply flex flex-col gap-2; }
   .field-wrapper { @apply flex flex-col; }
   .field { @apply relative flex flex-col gap-2; }
-  .field-row { @apply flex flex-row gap-1; }
+  .field-row { @apply flex flex-row gap-2; }
   .field input, .field textarea, .field select { @apply appearance-none px-4 pt-6 pb-2 text-lg leading-4 placeholder:text-lg placeholder:leading-4 box-border rounded text-black dark:text-natural bg-black/5 dark:bg-natural/5 focus:outline-none placeholder:text-black/60 dark:placeholder:text-natural/60 duration-lg ease-es focus:bg-black/5 dark:focus:bg-natural/5; }
   .field input:-webkit-autofill, .field textarea:-webkit-autofill, .field select:-webkit-autofill { -webkit-box-shadow: 0 0 0 1000px rgba(233, 230, 223, 1) inset !important; -webkit-text-fill-color: #121214 !important; transition: background-color 5000s ease-in-out 0s; }
   .dark .field input:-webkit-autofill, .dark .field textarea:-webkit-autofill, .dark .field select:-webkit-autofill { -webkit-box-shadow: 0 0 0 1000px rgba(29, 29, 31, 1) inset !important; -webkit-text-fill-color: #F5F2EB !important; transition: background-color 5000s ease-in-out 0s; }
@@ -84,9 +105,9 @@
   label.checkbox:hover svg { @apply fill-natural dark:fill-black opacity-40; }
   label.checkbox input:checked + svg { @apply fill-natural dark:fill-black opacity-100; }
 
-  .error { @apply text-xs font-medium text-red px-3 mt-1; }
+  .error { @apply flex gap-2 text-xs font-medium text-red px-3 mt-1; }
   .error svg { @apply static; }
-  .note { @apply text-xs text-black/60 dark:text-natural/60 px-3 mt-1; }
+  .note { @apply flex gap-2 text-xs text-black/60 dark:text-natural/60 px-3 mt-1 items-start; }
   .note svg { @apply static; }
 
   .cd4 { @apply w-[calc(((100vw-216px)/6)+24px)]; }
