@@ -572,7 +572,7 @@ export function EquipmentHireForm({ onClose, equipment, global }: Props) {
             <div className='flex flex-col gap-4 mt-4'>
               <div className='field-wrapper'>
                 <label className='checkbox-simple'>
-                  <input type='checkbox' checked={formData.agreeToTerms} onChange={(e) => updateField('agreeToTerms', e.target.checked)} />
+                  <div><input type='checkbox' checked={formData.agreeToTerms} onChange={(e) => updateField('agreeToTerms', e.target.checked)} /></div>
                   <Icon name="icon-tick" className="icon-tick h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Check</title></Icon>
                   <span>Equipment hire is subject to agreement with our <button type="button" className="underline" onClick={(e) => { e.preventDefault(); setIsTermsDrawerOpen(true); }}>Equipment Hire Policy</button></span>
                 </label>              
@@ -583,7 +583,7 @@ export function EquipmentHireForm({ onClose, equipment, global }: Props) {
               </div>
 
               <label className='checkbox-simple'>
-                <input type='checkbox' checked={formData.subscribeToNewsletter} onChange={(e) => updateField('subscribeToNewsletter', e.target.checked)} />
+                <div><input type='checkbox' checked={formData.subscribeToNewsletter} onChange={(e) => updateField('subscribeToNewsletter', e.target.checked)} /></div>
                 <Icon name="icon-tick" className="icon-tick h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Check</title></Icon>
                 <span>Sign up to our newsletter to receive updates on new equipment.</span>
               </label>

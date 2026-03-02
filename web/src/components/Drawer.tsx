@@ -83,7 +83,7 @@ export function Drawer({ isOpen, onClose, children }: Props) {
       <div className={`fixed inset-0 bg-black/40 dark:bg-natural/40 z-40 transition-opacity duration-md ease-es ${ showBackdrop ? 'opacity-100' : 'opacity-0' }`} onClick={onClose} />
 
       {/* Drawer */}
-      <div className={`fixed inset-x-0 top-20 lg:top-20 h-[calc(100vh-5rem)] lg:h-[calc(100vh-5rem)] bg-natural dark:bg-black z-50 transform transition-transform duration-md ease-es flex flex-col ${ showDrawer ? 'translate-y-0' : 'translate-y-full' }`}>
+      <div className={`fixed inset-x-0 top-13 lg:top-20 h-[calc(100vh-3.25rem)] lg:h-[calc(100vh-5rem)] bg-natural dark:bg-black z-50 transform transition-transform duration-md ease-es flex flex-col ${ showDrawer ? 'translate-y-0' : 'translate-y-full' }`}>
         {children}
       </div>
     </>

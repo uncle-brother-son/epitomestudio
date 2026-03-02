@@ -29,7 +29,7 @@ export function StudioInfo({ onClose, studio, global }: Props) {
           <Icon name="icon-close" className="icon-close w-3 h-3 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Close</title></Icon>
         </button>
 
-      <div className="grow grid_ gap-y-6">
+      <div className="grow grid_ gap-y-md">
 
         {/* Column 1 */}
         <div className="col-start-1 col-span-12 sm:col-start-2 sm:col-span-10 lg:col-start-2 lg:col-span-5 flex flex-col gap-y-md">

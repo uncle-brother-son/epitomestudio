@@ -231,12 +231,12 @@ export function PageTransition({ children }: { children: ReactNode }) {
       <div 
         className={`${
           isFadingOut || isWaitingForContent || isComingFromHome
-            ? 'opacity-0 translate-y-0'
-            : 'opacity-100 translate-y-0'
-        } transition-all duration-lg ease-es grow flex flex-col`}
+            ? 'opacity-0'
+            : 'opacity-100'
+        } transition-opacity duration-lg ease-es grow flex flex-col`}
         style={{ 
           // Disable transition only when hiding on initial render (isComingFromHome without transitionType set yet)
-          transitionProperty: (isComingFromHome && !transitionType) ? 'none' : 'all', 
+          transitionProperty: (isComingFromHome && !transitionType) ? 'none' : 'opacity', 
           transitionDuration: '960ms' 
         }}
       >

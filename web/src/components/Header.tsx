@@ -13,6 +13,7 @@ export function Header({ global }: { global: Global | null }) {
   const headerRef = useRef<HTMLElement>(null)
   const lastScrollY = useRef(0)
   const maxScroll = useRef(0)
+  const currentTranslateY = useRef(0)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -26,19 +27,20 @@ export function Header({ global }: { global: Global | null }) {
         maxScroll.current = headerRef.current.offsetHeight
       }
       
-      // Calculate new translate value
-      let newTranslateY = translateY - scrollDiff
+      // Calculate new translate value using ref instead of state
+      let newTranslateY = currentTranslateY.current - scrollDiff
       
       // Clamp between -maxScroll and 0
       newTranslateY = Math.max(-maxScroll.current, Math.min(0, newTranslateY))
       
+      currentTranslateY.current = newTranslateY
       setTranslateY(newTranslateY)
       lastScrollY.current = currentScrollY
     }
 
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [translateY])
+  }, [])
 
   const navigation = global?.headerNavigation || [
     { label: 'Studio', url: '/studio-hire' },

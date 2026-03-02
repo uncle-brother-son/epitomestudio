@@ -21,6 +21,7 @@ interface Props {
 
 export function EquipmentFilterAndList({ categories, items, equipmentListUrl, equipmentListButtonLabel, equipment, global }: Props) {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([])
+  const [searchQuery, setSearchQuery] = useState('')
   const [viewMode, setViewMode] = useState<'image' | 'list'>('image')
   const { quantities, updateQuantity, getTotalItems, getTotalPrice, setItems } = useEquipmentCart()
 
@@ -52,20 +53,68 @@ export function EquipmentFilterAndList({ categories, items, equipmentListUrl, eq
     })
   }
 
-  // Filter items based on selected categories
-  const filteredItems = selectedCategories.length === 0
-    ? items
-    : items.filter(item => {
+  // Filter items based on selected categories and search query
+  const filteredItems = items.filter(item => {
+    // Search filter
+    if (searchQuery) {
+      // Split query into words and check if all words match
+      const queryWords = searchQuery.toLowerCase().trim().split(/\s+/)
+      const searchableText = [
+        item.name?.toLowerCase() || '',
+        item.brand?.toLowerCase() || '',
+        item.category?.name?.toLowerCase() || ''
+      ].join(' ')
+      
+      // All query words must appear somewhere in the combined text
+      const allWordsMatch = queryWords.every(word => searchableText.includes(word))
+      
+      if (!allWordsMatch) return false
+    }
+    
+    // Category filter
+    if (selectedCategories.length > 0) {
+      if (!item.category) return false
+      
+      // Check if item's category is directly selected
+      if (selectedCategories.includes(item.category._id)) return true
+      
+      // Check if item's parent category is selected
+      // BUT only if no children of that parent are selected
+      if (item.category.parent && selectedCategories.includes(item.category.parent._id)) {
+        const parentChildren = getChildren(item.category.parent._id)
+        const hasSelectedChildren = parentChildren.some(child => selectedCategories.includes(child._id))
+        
+        // Only show if no specific children are selected
+        if (!hasSelectedChildren) return true
+      }
+      
+      return false
+    }
+    
+    return true
+  })
+
+  // Get count of unique items in cart for a category
+  const getCategoryCartCount = (categoryId: string, includeChildren: boolean = false): number => {
+    const categoryItemIds = items
+      .filter(item => {
         if (!item.category) return false
         
-        // Check if item's category is selected
-        if (selectedCategories.includes(item.category._id)) return true
+        // Direct match
+        if (item.category._id === categoryId) return true
         
-        // Check if item's parent category is selected
-        if (item.category.parent && selectedCategories.includes(item.category.parent._id)) return true
+        // Include children if requested (for parent categories)
+        if (includeChildren) {
+          if (item.category.parent?._id === categoryId) return true
+        }
         
         return false
       })
+      .filter(item => quantities[item._id] > 0) // Only items in cart
+      .map(item => item._id)
+    
+    return categoryItemIds.length
+  }
 
   // Get totals from context
   const totalItems = getTotalItems()
@@ -87,30 +136,42 @@ export function EquipmentFilterAndList({ categories, items, equipmentListUrl, eq
           </button>
         </div>
 
+        <div className='field search'>
+          <Icon name="icon-search" className="icon-search w-3 h-3 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Search</title></Icon>
+          <input type='text' placeholder='Search' value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
+          {searchQuery && (
+            <button onClick={() => setSearchQuery('')} aria-label='Clear search'>
+              <Icon name="icon-close" className="icon-close w-3 h-3 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Clear search</title></Icon>
+            </button>
+          )}
+        </div>
+
         <ul className='flex flex-col'>
           {parentCategories.map((parent, index) => {
             const children = getChildren(parent._id)
             const isSelected = selectedCategories.includes(parent._id)
+            const parentCount = getCategoryCartCount(parent._id, true)
 
             return (
               <Reveal index={index} key={parent._id} className='flex flex-col'>
                 <label className='checkbox grow px-4 py-2 rounded flex flex-row items-center justify-start gap-2 duration-md ease-es cursor-pointer'>
                   <input type='checkbox' checked={isSelected} onChange={() => toggleCategory(parent._id)} />
                   <Icon name="icon-tick" className="icon-tick h-4 w-4 transition-opacity duration-md ease-es" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Check</title></Icon>
-                  <span className='grow'>{parent.name}</span>
+                  <span className='grow'>{parent.name}{parentCount > 0 && ` (${parentCount})`}</span>
                 </label>
 
                 {isSelected && children.length > 0 && (
                   <ul className='flex flex-col pl-4'>
                     {children.map((child, childIndex) => {
                       const isChildSelected = selectedCategories.includes(child._id)
+                      const childCount = getCategoryCartCount(child._id, false)
                       
                       return (
                         <Reveal index={childIndex} key={child._id} className='flex flex-col'>
                           <label className='checkbox grow px-4 py-2 rounded flex flex-row items-center justify-start gap-2 duration-md ease-es cursor-pointer'>
                             <input type='checkbox' checked={isChildSelected} onChange={() => toggleCategory(child._id)} />
                             <Icon name="icon-tick" className="icon-tick h-4 w-4 transition-opacity duration-md ease-es" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Check</title></Icon>
-                            <span>{child.name}</span>
+                            <span>{child.name}{childCount > 0 && ` (${childCount})`}</span>
                           </label>
                         </Reveal>
                       )
