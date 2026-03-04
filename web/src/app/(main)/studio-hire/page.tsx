@@ -7,6 +7,8 @@ import { HideOnFooter } from '@/components/HideOnFooter'
 import { StudioHireButton } from '@/components/StudioHireButton'
 import { StudioInfoButton } from '@/components/StudioInfoButton'
 import type { Metadata } from 'next'
+import { StickyContent } from '@/components/StickyContent'
+
 
 export async function generateMetadata(): Promise<Metadata> {
   const studio = await getStudio()
@@ -28,7 +30,7 @@ export default async function StudioPage() {
 
 
       {studio?.imageGallery && studio.imageGallery.length > 0 && (
-        <div className='col-start-1 col-span-12 lg:col-start-1 lg:col-span-17'>
+        <div className='col-start-1 col-span-12 lg:col-start-1 lg:col-span-17 2xl:col-start-1 2xl:col-span-16'>
           <div className='relative rounded overflow-hidden aspect-5/4 lg:aspect-auto lg:h-[calc(100vh-13.75rem)]'>
             <Image
               src={urlFor(studio.imageGallery[0]).width(1600).height(1280).url()}
@@ -43,9 +45,9 @@ export default async function StudioPage() {
       )}
 
 
-      <div className='lg:row-span-2 col-start-1 col-span-12 lg:col-start-19 lg:col-span-5 px-2 lg:px-0 flex flex-col lg:justify-between gap-8'>
+      <div className='lg:row-span-2 col-start-1 col-span-12 lg:col-start-19 lg:col-span-6 2xl:col-start-19 2xl:col-span-5 px-2 lg:px-0 flex flex-col lg:justify-between gap-8'>
         
-        <div className="flex flex-col gap-8 lg:sticky lg:top-20">
+        <StickyContent className="flex flex-col gap-8 lg:sticky"  top={20}>
           {studio?.content && (
             <div className="flex flex-col gap-8 rich">
               <PortableText value={studio.content} />
@@ -60,7 +62,7 @@ export default async function StudioPage() {
               global={global}
             />
           )}
-        </div>
+        </StickyContent>
 
         {studio?.hireStudioButtonLabel && (
           <HideOnFooter>
@@ -75,7 +77,7 @@ export default async function StudioPage() {
       </div>
 
       {studio?.imageGallery && studio.imageGallery.length > 1 && (
-        <div className='col-start-1 col-span-12 lg:col-start-1 lg:col-span-17 flex flex-col gap-2'>
+        <div className='col-start-1 col-span-12 lg:col-start-1 lg:col-span-17 2xl:col-start-1 2xl:col-span-16 flex flex-col gap-2'>
           {studio.imageGallery.slice(1).map((image, index) => (
             <div className='relative aspect-5/4 rounded overflow-hidden' key={index + 1}>
               <Image

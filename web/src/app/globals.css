@@ -18,6 +18,10 @@
   --text-md: 0.75rem; /* 12px */
   --text-lg: 0.875rem; /* 14px */
   --text-xl: 1rem; /* 16px */
+  --text-sm--line-height: 0.625rem; /* 10px */
+  --text-md--line-height: 1.125rem; /* 18px */
+  --text-lg--line-height: 1rem; /* 16px */
+  --text-xl--line-height: 1.125rem; /* 18px */
   --radius: 0.125rem; /* 2px */
   --transition-duration-sm: 240ms;
   --transition-duration-md: 480ms;
@@ -39,7 +43,7 @@
   .link { @apply text-sm font-medium uppercase text-black dark:text-natural flex flex-row gap-1 items-center justify-start transition-all duration-lg ease-es; }
   .link.line { @apply relative pb-1.5 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-px after:bg-black dark:after:bg-natural hover:after:bottom-0.5 after:transition-all after:duration-md after:ease-es; }
   .btn { @apply text-sm font-medium uppercase text-natural dark:text-black bg-black dark:bg-natural px-6 py-2 h-8 rounded flex flex-row gap-1 items-center justify-start; }
-  .close { @apply text-sm font-medium uppercase text-black dark:text-natural hover:bg-black/5 hover:dark:bg-natural/5 px-4 py-1 rounded flex flex-row gap-1 items-center justify-start transition-colors duration-md ease-es; }
+  .close { @apply text-sm font-medium uppercase text-black dark:text-natural hover:bg-black/10 hover:dark:bg-natural/10 px-4 py-1 rounded flex flex-row gap-1 items-center justify-start transition-colors duration-md ease-es; }
   .qty { @apply p-1 bg-black dark:bg-natural flex items-center justify-center rounded transition duration-lg ease-es; }
   .qty-form { @apply p-1 bg-natural dark:bg-black flex items-center justify-center rounded transition duration-lg ease-es; }
 
@@ -80,38 +84,38 @@
   .field-wrapper { @apply flex flex-col; }
   .field { @apply relative flex flex-col gap-2; }
   .field-row { @apply flex flex-row gap-2; }
-  .field input, .field textarea, .field select { @apply appearance-none px-4 pt-6 pb-2 text-xl lg:text-lg leading-4 placeholder:text-xl lg:placeholder:text-lg placeholder:leading-4 box-border rounded text-black dark:text-natural bg-black/5 dark:bg-natural/5 focus:outline-none placeholder:text-black/60 dark:placeholder:text-natural/60 duration-lg ease-es focus:bg-black/5 dark:focus:bg-natural/5; }
+  .field input, .field textarea, .field select { @apply appearance-none px-4 pt-6 pb-2 text-xl lg:text-lg placeholder:text-xl lg:placeholder:text-lg box-border rounded text-black dark:text-natural bg-black/10 dark:bg-natural/10 focus:outline-none placeholder:text-black/60 dark:placeholder:text-natural/60 duration-lg ease-es focus:bg-black/10 dark:focus:bg-natural/10; }
   .field input:-webkit-autofill, .field textarea:-webkit-autofill, .field select:-webkit-autofill { -webkit-box-shadow: 0 0 0 1000px rgba(233, 230, 223, 1) inset !important; -webkit-text-fill-color: #121214 !important; transition: background-color 5000s ease-in-out 0s; }
   .dark .field input:-webkit-autofill, .dark .field textarea:-webkit-autofill, .dark .field select:-webkit-autofill { -webkit-box-shadow: 0 0 0 1000px rgba(29, 29, 31, 1) inset !important; -webkit-text-fill-color: #F5F2EB !important; transition: background-color 5000s ease-in-out 0s; }
-  .field label { @apply absolute top-4 left-4 text-xl lg:text-lg leading-4 text-black/60 dark:text-natural/60 transition-all duration-sm ease-es cursor-text; }
+  .field label { @apply absolute top-4 left-4 text-xl lg:text-lg text-black/60 dark:text-natural/60 transition-all duration-sm ease-es cursor-text; }
   .field input:focus + label, .field input:autofill:focus + label, .field input:-webkit-autofill:focus + label, .field input:not(:placeholder-shown) + label, .field textarea:focus + label, .field textarea:autofill:focus + label, .field textarea:-webkit-autofill:focus + label, .field textarea:not(:placeholder-shown) + label, .field select:valid + label, .field input:-webkit-autofill + label, .field textarea:-webkit-autofill + label, .field select:-webkit-autofill + label { @apply text-sm top-2; }
   .field select:invalid { @apply text-black/60 dark:text-natural/60; }
-  .field svg { @apply absolute top-4.5 right-4 pointer-events-none; }
+  .field svg { @apply shrink-0 absolute top-4 right-4 pointer-events-none; }
   input[type="text"], input[type="email"], input[type="date"], input[type="time"], input[type="tel"], input[type="search"], textarea { @apply appearance-none outline-none; }
   input[type="search"] { @apply grow ; }
   input[type="search"]::-webkit-search-cancel-button { @apply appearance-none; }
   input[type="search"]::-webkit-search-decoration { @apply appearance-none; }
   input[type="date"]::-webkit-calendar-picker-indicator, input[type="time"]::-webkit-calendar-picker-indicator  { @apply absolute top-4.5 right-4 p-0 h-4 w-4 opacity-0; }
 
-  .field.search input { @apply py-2.5 px-9; } 
-  .field.search svg { @apply top-3 left-4; }
-  .field.search button { @apply absolute top-3 right-4; } 
+  .field.search { @apply flex flex-row gap-2 bg-black/10 dark:bg-natural/10 rounded px-4 py-3 items-center; }
+  .field.search input { @apply static bg-transparent p-0 grow; } 
+  .field.search svg { @apply static; }
+  .field.search button { @apply static; } 
   .field.search button svg.icon-close { @apply static; } 
 
   textarea { @apply resize-none; }
 
-  label.checkbox { @apply cursor-pointer relative hover:bg-black/5 dark:hover:bg-natural/5 duration-sm ease-es; }
-  label.checkbox:has(input:checked) { @apply bg-black/5 dark:bg-natural/5; }
-  label.checkbox input { @apply appearance-none bg-black/5 dark:bg-natural/5 h-4 w-4 rounded cursor-pointer duration-sm ease-es; }
+  label.checkbox { @apply cursor-pointer relative hover:bg-black/10 dark:hover:bg-natural/10 duration-sm ease-es; }
+  label.checkbox:has(input:checked) { @apply bg-black/10 dark:bg-natural/10; }
+  label.checkbox input { @apply appearance-none bg-black/10 dark:bg-natural/10 h-4 w-4 rounded cursor-pointer duration-sm ease-es; }
   label.checkbox:hover input { @apply bg-black dark:bg-natural; }
   label.checkbox input:checked { @apply bg-black dark:bg-natural; }
-  label.checkbox svg { @apply absolute top-2 left-4 fill-transparent transition-opacity duration-sm ease-es opacity-100; }
+  label.checkbox svg { @apply absolute top-2 left-2 lg:left-4 fill-transparent transition-opacity duration-sm ease-es opacity-100; }
   label.checkbox:hover svg { @apply fill-natural dark:fill-black opacity-40; }
-  label.checkbox input:checked + svg { @apply fill-natural dark:fill-black opacity-100; }
+  label.checkbox input:checked + svg { @apply fill-natural dark:fill-black; }
 
   label.checkbox-simple { @apply relative grow rounded flex flex-row items-start justify-start gap-2 duration-md ease-es cursor-pointer; }
-  label.checkbox-simple div { @apply h-4.5 w-4 shrink-0 flex items-center; }
-  label.checkbox-simple input { @apply appearance-none h-4 w-4 rounded bg-black/10 dark:bg-natural/10 cursor-pointer duration-sm ease-es; }
+  label.checkbox-simple input { @apply appearance-none shrink-0 h-4 w-4 rounded bg-black/10 dark:bg-natural/10 cursor-pointer duration-sm ease-es; }
   label.checkbox-simple svg { @apply absolute left-0 top-0 fill-black/0 dark:fill-natural/0 transition-colors duration-sm ease-es opacity-100; }
   label.checkbox-simple:hover svg { @apply fill-black/40 dark:fill-natural/40; }
   label.checkbox-simple input:checked + svg { @apply fill-black dark:fill-natural; }
@@ -135,6 +139,12 @@
     100% { opacity: 1; }
   }
   .fadein { animation: fadein 960ms cubic-bezier(0.295, 0.850, 0.440, 1.000) backwards; }
+  
+  @keyframes fadeout {
+    0% { opacity: 1; }
+    100% { opacity: 0; }
+  }
+  .fadeout { animation: fadeout 480ms cubic-bezier(0.295, 0.850, 0.440, 1.000) forwards; }
   
   @keyframes wipe-in {
     0% { clip-path: inset(100% 0 0 0); }

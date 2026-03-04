@@ -19,7 +19,7 @@ export default async function EquipmentPage() {
   const global = await getGlobal()
 
   return (
-    <main className="grid_ my-xl gap-y-lg grow">
+    <main className="grid_ my-xxl gap-y-lg grow">
 
       <EquipmentFilterAndList 
         categories={categories} 

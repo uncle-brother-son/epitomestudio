@@ -3,6 +3,7 @@ import { getProduction } from '@/queries/production'
 import VideoPlayer from '@/components/VideoPlayer'
 import type { Metadata } from 'next'
 import { Icon } from '@/components/Icons'
+import { StickyContent } from '@/components/StickyContent'
 
 export async function generateMetadata(): Promise<Metadata> {
   const production = await getProduction()
@@ -19,11 +20,11 @@ export default async function ProductionPage() {
   return (
     <main className="grid_ my-xl gap-y-lg grow">
 
-      <div className='col-start-1 col-span-12 lg:col-start-2 lg:col-span-5 px-2 lg:px-0 flex flex-col lg:justify-between gap-8'>
+      <div className='col-start-1 col-span-12 lg:col-start-1 lg:col-span-6 2xl:col-start-2 2xl:col-span-5 px-2 lg:px-0 flex flex-col lg:justify-between gap-8'>
         {production?.content && (
-          <div className="flex flex-col gap-8 lg:sticky lg:top-20">
+          <StickyContent className="flex flex-col gap-8 lg:sticky" top={20}>
             <PortableText value={production.content} />
-          </div>
+          </StickyContent>
         )}
         {production?.link?.url && production?.link?.label && (
           <div className='lg:sticky lg:bottom-20 lg:mt-auto self-start'> 

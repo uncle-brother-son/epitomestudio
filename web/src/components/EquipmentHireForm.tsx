@@ -323,7 +323,7 @@ export function EquipmentHireForm({ onClose, equipment, global }: Props) {
         {/* Item Summary */}
         {formData.items.length > 0 && (
           <div className="row-start-1 col-start-1 col-span-12 sm:col-start-2 sm:col-span-10 lg:col-start-16 lg:col-span-5 flex flex-col gap-2">
-            <div className="bg-black/5 dark:bg-natural/5 rounded flex flex-col overflow-hidden">
+            <div className="bg-black/10 dark:bg-natural/10 rounded flex flex-col overflow-hidden">
                 <button onClick={() => setIsSummaryOpen(!isSummaryOpen)}className='flex flex-row justify-between w-full lg:cursor-default p-4' type="button">
                   <div className="label">Item Summary<span className='lg:hidden pl-2'>[ {formData.items.length} ]</span></div>
                   <Icon name="icon-chevron" className={`icon-chevron w-3 h-3 fill-black dark:fill-natural lg:hidden transition-transform duration-lg ease-es ${isSummaryOpen ? 'rotate-270' : 'rotate-90'}`} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Toggle Summary</title></Icon>
@@ -474,14 +474,14 @@ export function EquipmentHireForm({ onClose, equipment, global }: Props) {
                     <label htmlFor="hireStartDate">Hire Start Date</label>
                     <Icon name="icon-date" className="icon-date h-4 w-4 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Date Picker</title></Icon>
                   </div>
-                <div className="basis-1/2 flex flex-row items-center justify-between bg-black/5 dark:bg-natural/5 rounded px-4 py-3.5">
-                  <label className="text-lg leading-4 opacity-60">Days</label>
+                <div className="basis-1/2 flex flex-row items-center justify-between bg-black/10 dark:bg-natural/10 rounded px-4 py-3.5">
+                  <label className="text-lg opacity-60">Days</label>
                   <div className="flex flex-row gap-1.5 items-center">
                     <button type="button" className={`qty-form ${formData.days === 1 ? 'opacity-60' : ''}`} onClick={() => updateField('days', Math.max(1, formData.days - 1))}>
                       <Icon name="icon-minus" className="icon-minus w-3 h-3 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Decrease</title></Icon>
                     </button>
-                    <span className="text-lg leading-4 w-4 text-center">{formData.days}</span>
-                    <button type="button" className={`qty-form ${formData.days === 1 ? 'opacity-60' : ''}`} onClick={() => updateField('days', formData.days + 1)}>
+                    <span className="text-lg w-4 text-center">{formData.days}</span>
+                    <button type="button" className="qty-form" onClick={() => updateField('days', formData.days + 1)}>
                       <Icon name="icon-plus" className="icon-plus w-3 h-3 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Increase</title></Icon>
                     </button>
                   </div>
@@ -493,34 +493,40 @@ export function EquipmentHireForm({ onClose, equipment, global }: Props) {
               </AnimatedMessage>
             </div>
 
-            <div className="field-row">
-              <div className="field basis-1/2">
-                <input type="time" id="pickUpTime" value={formData.pickUpTime} onChange={(e) => updateField('pickUpTime', e.target.value)} step="900" />
-                <label htmlFor="pickUpTime">Pick Up Time</label>
-                <Icon name="icon-time" className="icon-time h-4 w-4 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Time Picker</title></Icon>
+            <div className='field-wrapper'>
+              <div className="field-row">
+                <div className="field basis-1/2">
+                  <input type="time" id="pickUpTime" value={formData.pickUpTime} onChange={(e) => updateField('pickUpTime', e.target.value)} step="900" />
+                  <label htmlFor="pickUpTime">Pick Up Time</label>
+                  <Icon name="icon-time" className="icon-time h-4 w-4 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Time Picker</title></Icon>
+                </div>
+                <div className="field basis-1/2">
+                  <input type="time" id="dropOffTime" value={formData.dropOffTime} onChange={(e) => updateField('dropOffTime', e.target.value)} step="900" />
+                  <label htmlFor="dropOffTime">Drop Off Time</label>
+                  <Icon name="icon-time" className="icon-time h-4 w-4 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Time Picker</title></Icon>
+                </div>
               </div>
-              <div className="field basis-1/2">
-                <input type="time" id="dropOffTime" value={formData.dropOffTime} onChange={(e) => updateField('dropOffTime', e.target.value)} step="900" />
-                <label htmlFor="dropOffTime">Drop Off Time</label>
-                <Icon name="icon-time" className="icon-time h-4 w-4 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Time Picker</title></Icon>
-              </div>
+              <AnimatedMessage show={formData.pickUpTime < '09:00' || formData.pickUpTime > '18:00' || formData.dropOffTime < '09:00' || formData.dropOffTime > '18:00'} className="note">
+                <Icon name="icon-subArrow" className="icon-subArrow h-3 w-3 fill-black/60 dark:fill-natural/60 mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Time note</title></Icon>
+                <span>Our standard hours are 9am to 6pm. An out of hours fee may apply to your hire.</span>
+              </AnimatedMessage>
             </div>
 
             <div className='field-wrapper'>
               <div className="field">
                 <input type="checkbox" id="hireStudio" checked={formData.hireStudio} onChange={(e) => updateField('hireStudio', e.target.checked)} className="sr-only" />
-                <label htmlFor="hireStudio" className="flex flex-row items-center justify-between cursor-pointer text-lg static bg-black/5 dark:bg-natural/5 rounded px-4 py-3">
+                <label htmlFor="hireStudio" className="flex flex-row items-center justify-between cursor-pointer text-xl lg:text-lg static bg-black/10 dark:bg-natural/10 rounded px-4 py-3.25 lg:py-3">
                   <div>Hire Studio</div>
                   <div className='flex flex-row gap-4 items-center justify-center'>
                     <div className='text-black dark:text-natural'>{formData.hireStudio ? 'Yes' : 'No'}</div>
-                    <div className='h-6 w-12 rounded bg-black/5 dark:bg-natural/5 relative'>
+                    <div className='h-6 w-12 rounded bg-black/10 dark:bg-natural/10 relative'>
                       <div className={`h-5 w-5 rounded absolute top-0.5 transition-all duration-md ease-es ${formData.hireStudio ? 'left-6.5 bg-green' : 'left-0.5 bg-red'}`} />
                     </div>
                   </div>
                 </label>
               </div>
               <AnimatedMessage show={formData.hireStudio} className="note">
-                <Icon name="icon-subArrow" className="icon-subArrow h-3 w-3 fill-black dark:fill-natural mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Hire Studio note</title></Icon>
+                <Icon name="icon-subArrow" className="icon-subArrow h-3 w-3 fill-black/60 dark:fill-natural/60 mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Hire Studio note</title></Icon>
                 <span>We'll contact you about studio availability for your equipment hire dates.</span>
               </AnimatedMessage>
             </div>
@@ -572,7 +578,7 @@ export function EquipmentHireForm({ onClose, equipment, global }: Props) {
             <div className='flex flex-col gap-4 mt-4'>
               <div className='field-wrapper'>
                 <label className='checkbox-simple'>
-                  <div><input type='checkbox' checked={formData.agreeToTerms} onChange={(e) => updateField('agreeToTerms', e.target.checked)} /></div>
+                  <input type='checkbox' checked={formData.agreeToTerms} onChange={(e) => updateField('agreeToTerms', e.target.checked)} />
                   <Icon name="icon-tick" className="icon-tick h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Check</title></Icon>
                   <span>Equipment hire is subject to agreement with our <button type="button" className="underline" onClick={(e) => { e.preventDefault(); setIsTermsDrawerOpen(true); }}>Equipment Hire Policy</button></span>
                 </label>              
@@ -583,7 +589,7 @@ export function EquipmentHireForm({ onClose, equipment, global }: Props) {
               </div>
 
               <label className='checkbox-simple'>
-                <div><input type='checkbox' checked={formData.subscribeToNewsletter} onChange={(e) => updateField('subscribeToNewsletter', e.target.checked)} /></div>
+                <input type='checkbox' checked={formData.subscribeToNewsletter} onChange={(e) => updateField('subscribeToNewsletter', e.target.checked)} />
                 <Icon name="icon-tick" className="icon-tick h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Check</title></Icon>
                 <span>Sign up to our newsletter to receive updates on new equipment.</span>
               </label>

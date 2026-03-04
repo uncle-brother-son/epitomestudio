@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { createPortal } from 'react-dom'
 import { Drawer } from './Drawer'
 import { EquipmentHireForm } from './EquipmentHireForm'
 import { useEquipmentCart } from '@/contexts/EquipmentCartContext'
@@ -59,9 +60,12 @@ export function EquipmentHireButton({ label, className, equipment, global }: Pro
         )}
       </button>
 
-      <Drawer isOpen={isOpen} onClose={handleClose}>
-        <EquipmentHireForm onClose={handleClose} equipment={equipment} global={global} />
-      </Drawer>
+      {typeof document !== 'undefined' && createPortal(
+        <Drawer isOpen={isOpen} onClose={handleClose}>
+          <EquipmentHireForm onClose={handleClose} equipment={equipment} global={global} />
+        </Drawer>,
+        document.body
+      )}
     </>
   )
 }

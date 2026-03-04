@@ -356,14 +356,14 @@ export function StudioHireForm({ onClose, studio, global }: Props) {
                   <label htmlFor="hireStartDate">Hire Start Date</label>
                   <Icon name="icon-date" className="icon-date h-4 w-4 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Date Picker</title></Icon>
                 </div>
-                <div className="basis-1/2 flex flex-row items-center justify-between bg-black/5 dark:bg-natural/5 rounded px-4 py-3.5">
-                  <label className="text-lg leading-4 opacity-60">Days</label>
+                <div className="basis-1/2 flex flex-row items-center justify-between bg-black/10 dark:bg-natural/10 rounded px-4 py-3.5">
+                  <label className="text-lg opacity-60">Days</label>
                   <div className="flex flex-row gap-1.5 items-center">
                     <button type="button" className={`qty-form ${formData.days === 1 ? 'opacity-60' : ''}`} onClick={() => updateField('days', Math.max(1, formData.days - 1))}>
                       <Icon name="icon-minus" className="icon-minus w-3 h-3 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Decrease</title></Icon>
                     </button>
-                    <span className="text-lg leading-4 w-4 text-center">{formData.days}</span>
-                    <button type="button" className={`qty-form ${formData.days === 1 ? 'opacity-60' : ''}`} onClick={() => updateField('days', formData.days + 1)}>
+                    <span className="text-lg w-4 text-center">{formData.days}</span>
+                    <button type="button" className="qty-form" onClick={() => updateField('days', formData.days + 1)}>
                       <Icon name="icon-plus" className="icon-plus w-3 h-3 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Increase</title></Icon>
                     </button>
                   </div>
@@ -407,14 +407,14 @@ export function StudioHireForm({ onClose, studio, global }: Props) {
               </AnimatedMessage>
             </div>
 
-            <div className="flex flex-row items-center justify-between bg-black/5 dark:bg-natural/5 rounded px-4 py-3.5">
-              <label className="text-lg leading-4 opacity-60">Attendees</label>
+            <div className="flex flex-row items-center justify-between bg-black/10 dark:bg-natural/10 rounded px-4 py-3.75 lg:py-3.5">
+              <label className="text-xl lg:text-lg opacity-60">Attendees</label>
               <div className="flex flex-row gap-1.5 items-center">
                 <button type="button" className={`qty-form ${formData.attendees === 10 ? 'opacity-60' : ''}`} onClick={() => updateField('attendees', Math.max(10, formData.attendees - 10))}>
                   <Icon name="icon-minus" className="icon-minus w-3 h-3 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Decrease</title></Icon>
                 </button>
-                <span className="text-lg leading-4 w-4 text-center">{formData.attendees}</span>
-                <button type="button" className={`qty-form ${formData.attendees === 30 ? 'opacity-60' : ''}`} onClick={() => updateField('attendees', Math.min(30, formData.attendees + 10))}>
+                <span className="text-lg w-4 text-center">{formData.attendees}</span>
+                <button type="button" className={`qty-form ${formData.attendees === 40 ? 'opacity-60' : ''}`} onClick={() => updateField('attendees', Math.min(40, formData.attendees + 10))}>
                   <Icon name="icon-plus" className="icon-plus w-3 h-3 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Increase</title></Icon>
                 </button>
               </div>
@@ -423,11 +423,11 @@ export function StudioHireForm({ onClose, studio, global }: Props) {
             <div className='field-wrapper'>
               <div className="field">
                 <input type="checkbox" id="hireEquipment" checked={formData.hireEquipment} onChange={(e) => updateField('hireEquipment', e.target.checked)} className="sr-only" />
-                <label htmlFor="hireEquipment" className="flex flex-row items-center justify-between cursor-pointer text-lg static bg-black/5 dark:bg-natural/5 rounded px-4 py-3">
+                <label htmlFor="hireEquipment" className="flex flex-row items-center justify-between cursor-pointer text-xl lg:text-lg static bg-black/10 dark:bg-natural/10 rounded px-4 py-3.25 lg:py-3">
                   <div>Hire Equipment</div>
                   <div className='flex flex-row gap-2 items-center justify-center'>
                     <div className='text-black dark:text-natural'>{formData.hireEquipment ? 'Yes' : 'No'}</div>
-                    <div className='h-6 w-12 rounded bg-black/5 dark:bg-natural/5 relative'>
+                    <div className='h-6 w-12 rounded bg-black/10 dark:bg-natural/10 relative'>
                       <div className={`h-5 w-5 rounded absolute top-0.5 transition-all duration-md ease-es ${formData.hireEquipment ? 'left-6.5 bg-green' : 'left-0.5 bg-red'}`} />
                     </div>
                   </div>
@@ -488,7 +488,7 @@ export function StudioHireForm({ onClose, studio, global }: Props) {
                 <div className='flex flex-col gap-4 mt-4'>
                   <div className='field-wrapper'>
                     <label className='checkbox-simple'>
-                      <div><input type='checkbox' checked={formData.agreeToTerms} onChange={(e) => updateField('agreeToTerms', e.target.checked)} /></div>
+                      <input type='checkbox' checked={formData.agreeToTerms} onChange={(e) => updateField('agreeToTerms', e.target.checked)} />
                       <Icon name="icon-tick" className="icon-tick h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Check</title></Icon>
                       <span>Studio hire is subject to agreement with our <button type="button" className="underline" onClick={(e) => { e.preventDefault(); setIsTermsDrawerOpen(true); }}>Studio Hire Policy</button></span>
                     </label>
@@ -499,7 +499,7 @@ export function StudioHireForm({ onClose, studio, global }: Props) {
                   </div>
 
                   <label className='checkbox-simple'>
-                    <div><input type='checkbox' checked={formData.subscribeToNewsletter} onChange={(e) => updateField('subscribeToNewsletter', e.target.checked)} /></div>
+                    <input type='checkbox' checked={formData.subscribeToNewsletter} onChange={(e) => updateField('subscribeToNewsletter', e.target.checked)} />
                     <Icon name="icon-tick" className="icon-tick h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Check</title></Icon>
                     <span>Sign up to our newsletter to receive updates on our studio space.</span>
                   </label>

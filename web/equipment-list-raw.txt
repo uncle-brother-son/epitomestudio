@@ -1,0 +1,174 @@
+Brand	Name			Price	Parent Category	Child Category
+						
+	Aladdin Bi-Fabric 4 Kit			£30		
+	Aladdin Bi-flex lite 1x1			£25		
+	Amaran F22c Flexible LED Mat (RGBWW)			£40		
+	Aputure LS 60X LED			£20		
+	Aputure LS 300X Bi-Colour			£45		
+	Aputure LS 600X Pro Bi-Colour			£75		
+	Aputure LS 600D Pro			£60		
+	Aputure LS 600C Pro Aputure LS 1200D Pro			£80		
+	Aputure 1200X Storm Led			£110		
+	Aputure AL-MC RGBWW Light			£120		
+	Aputure MC 4 Light Kit			£15		
+	Aputure MT Pro Mini LED Light			£28		
+	Godox KNOWLED F600Bi Flexible IP65 LED Mat Panel			£105		
+	ARRI D121.2K HMI Daylight Kit			£12		
+	ARRI 2.5K HMI Daylight Kit			£10		
+	Aputure F10 Glass Fresnel			£5		
+	Aputure Fresnel 2X			£20		
+	Avenger Polyholder			£14		
+	Aputure Spotlight Mount Set with 19 Degree Lens			£18		
+	Aputure Dome Il			£5		
+	Aputure Dome Ill			£10		
+	Aputure Light Dome Gel Holder			£15		
+	Aputure Lantern Softbox 26" (65cm)			£18		
+	Aputure Lantern Softbox 36" (90cm)			£18		
+	Aputure Lightbox 60x90 cm			£20		
+	Aputure Lightbox 30x120 cm			£10		
+	8x8 Ultra bounce			£20		
+	8x8 Full Grid Fabric			£15		
+	8x8 Muslin (Uncoloured)			£10		
+	36x36 Diffusion Frame			£10		
+	36x36 Kupo Floppy			£10		
+	Matthews 18x24 Flag - Black 			£25		
+	Matthews 24x36 Flag - Black			£12		
+	Avenger Medium Roller Stand (Double Riser)			£20		
+	Avenger Combo Stand (Double Riser)			£10		
+	Avenger Double Wind Up Stand			£8		
+	Avenger Junior Boom Arm			£15		
+	Avenger Grip Head / Knuckle			£8		
+	Kupo Baby Roller Stand			£8		
+	Kupo Giant (Jumbo) Knuckle 			£8		
+	Kupo Baby Offset Arm 16mm			£10		
+	Kupo 20" Stainless Steel C-Stand 			£15		
+	Kupo 40" Stainless Steel C-Stand			£10		
+	Manfrotto Superboom Manfrotto Magic Arm 			£5		
+	Manfrotto Super Clamp Manfrotto Spring Clamp			£2		
+	Manfrotto 272B Background Support (3 Sections)			£10		
+	Manfrotto 4.3kg Counterweight			£6		
+	Manfrotto 7kg Counterweight			£69		
+	Turtle Base			£68		
+	Polyboard Stand			£6		
+	Profoto D2 500W Kit			£60		
+	Profoto D2 500W Air			£35		
+	Profoto D2 1000W Air			£40		
+	Profoto B1 500W AirTTL Kit			£50		
+	Profoto D2 1000W AirTTL Kit			£65		
+	Profoto B1 500W AirTTL - 1 Head			£30		
+	Profoto White Beauty Dish with Grid and Diffusion 			£30		
+	Profoto White Medium Umbrella with diffusion			£15		
+	Profoto Air Remote TTL-C For Canon 			£10		
+	Profoto Magnum Reflector Silver 			£15		
+	Profoto Silver Zoom Reflector			£5		
+	Profoto Reflector SunSilver/White M			£8		
+	Profoto Umbrella Shallow White S			£10		
+	Profoto Umbrella Shallow White M			£15		
+	Profoto Honeycomb Grid Kit			£15		
+	Phottix Premio White Reflective Umbrella With Diffuser 165cm			£20		
+	Pixapro Transluscent Shoot-Through White Umbrella			£10		
+	Aputure 10-Piece Gobo Kit (A-Size)			£5		
+	Canon 5D Mark III			£20		
+	Canon 5D Mark IV			£30		
+	Canon EOS R5 Camera			£50		
+	Blackmagic BMPCC 6k Pro			£50		
+	Sony A7S III Camera			£45		
+	Sony FX 3 Cinema Camera			£50		
+	Pentax 6x7 Medium Format Camera Body			£30		
+	Olympus MJU-1 35mm Film			£10		
+	Contax T2 35mm Film Camera F2.8			£40		
+	Canon EF 8-15mm F/4L Fisheye USM			£30		
+	Canon EF 16-35mm F/2.8 L USM			£22		
+	Canon EF 50mm F/1.2 L USM			£25		
+	Canon EF 85mm F/1.2 L II USM			£25		
+	Canon EF 100mm F/2.8L IS USM Macro			£22		
+	Canon EF 24-70mm F/2.8 L II USM			£20		
+	Canon EF 24-105mm F/4 L IS USM			£18		
+	Canon Zoom EF 70-200mm F/2.8L IS I| USM			£25		
+	Canon RF 15-35mm F/2.8 | IS USM			£30		
+	Canon RF 24-70mm F/2.8 IS USM			£30		
+	Canon RF 70-200mm F/2.8L IS USM			£32		
+	Sony 12-24mm F/2.8 GM			£30		
+	Sony 14mm F/1.8 GM			£22		
+	Sony 16-35mm F/2.8 GM			£30		
+	Sony 24-70mm F/2.8 GM lI			£25		
+	Sony FE 90mm F/2.8 Macro G OSS			£30		
+	Sony FE 70-200mm F/2.8 GM I| OSS			£30		
+	Pentax 55mm			£20		
+	Pentax 105mm			£20		
+	Vintage Cine Zeiss EF Mount Set (28, 35, 50, 135mm)			£60		
+	Variable ND 82mm			£10		
+	Tiffen Circular Polariser 82mm			£10		
+	Tiffen 82mm Black Pro Mist 1/4			£15		
+	Tiffen 82mm Black Pro Mist 1/8			£15		
+	Tiffen Black Pro Mist 1, 1/2, 1/4, 1/8 (4x4)			£35		
+	Step Up & Down Rings			£3		
+	Canon Control Ring Mount Adapter EF-EOS R			£10		
+	Canon Mount Adapter RF-EOS R 0.71x			£15		
+	Metabones ARRI PL Lens to Sony E-Mount T CINE 			£25		
+	K&F Concept Nikon F-Sony E Mount Adapter			£10		
+	Sigma MC-Il Mount Converter Adapter 			£5		
+	Fotodiox Pro PT67 - EOS Mount Adapter			£5		
+	Canon LP-ENH			£5		
+	Sony NP-FZ1002-Pack			£4		
+	Sony NP-F970 Battery Charger Set 			£15		
+	Profoto A10 Camera Flash Battery			£5		
+	IDX V Lock Batteries (4) with Charger			£28		
+	FX NANO ONE V lock			£634		
+	DJIRS BG30 Battery Grip			£10		
+	Manfrotto 055 Tripod with 804 MK II Head			£10		
+	Manfrotto 190X Tripod With 804 MK || Head 			£10		
+	Manfrotto 525 MVB Tripod with 504HD Fluid Head 			£25		
+	Manfrotto Befree Tripod with Neewer GM001 Fluid Head			£10		
+	Small rig 8kg Video Tripod			£10		
+	Kessler 3ft Cine Slider Kit			£30		
+	TILTA Lightweight Camera Shoulder Rig			£25		
+	KUPO Apple Box Full Set 			£15		
+	Matthews Apple Box			£68		
+	Umbrella Swivel Adapter			£5		
+	A Clamp (Large)			£2		
+	A Clamp (Medium)			£2		
+	Big Ben Clamp			£3		
+	Tennis Balls			£2		
+	DJI RS 3 PRO Combo Gimbal			£40		
+	Neewer Metal Microphone/Boom Buddy			£5		
+	RØDE Blimp 2 With Deadcat			£15		
+	RØDE Boom Pole			£15		
+	RØDE Wireless Go Il + Lav Mics			£28		
+	RØDE Videomic Pro+			£12		
+	RØDE NTG2 Shotgun Microphone			£15		
+	RØDE NTG5 Location Recording Mic			£25		
+	Sennheiser G4 Lavalier Microphone Kit			£30		
+	Sony MDR-7506 Headphones			£10		
+	Zoom H6 Handy Recorder			£20		
+	Atomos Shogun Inferno 7			£20		
+	Atomos Shinobi 4K HDMI 5.2"			£18		
+	Atomos Sumo 19 Directors Monitor			£35		
+	Atomos Ninja V 5" 4K			£25		
+	Field Director's Monitor 15" HDMI			£28		
+	Eizo 24 inch - Digi Monitor			£35		
+	TILTA 4x4 Matte box			£10		
+	TILTA Mirage VND Matte Box kiT			£15		
+	TILTA Tiltaing Mini Follow Focus			£8		
+	TILTA Follow Focus FF-T03			£12		
+	TILTA Nucleus-M Wireless Follow Focus			£30		
+	TILTA Nucleus-Nano Wireless Follow Focus			£15		
+	Blue Canvas Handpainted Background 			£90		
+	Green Canvas Handpainted Background			£90		
+	Desert Concrete Handpainted Background			£150		
+	Chauvet Smoke Haze Machine			£15		
+	Tether Cable Canon 5D Mark IV FULL KIT			£20		
+	Tether Tools USB-C to USB-C Cable			£20		
+	Tether Tools Low Boy Roller Stand			£15		
+	Tether Tools Table Aero KIT			£15		
+	Scrim Jim 2x2m w/ Diffusion			£36		
+	Directors Monitor 7" Wireless Kit			£60		
+	Adicam standard+ cart 10in wheels			£60		
+	Cable Reel 5m			£6		
+	SDI Cable 10m			£6		
+	Arri Sandbags x4			£8		
+	Polyboard 2.4mx1.2m			£5		
+	Blackout Curtain 3x2m			£8		
+	Trestle Table			£8		
+	Plinth Set of 3 (S, M, L)			£20		
+	Scaff Pole			£6		

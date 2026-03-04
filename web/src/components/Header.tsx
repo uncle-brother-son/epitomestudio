@@ -1,15 +1,16 @@
 'use client'
 
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Global } from '@/queries/global'
 import { urlFor } from '@/lib/sanityImage'
 import { Icon } from '@/components/Icons'
+import { useHeaderScroll } from '@/contexts/HeaderScrollContext'
 
 
 export function Header({ global }: { global: Global | null }) {
-  const [translateY, setTranslateY] = useState(0)
+  const { translateY, setTranslateY } = useHeaderScroll()
   const headerRef = useRef<HTMLElement>(null)
   const lastScrollY = useRef(0)
   const maxScroll = useRef(0)
@@ -40,7 +41,7 @@ export function Header({ global }: { global: Global | null }) {
 
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+  }, [setTranslateY])
 
   const navigation = global?.headerNavigation || [
     { label: 'Studio', url: '/studio-hire' },
@@ -55,7 +56,7 @@ export function Header({ global }: { global: Global | null }) {
   return (
     <header 
       ref={headerRef}
-      className="grid_ px-4 py-4 bg-natural dark:bg-black fixed top-0 left-0 right-0 z-20 transition-colors duration-md ease-es"
+      className="grid_ px-4 py-4 bg-natural dark:bg-black fixed top-0 left-0 right-0 z-10 transition-colors duration-md ease-es"
       style={{ transform: `translateY(${translateY}px)` }}
     >
       <div className="col-start-1 col-span-9 flex items-start justify-start">
@@ -83,3 +84,4 @@ export function Header({ global }: { global: Global | null }) {
     </header>
   )
 }
+
