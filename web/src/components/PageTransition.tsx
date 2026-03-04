@@ -162,7 +162,7 @@ export function PageTransition({ children }: { children: ReactNode }) {
         aria-label="Loading page content"
       >
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className="w-6 h-6 bg-bamboo" />
+          <div className="w-6 h-6 bg-bamboo animate-spin-slow" />
         </div>
         <span className="sr-only">Loading...</span>
       </div>

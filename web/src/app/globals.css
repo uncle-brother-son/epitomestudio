@@ -27,6 +27,7 @@
   --transition-duration-md: 480ms;
   --transition-duration-lg: 960ms;
   --ease-es: cubic-bezier(0.295, 0.850, 0.440, 1.000);
+  --animate-spin-slow: spin 2s linear infinite;
 }
 
 @layer base {
@@ -133,6 +134,11 @@
 }
 
 @layer utilities {
+
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
 
   @keyframes fadein {
     0% { opacity: 0; }
