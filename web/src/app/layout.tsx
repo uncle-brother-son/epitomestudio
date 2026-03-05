@@ -43,6 +43,15 @@ export default async function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        {/* Google Analytics */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-GYB0PFE8BQ"></script>
+        <script dangerouslySetInnerHTML={{__html: `
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-GYB0PFE8BQ');
+        `}} />
+        
         <script dangerouslySetInnerHTML={{__html: `
           if (window.location.pathname.includes('/equipment-hire')) {
             document.documentElement.classList.add('dark');

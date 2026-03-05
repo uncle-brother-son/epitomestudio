@@ -154,7 +154,7 @@ export function PageTransition({ children }: { children: ReactNode }) {
     <TransitionContext.Provider value={contextValue}>
       {/* Loading screen - fades in when transitioning, fades out when content ready */}
       <div 
-        className={`fixed inset-0 z-50 pointer-events-none transition-opacity duration-lg ease-es ${
+        className={`fixed inset-0 pointer-events-none transition-opacity duration-lg ease-es ${
           showLoading ? 'opacity-100' : 'opacity-0'
         }`}
         role="status"
