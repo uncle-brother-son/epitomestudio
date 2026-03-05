@@ -301,7 +301,7 @@ export function EquipmentHireForm({ onClose, equipment, global }: Props) {
 
   return (
     <>
-    <div className="grow flex flex-col gap-6 p-4 pt-20">
+    <div className="grow flex flex-col gap-6 pb-4 pt-20 px-2 lg:px-0 min-h-0">
       
       <button onClick={onClose} className="close absolute top-4 right-4">
         <span>Close</span>
@@ -318,7 +318,7 @@ export function EquipmentHireForm({ onClose, equipment, global }: Props) {
         </div>
       </div>
 
-      <div className="grid_ gap-y-6">
+      <div className="grid_ gap-y-6 overflow-y-scroll">
 
         {/* Item Summary */}
         {formData.items.length > 0 && (

@@ -63,18 +63,18 @@
   .rich ul li, .terms ul li { @apply relative; }
   .rich ul li::before, .terms ul li::before { @apply absolute top-0 -left-3.5; content: '—'; }
   
-  ol.terms  { @apply ml-4 list-outside; counter-reset: item; }
+  ol.terms  { @apply pl-6 list-outside; counter-reset: item; }
   ol.terms > li { @apply relative mb-2 text-lg; counter-increment: item; }
-  ol.terms > li::before { @apply absolute top-0 -left-4 text-xl; content: counter(item) ". "; }
-  ol.terms > li ol { @apply ml-5 list-outside; counter-reset: subitem; list-style-type: none; }
+  ol.terms > li::before { @apply absolute top-0 -left-6 text-xl; content: counter(item) ". "; }
+  ol.terms > li ol { @apply pl-7 list-outside; counter-reset: subitem; list-style-type: none; }
   ol.terms > li ol > li { @apply relative mb-2 text-lg; counter-increment: subitem; }
-  ol.terms > li ol > li::before { @apply absolute top-0 -left-5 text-lg; content: counter(item) "." counter(subitem) " "; }
-  ol.terms > li ul { @apply ml-5; }
+  ol.terms > li ol > li::before { @apply absolute top-0 -left-7 text-lg; content: counter(item) "." counter(subitem) " "; }
+  ol.terms > li ul { @apply pl-7; }
   ol.terms > li ul > li { @apply relative; }
-  ol.terms > li ul > li ul li::before { @apply absolute top-0 -left-5; content: '—'; }
-  ol.terms > li ol > li ol { @apply ml-7 list-outside; counter-reset: subsubitem; list-style-type: none; }
+  ol.terms > li ul > li ul li::before { @apply absolute top-0 -left-7; content: '—'; }
+  ol.terms > li ol > li ol { @apply pl-8 list-outside; counter-reset: subsubitem; list-style-type: none; }
   ol.terms > li ol > li ol > li { @apply mb-2 text-lg; counter-increment: subsubitem; }
-  ol.terms > li ol > li ol > li::before { @apply absolute top-0 -left-7 text-lg; content: counter(item) "." counter(subitem) "." counter(subsubitem) " "; }
+  ol.terms > li ol > li ol > li::before { @apply absolute top-0 -left-8 text-lg; content: counter(item) "." counter(subitem) "." counter(subsubitem) " "; }
 
   .terms p { @apply text-lg mb-2; }
   .terms p:last-child { @apply mb-0; }

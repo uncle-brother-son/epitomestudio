@@ -5,6 +5,7 @@ import { urlFor } from '@/lib/sanityImage'
 import { EquipmentCartProvider } from '@/contexts/EquipmentCartContext'
 import { DarkModeHandler } from '@/components/DarkModeHandler'
 import { PageTransition } from '@/components/PageTransition'
+import { ConditionalHeader } from '@/components/ConditionalHeader'
 
 export async function generateMetadata(): Promise<Metadata> {
   const global = await getGlobal()
@@ -60,9 +61,10 @@ export default async function RootLayout({
         <link rel="preload" href="/fonts/GeneralSans-Regular.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
         <link rel="preload" href="/fonts/GeneralSans-Medium.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
       </head>
-      <body className="bg-natural dark:bg-black text-black dark:text-natural text-md subpixel-antialiased flex flex-col min-h-screen transition-colors duration-md ease-es">
+      <body className="bg-natural dark:bg-black text-black dark:text-natural text-md subpixel-antialiased flex flex-col min-h-screen transition-colors duration-lg ease-es">
         <DarkModeHandler />
         <EquipmentCartProvider>
+          <ConditionalHeader global={global} />
           <PageTransition>
             {children}
           </PageTransition>

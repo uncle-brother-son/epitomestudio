@@ -56,7 +56,7 @@ export function Header({ global }: { global: Global | null }) {
   return (
     <header 
       ref={headerRef}
-      className="grid_ px-4 py-4 bg-natural dark:bg-black fixed top-0 left-0 right-0 z-10 transition-colors duration-md ease-es"
+      className="grid_ px-4 py-4 fixed top-0 left-0 right-0 z-10"
       style={{ transform: `translateY(${translateY}px)` }}
     >
       <div className="col-start-1 col-span-9 flex items-start justify-start">

@@ -8,7 +8,7 @@ export async function Footer({ global }: { global: Global | null }) {
   const legalPages = await getAllLegal()
 
   return (
-    <footer className="grid_ px-4 py-4 gap-y-12 lg:gap-y-20 bg-natural dark:bg-black transition-colors duration-md ease-es">
+    <footer className="grid_ px-4 py-4 gap-y-12 lg:gap-y-20">
 
       {global?.openingTimes && (
         <div className="col-start-1 col-span-12 lg:col-start-1 lg:col-span-6">

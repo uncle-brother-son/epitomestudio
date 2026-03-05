@@ -245,7 +245,7 @@ export function StudioHireForm({ onClose, studio, global }: Props) {
 
   return (
     <>
-    <div className="grow flex flex-col gap-6 p-4 pt-20">
+    <div className="grow flex flex-col gap-6 pb-4 pt-20 px-2 lg:px-0 min-h-0">
       
       <button onClick={onClose} className="close absolute top-4 right-4">
         <span>Close</span><Icon name="icon-close" className="icon-close w-3 h-3 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Close</title></Icon>
@@ -261,7 +261,7 @@ export function StudioHireForm({ onClose, studio, global }: Props) {
         </div>
       </div>
 
-      <div className="grid_ gap-y-6">
+      <div className="grid_ gap-y-6 overflow-y-scroll">
 
         {/* Step 1: Your Info */}
         {currentStep === 1 && (
