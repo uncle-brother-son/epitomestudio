@@ -4,6 +4,8 @@ import { PortableText } from '@portabletext/react'
 import { getLegalBySlug, getAllLegal } from '@/queries/legal'
 import type { Metadata } from 'next'
 
+export const revalidate = 30
+
 export async function generateStaticParams() {
   const legal = await getAllLegal()
   return legal.map((item) => ({
