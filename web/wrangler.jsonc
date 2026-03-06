@@ -13,5 +13,7 @@
 			"service": "epitomestudio"
 		}
 	],
-	"compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"]
+	"compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+	"workers_dev": true,
+	"preview_urls": false
 }
