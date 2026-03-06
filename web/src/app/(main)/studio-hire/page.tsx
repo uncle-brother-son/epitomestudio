@@ -8,7 +8,6 @@ import { StudioHireButton } from '@/components/StudioHireButton'
 import { StudioInfoButton } from '@/components/StudioInfoButton'
 import type { Metadata } from 'next'
 
-export const runtime = 'edge'
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
 import { StickyContent } from '@/components/StickyContent'
