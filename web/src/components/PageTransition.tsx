@@ -198,7 +198,7 @@ export function PageTransition({ children }: { children: ReactNode }) {
       >
         <div className="absolute inset-0" />
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className="w-6 h-6 bg-bamboo animate-spin-slow" />
+          <div className="w-6 h-6 bg-bamboo dark:bg-natural animate-spin-slow" />
         </div>
         <span className="sr-only">Loading...</span>
       </div>

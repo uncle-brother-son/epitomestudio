@@ -218,7 +218,7 @@ export function EquipmentFilterAndList({ categories, items, equipmentListUrl, eq
               <div className='text-black/60 dark:text-natural/60 text-xl'>Filter</div>
               <Icon name="icon-filter" className="icon-filter w-3 h-3 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Filter</title></Icon>
             </button>
-            <ul className='hidden lg:flex flex-col p-4'>
+            <ul className='hidden lg:flex flex-col p-4 lg:p-0'>
               {parentCategories.map((parent, index) => {
                 const children = getChildren(parent._id)
                 const isSelected = selectedCategories.includes(parent._id)
