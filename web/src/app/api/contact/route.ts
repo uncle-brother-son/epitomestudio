@@ -128,9 +128,22 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ success: true, data })
   } catch (error) {
-    console.error('Email send error:', error)
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error'
+    const errorDetails = error instanceof Error ? error.stack : String(error)
+    
+    console.error('Email send error:', {
+      message: errorMessage,
+      details: errorDetails,
+      apiKey: process.env.RESEND_API_KEY ? 'SET' : 'MISSING',
+      contactEmail: process.env.CONTACT_EMAIL || 'MISSING'
+    })
+    
     return NextResponse.json(
-      { error: 'Failed to send email' },
+      { 
+        error: 'Failed to send email',
+        message: errorMessage,
+        debug: process.env.NODE_ENV === 'development' ? errorDetails : undefined
+      },
       { status: 500 }
     )
   }
