@@ -2,7 +2,8 @@ import { getHome } from '@/queries/home'
 import type { Metadata } from 'next'
 import { HomeIntro } from '@/components/HomeIntro'
 
-export const revalidate = 30
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
 
 export async function generateMetadata(): Promise<Metadata> {
   const home = await getHome()

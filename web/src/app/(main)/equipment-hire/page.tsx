@@ -2,7 +2,8 @@ import { getEquipment, getAllEquipmentItems, getAllCategories } from '@/queries/
 import { getGlobal } from '@/queries/global'
 import type { Metadata } from 'next'
 
-export const revalidate = 30
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
 import { EquipmentFilterAndList } from '@/components/EquipmentFilterAndList'
 
 export async function generateMetadata(): Promise<Metadata> {
