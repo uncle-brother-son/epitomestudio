@@ -10,7 +10,7 @@
 	],
 	"assets": {
 		"directory": ".open-next/assets",
-		"binding": "ASSETS"
+		"binding": "NEXT_ASSETS"
 	},
 	"services": [
 		{
@@ -19,10 +19,5 @@
 			"binding": "WORKER_SELF_REFERENCE",
 			"service": "epitomestudio-web"
 		}
-	],
-	"images": {
-		// Enable image optimization
-		// see https://opennext.js.org/cloudflare/howtos/image
-		"binding": "IMAGES"
-	}
+	]
 }
