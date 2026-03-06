@@ -1,6 +1,8 @@
 import { Resend } from 'resend'
 import { NextRequest, NextResponse } from 'next/server'
 
+export const runtime = 'edge'
+
 export async function POST(request: NextRequest) {
   try {
     const resend = new Resend(process.env.RESEND_API_KEY)

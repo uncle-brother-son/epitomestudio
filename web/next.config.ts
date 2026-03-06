@@ -1,9 +1,9 @@
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
-  output: 'export',
+  // Removed output: 'export' for SSR support
   images: {
-    unoptimized: true,
+    unoptimized: true, // Cloudflare doesn't support Next.js Image Optimization API
   },
   eslint: {
     ignoreDuringBuilds: true,

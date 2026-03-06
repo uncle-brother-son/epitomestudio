@@ -1,4 +1,3 @@
-import { svg } from 'framer-motion/client';
 import React from 'react';
 
 // Map of icon names to <g> elements
