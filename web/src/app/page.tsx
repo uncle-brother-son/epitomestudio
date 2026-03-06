@@ -2,6 +2,7 @@ import { getHome } from '@/queries/home'
 import type { Metadata } from 'next'
 import { HomeIntro } from '@/components/HomeIntro'
 
+export const runtime = 'edge'
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
 

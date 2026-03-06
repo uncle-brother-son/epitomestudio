@@ -4,6 +4,7 @@ import { PortableText } from '@portabletext/react'
 import { getLegalBySlug, getAllLegal } from '@/queries/legal'
 import type { Metadata } from 'next'
 
+export const runtime = 'edge'
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
