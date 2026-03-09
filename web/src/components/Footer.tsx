@@ -48,7 +48,9 @@ export async function Footer({ global }: { global: Global | null }) {
         </div>
       )}
 
-      <div className="col-start-1 col-span-12 lg:col-start-1 lg:col-span-16 link">© {currentYear} {global?.companyName}</div>
+      <div className="col-start-1 col-span-12 lg:col-start-1 lg:col-span-16 link">
+        &#169; {currentYear} {global?.companyName}
+      </div>
 
       <nav className="col-start-1 col-span-12 lg:col-start-17 lg:col-span-8 flex flex-row gap-6 items-start justify-start">
         {legalPages.map((legal) => (

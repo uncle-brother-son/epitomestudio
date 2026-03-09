@@ -9,7 +9,7 @@ import { ConditionalHeader } from '@/components/ConditionalHeader'
 
 export async function generateMetadata(): Promise<Metadata> {
   const global = await getGlobal()
-  const baseUrl = 'https://epitomestudio.pages.dev'
+  const baseUrl = 'https://epitomestudio.ubs-demo.workers.dev'
   
   const ogImageUrl = global?.ogImage 
     ? urlFor(global.ogImage).width(1200).height(630).url()

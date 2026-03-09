@@ -531,7 +531,7 @@ export function EquipmentHireForm({ onClose, equipment, global }: Props) {
               </AnimatedMessage>
             </div>
 
-            <div className="field">
+            <div className="field message">
               <textarea id="message" value={formData.message} onChange={(e) => updateField('message', e.target.value)} rows={4} placeholder='' />
               <label htmlFor="message">Message (optional)</label>
             </div>

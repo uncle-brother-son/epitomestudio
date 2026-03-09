@@ -24,7 +24,7 @@ export default async function ContactPage() {
   const global = await getGlobal()
 
   return (
-    <main className="grid_ my-xl gap-y-lg grow">
+    <main id="main-content" className="grid_ my-xl gap-y-lg grow">
               
         <div className='px-2 lg:px-0 col-start-1 col-span-12 lg:col-start-1 lg:col-span-6 2xl:col-start-2 2xl:col-span-5'>
           <StickyContent className="flex flex-col gap-6 lg:sticky" top={20}>

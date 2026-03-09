@@ -91,7 +91,7 @@ export function HomeIntro({ cards }: HomeIntroProps) {
   const showCards = phase === 'cards-in' || phase === 'complete'
 
   return (
-    <main>
+    <main id="main-content">
       <div className="h-screen w-screen flex flex-col lg:flex-row">
         {cards.map((card, index) => {
           const isFirst = index === 0

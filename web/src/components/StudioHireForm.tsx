@@ -219,7 +219,7 @@ export function StudioHireForm({ onClose, studio, global }: Props) {
             
             {formData.hireEquipment && (
             <div className="flex flex-col gap-4">
-                <p>You indicated you'd like to hire equipment.</p>
+                <p>Please select your equipment and submit a hire equipment form by clicking the link below.</p>
                 <a href="/equipment-hire" onClick={onClose} className="btn self-start">Browse Equipment</a>
             </div>
             )}
@@ -439,7 +439,7 @@ export function StudioHireForm({ onClose, studio, global }: Props) {
               </AnimatedMessage>
             </div>
 
-            <div className="field">
+            <div className="field message">
               <textarea id="message" value={formData.message} onChange={(e) => updateField('message', e.target.value)} rows={4} placeholder='' />
               <label htmlFor="message">Message (optional)</label>
             </div>

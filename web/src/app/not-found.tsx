@@ -1,22 +1,20 @@
 import Link from 'next/link'
+import { Footer } from '@/components/Footer'
+import { getGlobal } from '@/queries/global'
 
-export default function NotFound() {
+export default async function NotFound() {
+  const global = await getGlobal()
+
   return (
-    <main className="min-h-screen flex items-center justify-center">
-      <div className="text-center">
-        <h1 className="text-6xl font-bold text-gray-900 mb-4">404</h1>
-        <h2 className="text-2xl font-semibold text-gray-700 mb-4">Page Not Found</h2>
-        <p className="text-gray-600 mb-8">
-          The page you're looking for doesn't exist or has been moved.
-        </p>
-        <Link
-          href="/"
-          prefetch={false}
-          className="inline-block px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
-        >
-          Go Back Home
-        </Link>
-      </div>
-    </main>
+    <>
+      <main id="main-content" className="grid_ my-xxl grow">
+        <div className="col-start-3 col-span-8 lg:col-start-5 lg:col-span-16 text-center flex flex-col gap-4 items-center justify-center">
+          <h1 className="text-xl">404 - Page Not Found</h1>
+          <p>The page you're looking for doesn't exist or has been moved.</p>
+          <Link className="btn" href="/" prefetch={false}>Go Back Home</Link>
+        </div>
+      </main>
+      <Footer global={global} />
+    </>
   )
 }

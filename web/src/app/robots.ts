@@ -8,6 +8,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: '*',
       allow: '/',
     },
-    sitemap: 'https://epitomestudio.pages.dev/sitemap.xml',
+    sitemap: 'https://epitomestudio.ubs-demo.workers.dev/sitemap.xml',
   }
 }

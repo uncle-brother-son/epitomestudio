@@ -21,7 +21,7 @@ export default async function ProductionPage() {
   const production = await getProduction()
 
   return (
-    <main className="grid_ my-xl gap-y-lg grow">
+    <main id="main-content" className="grid_ my-xl gap-y-lg grow">
 
       <div className='col-start-1 col-span-12 lg:col-start-1 lg:col-span-6 2xl:col-start-2 2xl:col-span-5 px-2 lg:px-0 flex flex-col lg:justify-between gap-8'>
         {production?.content && (

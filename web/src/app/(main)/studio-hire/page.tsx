@@ -29,7 +29,7 @@ export default async function StudioPage() {
 
 
   return (
-    <main className="grid_ my-xl gap-y-md lg:gap-y-2 grow">
+    <main id="main-content" className="grid_ my-xl gap-y-md lg:gap-y-2 grow">
 
 
       {studio?.imageGallery && studio.imageGallery.length > 0 && (
@@ -71,7 +71,7 @@ export default async function StudioPage() {
           <HideOnFooter>
             <StudioHireButton 
               label={studio.hireStudioButtonLabel}
-              className="btn self-start fixed bottom-10 left-1/2 lg:left-0 -translate-x-1/2 lg:translate-x-0 z-10 lg:sticky lg:bottom-20 lg:mt-auto"
+              className="btn px-12 lg:px-6 self-start fixed bottom-10 left-1/2 lg:left-0 -translate-x-1/2 lg:translate-x-0 z-10 lg:sticky lg:bottom-20 lg:mt-auto"
               studio={studio}
               global={global}
             />

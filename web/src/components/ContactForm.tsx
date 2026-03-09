@@ -164,8 +164,8 @@ export default function ContactForm() {
       </div>
 
       <div className='field-wrapper'>
-        <div className='field'>
-          <textarea id="message" rows={6} value={formData.message} onChange={(e) => updateField('message', e.target.value)} disabled={status === 'loading'} placeholder="" aria-invalid={!!errors.message} aria-describedby={errors.message ? "message-error" : undefined} />
+        <div className='field message'>
+          <textarea id="message" rows={8} value={formData.message} onChange={(e) => updateField('message', e.target.value)} disabled={status === 'loading'} placeholder="" aria-invalid={!!errors.message} aria-describedby={errors.message ? "message-error" : undefined} />
           <label htmlFor="message">Message</label>
         </div>
         <AnimatedMessage show={!!errors.message} className="flex items-center gap-2 error">

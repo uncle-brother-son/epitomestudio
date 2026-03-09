@@ -4,7 +4,7 @@ import { getAllLegal } from '@/queries/legal'
 export const dynamic = 'force-static'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = 'https://epitomestudio.pages.dev'
+  const baseUrl = 'https://epitomestudio.ubs-demo.workers.dev'
 
   const legal = await getAllLegal()
 
