@@ -151,7 +151,7 @@ export function Header({ global }: { global: Global | null }) {
       <a href="#main-content" className="sr-only">Skip to main content</a>
       <header 
         ref={headerRef} 
-        className={`px-4 py-4 z-100 mobile-menu-bg ${isMobileMenu ? `fixed inset-0 flex flex-col ${!isClosing ? 'bg-bamboo dark:bg-bamboo' : ''}` : 'grid_ fixed top-0 left-0 right-0'} ${isClosing ? 'closing' : ''}`}
+        className={`px-4 py-4 z-100 mobile-menu-bg ${isMobileMenu ? `fixed inset-0 flex flex-col ${!isClosing ? 'bg-natural dark:bg-black' : ''}` : 'grid_ fixed top-0 left-0 right-0'} ${isClosing ? 'closing' : ''}`}
         {...(!isMobileMenu && { style: { transform: `translateY(${translateY}px)` } })}
       >
         <div className="col-start-1 col-span-12 lg:col-start-1 lg:col-span-9 flex items-start justify-between">
