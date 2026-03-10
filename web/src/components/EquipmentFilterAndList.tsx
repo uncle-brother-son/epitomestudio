@@ -189,14 +189,14 @@ export function EquipmentFilterAndList({ categories, items, equipmentListUrl, eq
     <>
       <div className="col-start-1 col-span-12 lg:w-[calc(((100vw-216px)/4.8)+32px)] lg:absolute lg:top-40 lg:left-4 2xl:left-[calc(((100vw-216px)/24)+24px)] flex flex-row items-center justify-between">
         <div className='label pl-4'>{filteredItems.length} / {items.length} Items</div>
-        <button className='relative hover:bg-black/10 dark:hover:bg-natural/10 p-0.5 rounded flex flex-row gap-1 items-center justify-start duration-md ease-es group' onClick={() => setViewMode(viewMode === 'image' ? 'list' : 'image')}>
-          <div className='z-10 py-1 px-4'>
+        <button className='group relative hover:bg-black/10 dark:hover:bg-natural/10 p-0.5 rounded flex flex-row gap-1 items-center justify-start duration-md ease-es group' onClick={() => setViewMode(viewMode === 'image' ? 'list' : 'image')}>
+          <div className='z-1 py-1 px-4'>
             <Icon name="icon-image" className={`icon-image w-3 h-3 ${viewMode === 'image' ? 'fill-black dark:fill-natural' : 'fill-black/40 dark:fill-natural/40'} duration-md ease-es`} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12"><title>Image View</title></Icon>
           </div>
-          <div className='z-10 py-1 px-4'>
+          <div className='z-1 py-1 px-4'>
             <Icon name="icon-list" className={`icon-list w-3 h-3 ${viewMode === 'list' ? 'fill-black dark:fill-natural' : 'fill-black/40 dark:fill-natural/40'} duration-md ease-es`} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12"><title>List View</title></Icon>
           </div>
-          <div className={`absolute top-0.5 ${viewMode === 'image' ? 'left-0.5' : 'left-12.5'} h-5 w-11 bg-natural dark:bg-black rounded transition-all duration-md ease-es`} />
+          <div className={`absolute top-0.5 ${viewMode === 'image' ? 'left-0.5' : 'left-12.5'} h-5 w-11 group-hover:bg-natural dark:group-hover:bg-black rounded transition-all duration-md ease-es`} />
         </button>
       </div>
 

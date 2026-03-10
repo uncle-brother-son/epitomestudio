@@ -47,7 +47,14 @@
   
   /* Accessibility */
   .sr-only { @apply absolute w-px h-px p-0 -m-px overflow-hidden whitespace-nowrap border-0; }
-  .sr-only:focus { @apply fixed w-auto h-auto p-4 m-0 overflow-visible bg-black dark:bg-natural text-natural dark:text-black z-[100] top-0 left-0; }
+  .sr-only:focus { @apply fixed w-auto h-auto p-4 m-0 overflow-visible bg-black dark:bg-natural text-natural dark:text-black z-100 top-0 left-0; }
+
+  /* Mobile Menu Animations */
+  .mobile-menu-bg { @apply transition-colors duration-md ease-es; }
+  .mobile-menu-bg.closing { @apply bg-transparent dark:bg-transparent transition-colors duration-md ease-es; }
+  
+  .mobile-menu-content { @apply transition-opacity duration-md ease-es; }
+  .closing .mobile-menu-content { @apply opacity-0 transition-opacity duration-md ease-es; }
 
   
   .link { @apply text-sm font-medium uppercase text-black dark:text-natural inline-flex flex-row gap-1 items-center justify-start transition-all duration-lg ease-es; }

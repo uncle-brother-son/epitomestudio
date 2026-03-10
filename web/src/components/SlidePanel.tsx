@@ -51,7 +51,7 @@ export function SlidePanel({ isOpen, onClose, children }: Props) {
     <>
       {/* Backdrop */}
       <div 
-        className={`fixed inset-0 bg-black/20 dark:bg-natural/20 z-50 transition-opacity duration-md ease-es ${
+        className={`fixed inset-0 bg-black/20 dark:bg-natural/20 z-40 transition-opacity duration-md ease-es ${
           showBackdrop ? 'opacity-100' : 'opacity-0'
         }`}
         onClick={onClose}

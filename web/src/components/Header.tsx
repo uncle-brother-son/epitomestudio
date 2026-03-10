@@ -8,6 +8,7 @@ import { urlFor } from '@/lib/sanityImage'
 import { Icon } from '@/components/Icons'
 import { useHeaderScroll } from '@/contexts/HeaderScrollContext'
 import { usePathname } from 'next/navigation'
+import { Reveal } from '@/components/Reveal'
 
 export function Header({ global }: { global: Global | null }) {
   const { translateY, setTranslateY } = useHeaderScroll()
@@ -18,8 +19,24 @@ export function Header({ global }: { global: Global | null }) {
   const currentTranslateY = useRef(0)
   const currentYear = new Date().getFullYear()
   const [isMobileMenu, setIsMobileMenu] = useState(false)
-  const toggleMobileMenu = () => {setIsMobileMenu(!isMobileMenu)}
+  const [isClosing, setIsClosing] = useState(false)
   const pathname = usePathname()
+
+  const closeMenu = () => {
+    setIsClosing(true)
+    setTimeout(() => {
+      setIsMobileMenu(false)
+      setIsClosing(false)
+    }, 480) // duration-md for simultaneous fade
+  }
+
+  const toggleMobileMenu = () => {
+    if (isMobileMenu) {
+      closeMenu()
+    } else {
+      setIsMobileMenu(true)
+    }
+  }
 
   useEffect(() => {
     const handleScroll = () => {
@@ -91,8 +108,8 @@ export function Header({ global }: { global: Global | null }) {
 
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        setIsMobileMenu(false)
-        menuButtonRef.current?.focus()
+        closeMenu()
+        setTimeout(() => menuButtonRef.current?.focus(), 480)
       }
     }
 
@@ -111,7 +128,7 @@ export function Header({ global }: { global: Global | null }) {
     
     const handleChange = (e: MediaQueryListEvent) => {
       if (e.matches && isMobileMenu) {
-        setIsMobileMenu(false)
+        closeMenu()
       }
     }
     
@@ -134,7 +151,7 @@ export function Header({ global }: { global: Global | null }) {
       <a href="#main-content" className="sr-only">Skip to main content</a>
       <header 
         ref={headerRef} 
-        className={`px-4 py-4 z-100 transition-colors duration-md ease-es ${isMobileMenu ? 'fixed inset-0 bg-natural dark:bg-black flex flex-col' : 'grid_ bg-transparent dark:bg-transparent fixed top-0 left-0 right-0'}`}
+        className={`px-4 py-4 z-100 mobile-menu-bg ${isMobileMenu ? `fixed inset-0 flex flex-col ${!isClosing ? 'bg-bamboo dark:bg-bamboo' : ''}` : 'grid_ fixed top-0 left-0 right-0'} ${isClosing ? 'closing' : ''}`}
         {...(!isMobileMenu && { style: { transform: `translateY(${translateY}px)` } })}
       >
         <div className="col-start-1 col-span-12 lg:col-start-1 lg:col-span-9 flex items-start justify-between">
@@ -171,16 +188,26 @@ export function Header({ global }: { global: Global | null }) {
       {isMobileMenu && (
         <>
           <nav aria-label="Mobile navigation" id="mobile-navigation" className="grow flex flex-col gap-4 items-start justify-center">
-            {navigation.map((item) => {
+            {navigation.map((item, index) => {
               const isActive = pathname === item.url && item.url !== '/'
               return (
-                <Link key={item.url} href={item.url} className={`link text-lg${isActive ? ' line' : ''}`} onClick={() => setIsMobileMenu(false)} aria-current={isActive ? 'page' : undefined}>
-                  <span>{item.label}</span>
-                </Link>
+                <Reveal index={index} key={item.label}>
+                  <Link 
+                    href={item.url} 
+                    className={`link text-lg mobile-menu-content${isActive ? ' line' : ''}`} 
+                    onClick={() => {
+                      sessionStorage.setItem('skipPageFade', 'true')
+                      closeMenu()
+                    }} 
+                    aria-current={isActive ? 'page' : undefined}
+                  >
+                    <span>{item.label}</span>
+                  </Link>
+                </Reveal>
               )
             })}
           </nav>
-          <small className="col-start-1 col-span-12 lg:col-start-1 lg:col-span-16 link">&#169; {currentYear} {global?.companyName}</small>
+          <small className="col-start-1 col-span-12 lg:col-start-1 lg:col-span-16 link mobile-menu-content">&#169; {currentYear} {global?.companyName}</small>
         </>
       )}
       

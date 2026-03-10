@@ -43,7 +43,7 @@ export default async function ProductionPage() {
         <div className="col-start-1 col-span-12 lg:col-start-12 lg:col-span-13">
           <VideoPlayer
             src={`https://cdn.sanity.io/files/${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}/${process.env.NEXT_PUBLIC_SANITY_DATASET}/${production.video.asset._ref.replace('file-', '').replace('-mp4', '.mp4').replace('-mov', '.mov').replace('-webm', '.webm')}`}
-            className="aspect-9/16 lg:aspect-4/5"
+            aspectRatio="aspect-9/16 lg:aspect-4/5"
           />
         </div>
       )}

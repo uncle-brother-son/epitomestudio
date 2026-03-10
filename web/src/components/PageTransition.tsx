@@ -16,9 +16,11 @@ export function PageTransition({ children }: { children: ReactNode }) {
   const [isWaitingForContent, setIsWaitingForContent] = useState(false);
   const [isFadingOut, setIsFadingOut] = useState(false);
   const [isComingFromHome, setIsComingFromHome] = useState(false);
+  const [instantHide, setInstantHide] = useState(false);
   const contentDetectionActive = useRef(false);
   const contentWrapperRef = useRef<HTMLDivElement>(null);
   const pendingNavigationRef = useRef<string | null>(null);
+  const isMobileTransition = useRef(false);
   const contextValue = useMemo(() => ({ isTransitioning: isWaitingForContent }), [isWaitingForContent]);
 
   // FLOW 1: Detect navigation FROM homepage (triggered by HomeIntro)
@@ -32,6 +34,12 @@ export function PageTransition({ children }: { children: ReactNode }) {
     // Detect navigation from homepage to another page
     if (prevPathname.current === '/' && pathname !== '/') {
       setIsComingFromHome(true);
+      setIsWaitingForContent(true);
+    }
+    
+    // Detect mobile menu navigation completion - pathname changed
+    if (isMobileTransition.current && pathname !== prevPathname.current) {
+      isMobileTransition.current = false;
       setIsWaitingForContent(true);
     }
     
@@ -88,6 +96,7 @@ export function PageTransition({ children }: { children: ReactNode }) {
       setIsFadingOut(false);
       setIsWaitingForContent(false);
       setShowLoading(false);
+      setInstantHide(false); // Re-enable transitions for fade-in
     };
     
     const checkForContent = () => {
@@ -138,15 +147,27 @@ export function PageTransition({ children }: { children: ReactNode }) {
       setTimeout(() => checkForContent(), 0);
     }
     
+    // For mobile menu transitions, content might already be rendered, so check immediately
+    const wasMobileTransition = !isComingFromHome && instantHide;
+    if (wasMobileTransition) {
+      setTimeout(() => checkForContent(), 0);
+    }
+    
     return () => {
       observer.disconnect();
       contentDetectionActive.current = false;
     };
   }, [isWaitingForContent, isComingFromHome]);
 
-  // FLOW 2: Intercept link clicks on regular pages (not homepage)
+  // FLOW 2: Intercept link clicks on regular pages (not homepage) - Desktop/regular links
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
+      // Only handle non-mobile-menu links
+      const isMobileMenuLink = sessionStorage.getItem('skipPageFade') === 'true';
+      if (isMobileMenuLink) {
+        return; // Let FLOW 3 handle mobile menu links
+      }
+      
       const target = e.target as HTMLElement;
       const link = target.closest("a");
       
@@ -185,6 +206,62 @@ export function PageTransition({ children }: { children: ReactNode }) {
     return () => document.removeEventListener("click", handleClick, { capture: true });
   }, [router]);
 
+  // FLOW 3: Mobile menu link clicks - instant hide with 480ms delay
+  useEffect(() => {
+    const handleMobileMenuClick = (e: MouseEvent) => {
+      // Only handle mobile menu links
+      const isMobileMenuLink = sessionStorage.getItem('skipPageFade') === 'true';
+      if (!isMobileMenuLink) {
+        return; // Let FLOW 2 handle regular links
+      }
+      
+      const target = e.target as HTMLElement;
+      const link = target.closest("a");
+      
+      if (link && link.href && !link.target && link.href.startsWith(window.location.origin)) {
+        
+        // Allow default behavior for modifier keys
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) {
+          return;
+        }
+        
+        const linkUrl = new URL(link.href);
+        const currentUrl = new URL(window.location.href);
+        
+        // Don't intercept clicks when on homepage
+        const isOnHomepage = currentUrl.pathname === '/';
+        if (isOnHomepage) {
+          return;
+        }
+        
+        // Only trigger transition if navigating to a different page
+        if (linkUrl.pathname !== currentUrl.pathname) {
+          e.preventDefault();
+          
+          // Clear the flag
+          sessionStorage.removeItem('skipPageFade');
+          
+          // Instantly hide current page (no transition)
+          setInstantHide(true);
+          setIsFadingOut(true);
+          setShowLoading(true);
+          
+          // Mark as mobile transition
+          isMobileTransition.current = true;
+          
+          // Wait 480ms for menu to finish fading, then navigate
+          setTimeout(() => {
+            router.push(linkUrl.pathname + linkUrl.search + linkUrl.hash);
+            // Content detection will start when pathname changes (detected in pathname effect)
+          }, 480);
+        }
+      }
+    };
+
+    document.addEventListener("click", handleMobileMenuClick, { capture: true });
+    return () => document.removeEventListener("click", handleMobileMenuClick, { capture: true });
+  }, [router]);
+
   return (
     <TransitionContext.Provider value={contextValue}>
       {/* Loading screen - fades in when transitioning, fades out when content ready */}
@@ -210,8 +287,8 @@ export function PageTransition({ children }: { children: ReactNode }) {
           isFadingOut || isWaitingForContent ? 'opacity-0' : 'opacity-100'
         } transition-opacity duration-lg ease-es grow flex flex-col`}
         style={{
-          // Disable transition on initial render when coming from home (prevents flash)
-          transitionProperty: isComingFromHome && isWaitingForContent ? 'none' : 'opacity'
+          // Disable transition when: coming from home on initial render, or instant hiding for menu links
+          transitionProperty: (isComingFromHome && isWaitingForContent) || instantHide ? 'none' : 'opacity'
         }}
       >
         {children}
