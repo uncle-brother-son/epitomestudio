@@ -21,7 +21,7 @@ export function StudioInfo({ onClose, studio, global }: Props) {
   }
 
   return (
-    <div className="grow flex flex-col pb-4 pt-20 px-2 lg:px-0 min-h-0">
+    <div className="grow flex flex-col pt-20 px-2 lg:px-0 min-h-0">
 
       {/* Close Button */}
         <button onClick={onClose} className="close absolute top-4 right-4">
@@ -29,7 +29,7 @@ export function StudioInfo({ onClose, studio, global }: Props) {
           <Icon name="icon-close" className="icon-close w-3 h-3 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Close</title></Icon>
         </button>
 
-      <div className="grid_ gap-y-md overflow-y-scroll">
+      <div className="grid_ gap-y-md overflow-y-scroll pb-8">
 
         {/* Column 1 */}
         <div className="col-start-1 col-span-12 sm:col-start-2 sm:col-span-10 lg:col-start-2 lg:col-span-5 flex flex-col gap-y-md">

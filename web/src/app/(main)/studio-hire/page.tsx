@@ -59,12 +59,14 @@ export default async function StudioPage() {
 
           <div className='flex flex-row gap-6 items-center'>
             {studio?.hireStudioButtonLabel && (
-              <StudioHireButton 
-                label={studio.hireStudioButtonLabel}
-                className="btn"
-                studio={studio}
-                global={global}
-              />
+              <HideOnFooter>
+                <StudioHireButton 
+                  label={studio.hireStudioButtonLabel}
+                  className="btn px-12 lg:px-6 self-start fixed bottom-10 left-1/2 lg:left-0 -translate-x-1/2 lg:translate-x-0 z-10 lg:sticky lg:bottom-20 lg:mt-auto"
+                  studio={studio}
+                  global={global}
+                />
+              </HideOnFooter>
             )}
 
             {studio?.moreInfoButtonLabel && global && (
@@ -77,19 +79,7 @@ export default async function StudioPage() {
             )}
           </div>
         </StickyContent>
-
-        {/* 
-        {studio?.hireStudioButtonLabel && (
-          <HideOnFooter>
-            <StudioHireButton 
-              label={studio.hireStudioButtonLabel}
-              className="btn px-12 lg:px-6 self-start fixed bottom-10 left-1/2 lg:left-0 -translate-x-1/2 lg:translate-x-0 z-10 lg:sticky lg:bottom-20 lg:mt-auto"
-              studio={studio}
-              global={global}
-            />
-          </HideOnFooter>
-        )} 
-        */}
+       
       </div>
 
       {studio?.imageGallery && studio.imageGallery.length > 1 && (

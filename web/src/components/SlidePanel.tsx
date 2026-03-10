@@ -33,6 +33,40 @@ export function SlidePanel({ isOpen, onClose, children }: Props) {
     }
   }, [isOpen])
 
+  // Prevent body scroll when panel is open
+  useEffect(() => {
+    if (isOpen) {
+      // Store current scroll position
+      const scrollY = window.scrollY
+      
+      // Calculate scrollbar width to prevent layout shift
+      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth
+      
+      // Lock scrolling with position fixed (more reliable on mobile)
+      document.body.style.position = 'fixed'
+      document.body.style.top = `-${scrollY}px`
+      document.body.style.left = '0'
+      document.body.style.right = '0'
+      document.body.style.overflow = 'hidden'
+      
+      // Prevent layout shift from scrollbar disappearing
+      if (scrollbarWidth > 0) {
+        document.body.style.paddingRight = `${scrollbarWidth}px`
+      }
+      
+      return () => {
+        // Restore scroll position
+        document.body.style.position = ''
+        document.body.style.top = ''
+        document.body.style.left = ''
+        document.body.style.right = ''
+        document.body.style.overflow = ''
+        document.body.style.paddingRight = ''
+        window.scrollTo(0, scrollY)
+      }
+    }
+  }, [isOpen])
+
   // Close on escape key
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
@@ -59,7 +93,7 @@ export function SlidePanel({ isOpen, onClose, children }: Props) {
 
       {/* Slide Panel - with doubled top offset */}
       <div 
-        className={`fixed inset-x-0 top-13.5 lg:top-13.5 h-[calc(100vh-6.625rem)] lg:h-[calc(100vh-8.375rem)] bg-natural dark:bg-black z-50 transform transition-transform duration-md ease-es flex flex-col ${
+        className={`fixed inset-x-0 top-13.5 lg:top-13.5 h-[calc(100dvh-6.625rem)] lg:h-[calc(100dvh-8.375rem)] bg-natural dark:bg-black z-50 transform transition-transform duration-md ease-es flex flex-col ${
           showPanel ? 'translate-y-0' : 'translate-y-full'
         }`}
       >

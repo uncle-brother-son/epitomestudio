@@ -16,11 +16,9 @@ interface HomeIntroProps {
 export function HomeIntro({ cards }: HomeIntroProps) {
   const router = useRouter()
   const [phase, setPhase] = useState<AnimationPhase>('logo-in')
-  const [hasAnimated, setHasAnimated] = useState(false)
   const [maskingOut, setMaskingOut] = useState(false)
   const [clickedIndex, setClickedIndex] = useState<number | null>(null)
   const [fadingOut, setFadingOut] = useState(false)
-  const [targetPath, setTargetPath] = useState<string | null>(null)
 
   const getCardLink = (card: Card) => {
     switch (card.linkType) {
@@ -43,42 +41,26 @@ export function HomeIntro({ cards }: HomeIntroProps) {
 
   const handleCardClick = (card: Card, index: number, e: React.MouseEvent) => {
     e.preventDefault()
-    
-    // Don't trigger if already animating
     if (maskingOut) return
     
-    const link = getCardLink(card)
-    setTargetPath(link)
     setClickedIndex(index)
     setMaskingOut(true)
     
-    // Wait for expansion (960ms), hold (480ms), then fade out (960ms), then navigate
-    setTimeout(() => {
-      setFadingOut(true)
-    }, 1440) // 960ms expansion + 480ms delay
-    
-    setTimeout(() => {
-      router.push(link)
-    }, 2400) // 960ms expansion + 480ms delay + 960ms fade
+    setTimeout(() => setFadingOut(true), 1440)
+    setTimeout(() => router.push(getCardLink(card)), 2400)
   }
 
   useEffect(() => {
-    // Check if user prefers reduced motion
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     
     if (prefersReducedMotion) {
       setPhase('complete')
-      setHasAnimated(true)
       return
     }
 
-    // Animation sequence
     const logoOutTimer = setTimeout(() => setPhase('logo-out'), 960)
     const cardsInTimer = setTimeout(() => setPhase('cards-in'), 1920)
-    const completeTimer = setTimeout(() => {
-      setPhase('complete')
-      setHasAnimated(true)
-    }, 3840)
+    const completeTimer = setTimeout(() => setPhase('complete'), 2880)
 
     return () => {
       clearTimeout(logoOutTimer)
@@ -89,6 +71,7 @@ export function HomeIntro({ cards }: HomeIntroProps) {
 
   const showLogo = phase === 'logo-in' || phase === 'logo-out'
   const showCards = phase === 'cards-in' || phase === 'complete'
+  const easing = 'cubic-bezier(0.295, 0.850, 0.440, 1.000)'
 
   return (
     <main id="main-content">
@@ -109,24 +92,13 @@ export function HomeIntro({ cards }: HomeIntroProps) {
                   : 'flex-1 hover:flex-[1.1]'
               }`}
               style={
-                maskingOut
-                  ? isClickedCard
-                    ? {
-                        transitionDuration: '960ms',
-                        transitionTimingFunction: 'cubic-bezier(0.295, 0.850, 0.440, 1.000)',
-                        opacity: fadingOut ? 0 : 1
-                      }
-                    : {
-                        transitionDuration: '960ms',
-                        transitionTimingFunction: 'cubic-bezier(0.295, 0.850, 0.440, 1.000)'
-                      }
+                maskingOut && isClickedCard
+                  ? { transitionDuration: '960ms', transitionTimingFunction: easing, opacity: fadingOut ? 0 : 1 }
+                  : maskingOut
+                  ? { transitionDuration: '960ms', transitionTimingFunction: easing }
                   : showCards
-                  ? {
-                      animation: 'fadein 1440ms cubic-bezier(0.295, 0.850, 0.440, 1.000) 0ms backwards'
-                    }
-                  : {
-                      opacity: 0
-                    }
+                  ? { animation: `fadein 1440ms ${easing} 0ms backwards` }
+                  : { opacity: 0 }
               }
             >
               <div className="lg:absolute lg:inset-y-0 lg:w-screen lg:left-1/2 lg:-translate-x-1/2 overflow-hidden">

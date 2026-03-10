@@ -5,9 +5,10 @@ import React, { useEffect, useState, type ReactNode } from 'react'
 interface HideOnFooterProps {
   children: ReactNode
   className?: string
+  translateAmount?: string
 }
 
-export function HideOnFooter({ children, className = '' }: HideOnFooterProps) {
+export function HideOnFooter({ children, className = '', translateAmount = 'translate-y-20' }: HideOnFooterProps) {
   const [isVisible, setIsVisible] = useState(true)
   const [isMobile, setIsMobile] = useState(false)
 
@@ -54,7 +55,7 @@ export function HideOnFooter({ children, className = '' }: HideOnFooterProps) {
     <>
       {React.cloneElement(child, {
         className: `${child.props.className || ''} ${className} transition-transform duration-lg ease-es ${
-          isMobile && !isVisible ? 'translate-y-20' : 'translate-y-0'
+          isMobile && !isVisible ? translateAmount : 'translate-y-0'
         }`.trim()
       })}
     </>

@@ -301,7 +301,7 @@ export function EquipmentHireForm({ onClose, equipment, global }: Props) {
 
   return (
     <>
-    <div className="grow flex flex-col gap-6 pb-4 pt-20 px-2 lg:px-0 min-h-0">
+    <div className="grow flex flex-col gap-6 pt-20 px-2 lg:px-0 min-h-0">
       
       <button onClick={onClose} className="close absolute top-4 right-4">
         <span>Close</span>
@@ -309,7 +309,7 @@ export function EquipmentHireForm({ onClose, equipment, global }: Props) {
       </button>
  
       <div className="grid_">
-        <div className="col-start-1 col-span-12 sm:col-start-2 sm:col-span-10 lg:col-start-5 lg:col-span-10 mt-11 flex flex-row gap-2 justify-start items-center">
+        <div className="col-start-1 col-span-12 sm:col-start-2 sm:col-span-10 lg:col-start-5 lg:col-span-10 flex flex-row gap-2 justify-start items-center">
           <button onClick={() => setCurrentStep(1)} className={`label transition-opacity duration-md ease-es ${currentStep >= 1 ? 'opacity-100' : 'opacity-40'} ${currentStep > 1 ? 'cursor-pointer hover:opacity-80' : 'cursor-default'}`}>Your Info</button>
           <Icon name="icon-chevron" className="icon-chevron w-3 h-3 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Arrow Right</title></Icon>
           <button onClick={() => currentStep > 2 && setCurrentStep(2)} className={`label transition-opacity duration-md ease-es ${currentStep >= 2 ? 'opacity-100' : 'opacity-40'} ${currentStep > 2 ? 'cursor-pointer hover:opacity-80' : 'cursor-default'}`}>Equipment Enquiry</button>
@@ -318,7 +318,7 @@ export function EquipmentHireForm({ onClose, equipment, global }: Props) {
         </div>
       </div>
 
-      <div className="grid_ gap-y-6 overflow-y-scroll">
+      <div className="grid_ gap-y-6 overflow-y-scroll pb-8">
 
         {/* Item Summary */}
         {formData.items.length > 0 && (

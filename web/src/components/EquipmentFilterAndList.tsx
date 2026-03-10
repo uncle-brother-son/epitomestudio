@@ -10,6 +10,7 @@ import type { Global } from '@/queries/global'
 import { useEquipmentCart } from '@/contexts/EquipmentCartContext'
 import { Reveal } from '@/components/Reveal'
 import { StickyContent } from '@/components/StickyContent'
+import { HideOnFooter } from '@/components/HideOnFooter'
 
 
 interface Props {
@@ -30,6 +31,7 @@ export function EquipmentFilterAndList({ categories, items, equipmentListUrl, eq
   const [isAnimating, setIsAnimating] = useState(false)
   const [animationPhase, setAnimationPhase] = useState<'idle' | 'fadeOut' | 'fadeIn'>('idle')
   const [displayedItems, setDisplayedItems] = useState<EquipmentItem[]>([])
+  const [isCartOpen, setIsCartOpen] = useState(false)
   const { quantities, updateQuantity, getTotalItems, getTotalPrice, setItems } = useEquipmentCart()
 
   // Set items in context when component mounts or items change
@@ -149,6 +151,10 @@ export function EquipmentFilterAndList({ categories, items, equipmentListUrl, eq
     // Wait for fade out to complete, then update view mode and fade in
     setTimeout(() => {
       setDisplayedViewMode(viewMode)
+      
+      // Scroll to top of page
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+      
       setAnimationPhase('fadeIn')
       
       // Wait for fade in to complete
@@ -187,7 +193,7 @@ export function EquipmentFilterAndList({ categories, items, equipmentListUrl, eq
 
   return (
     <>
-      <div className="col-start-1 col-span-12 lg:w-[calc(((100vw-216px)/4.8)+32px)] lg:absolute lg:top-40 lg:left-4 2xl:left-[calc(((100vw-216px)/24)+24px)] flex flex-row items-center justify-between">
+      <StickyContent className="col-start-1 col-span-12 flex flex-row items-center justify-between lg:sticky lg:left-4 lg:w-[calc(((100vw-216px)/4.8)+32px)] 2xl:left-[calc(((100vw-216px)/24)+24px)]" top={10}>
         <div className='label pl-4'>{filteredItems.length} / {items.length} Items</div>
         <button className='group relative hover:bg-black/10 dark:hover:bg-natural/10 p-0.5 rounded flex flex-row gap-1 items-center justify-start duration-md ease-es group' onClick={() => setViewMode(viewMode === 'image' ? 'list' : 'image')}>
           <div className='z-1 py-1 px-4'>
@@ -198,12 +204,12 @@ export function EquipmentFilterAndList({ categories, items, equipmentListUrl, eq
           </div>
           <div className={`absolute top-0.5 ${viewMode === 'image' ? 'left-0.5' : 'left-12.5'} h-5 w-11 group-hover:bg-natural dark:group-hover:bg-black rounded transition-all duration-md ease-es`} />
         </button>
-      </div>
+      </StickyContent>
 
       <div className='col-start-1 col-span-12 lg:col-start-1 lg:col-span-5 2xl:col-start-2 2xl:col-span-5 flex flex-col'>
 
         <StickyContent className="flex flex-row gap-2 items-start lg:items-stretch lg:flex-col lg:gap-8 lg:sticky" top={25.5}>
-          <div className='basis-1/2 field search'>
+          <div className='basis-1/2 min-w-0 field search'>
             <Icon name="icon-search" className="icon-search w-3 h-3 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Search</title></Icon>
             <input type='text' placeholder='Search' value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
             {searchQuery && (
@@ -213,7 +219,7 @@ export function EquipmentFilterAndList({ categories, items, equipmentListUrl, eq
             )}
           </div>
 
-          <div className='basis-1/2 bg-black/10 dark:bg-natural/10 lg:bg-transparent lg:dark:bg-transparent rounded lg:rounded-none flex flex-col'>
+          <div className='basis-1/2 min-w-0 bg-black/10 dark:bg-natural/10 lg:bg-transparent lg:dark:bg-transparent rounded lg:rounded-none flex flex-col'>
             <button className='flex flex-row gap-2 justify-between items-center lg:hidden px-4 py-3'>
               <div className='text-black/60 dark:text-natural/60 text-xl'>Filter</div>
               <Icon name="icon-filter" className="icon-filter w-3 h-3 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Filter</title></Icon>
@@ -300,23 +306,35 @@ export function EquipmentFilterAndList({ categories, items, equipmentListUrl, eq
           </button>
         )}
       </div>
-
-      <div className='col-start-1 col-span-12 lg:col-start-20 lg:col-span-5 2xl:col-start-19 2xl:col-span-5 flex flex-col gap-6'>
-        <StickyContent className="flex flex-col gap-8 bg-black/10 dark:bg-natural/10 rounded p-4 lg:sticky" top={25.5}>
-            <div className='label'>Your List</div>
-            <div className='flex flex-col gap-1'>
+      <HideOnFooter translateAmount="translate-y-full">
+        <div className='fixed lg:static p-4 pb-[calc(1rem+env(safe-area-inset-bottom))] lg:p-0 bottom-0 left-0 right-0 bg-black lg:bg-transparent lg:col-start-20 lg:col-span-5 2xl:col-start-19 2xl:col-span-5'>
+          <StickyContent className="flex flex-col bg-black/10 dark:bg-natural/10 rounded overflow-hidden lg:sticky" top={25.5}>
+          <button onClick={() => setIsCartOpen(!isCartOpen)} className='flex flex-row justify-between w-full lg:cursor-default p-4' type="button">
+            <div className="label">Your List<span className='lg:hidden pl-2'>[ {totalItems} ]</span></div>
+            <Icon name="icon-chevron" className={`icon-chevron w-3 h-3 fill-black dark:fill-natural lg:hidden transition-transform duration-lg ease-es ${isCartOpen ? 'rotate-270' : 'rotate-90'}`} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Toggle Cart</title></Icon>
+          </button>
+          
+          <div className={`grid transition-all duration-lg lg:duration-0 ease-es lg:grid-rows-[1fr]! lg:opacity-100! px-4 lg:pb-4 lg:pt-2 ${isCartOpen ? 'pb-6 pt-2' : 'py-0'}`} style={{ gridTemplateRows: isCartOpen ? '1fr' : '0fr', opacity: isCartOpen ? 1 : 0 }}>
+            <div className="overflow-hidden">
+              <div className='flex flex-col gap-1'>
                 <div className='flex flex-row gap-2 justify-between items-center'>
-                    <div>Items</div>
-                    <div>{totalItems}</div>
+                  <div>Items</div>
+                  <div>{totalItems}</div>
                 </div>
                 <div className='flex flex-row gap-2 justify-between items-center'>
-                    <div>Total Per Day (excl. VAT)</div>
-                    <div>£{totalPrice}</div>
+                  <div>Total Per Day (excl. VAT)</div>
+                  <div>£{totalPrice}</div>
                 </div>
+              </div>
             </div>
-            <EquipmentHireButton label="Hire Equipment" className="btn justify-center" equipment={equipment} global={global} />
-        </StickyContent>
-      </div>
+          </div>
+          
+            <div className="p-4 pt-1 lg:pt-4 flex flex-col">
+              <EquipmentHireButton label="Hire Equipment" className="btn" equipment={equipment} global={global} />
+            </div>
+          </StickyContent>
+        </div>
+      </HideOnFooter>
     </>
   )
 }

@@ -22,7 +22,7 @@ export default async function EquipmentPage() {
   const global = await getGlobal()
 
   return (
-    <main id="main-content" className="grid_ my-xxl gap-y-lg grow">
+    <main id="main-content" className="grid_ px-4 my-xl gap-y-lg grow">
 
       <EquipmentFilterAndList 
         categories={categories} 
