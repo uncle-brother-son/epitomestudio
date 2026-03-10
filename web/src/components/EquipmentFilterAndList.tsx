@@ -203,7 +203,7 @@ export function EquipmentFilterAndList({ categories, items, equipmentListUrl, eq
       <div className='col-start-1 col-span-12 lg:col-start-1 lg:col-span-5 2xl:col-start-2 2xl:col-span-5 flex flex-col'>
 
         <StickyContent className="flex flex-row gap-2 items-start lg:items-stretch lg:flex-col lg:gap-8 lg:sticky" top={25.5}>
-          <div className='grow basis-1/2 field search'>
+          <div className='basis-1/2 field search'>
             <Icon name="icon-search" className="icon-search w-3 h-3 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Search</title></Icon>
             <input type='text' placeholder='Search' value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
             {searchQuery && (
@@ -213,7 +213,7 @@ export function EquipmentFilterAndList({ categories, items, equipmentListUrl, eq
             )}
           </div>
 
-          <div className='grow basis-1/2 bg-black/10 dark:bg-natural/10 lg:bg-transparent lg:dark:bg-transparent rounded lg:rounded-none flex flex-col'>
+          <div className='basis-1/2 bg-black/10 dark:bg-natural/10 lg:bg-transparent lg:dark:bg-transparent rounded lg:rounded-none flex flex-col'>
             <button className='flex flex-row gap-2 justify-between items-center lg:hidden px-4 py-3'>
               <div className='text-black/60 dark:text-natural/60 text-xl'>Filter</div>
               <Icon name="icon-filter" className="icon-filter w-3 h-3 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Filter</title></Icon>

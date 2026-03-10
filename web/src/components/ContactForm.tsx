@@ -127,7 +127,7 @@ export default function ContactForm() {
       </div>
 
       <div className="field-row">
-        <div className='field flex-2'>
+        <div className='field flex-3 preselect'>
           <select value={formData.countryCode} onChange={(e) => updateField('countryCode', e.target.value)} disabled={status === 'loading'}>
             {COUNTRY_CODES.map((item) => (
               <option key={item.code} value={item.code}>
@@ -135,10 +135,10 @@ export default function ContactForm() {
               </option>
             ))}
           </select>
-          <label htmlFor="countryCode">Country</label>
+          <label htmlFor="countryCode">Country Code</label>
           <Icon name="icon-chevron" className="icon-chevron h-3 w-3 fill-black dark:fill-natural rotate-90" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Dropdown</title></Icon>
         </div>
-        <div className='field flex-7'>
+        <div className='field flex-6'>
           <input type="tel" id="phone" value={formData.phone} onChange={(e) => updateField('phone', e.target.value)} disabled={status === 'loading'} placeholder="" />
           <label htmlFor="phone">Phone Number</label>
         </div>

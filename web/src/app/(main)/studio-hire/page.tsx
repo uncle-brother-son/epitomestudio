@@ -57,16 +57,28 @@ export default async function StudioPage() {
             </div>
           )}
 
-          {studio?.moreInfoButtonLabel && global && (
-            <StudioInfoButton 
-              label={studio.moreInfoButtonLabel}
-              className="link line self-start"
-              studio={studio}
-              global={global}
-            />
-          )}
+          <div className='flex flex-row gap-6 items-center'>
+            {studio?.hireStudioButtonLabel && (
+              <StudioHireButton 
+                label={studio.hireStudioButtonLabel}
+                className="btn"
+                studio={studio}
+                global={global}
+              />
+            )}
+
+            {studio?.moreInfoButtonLabel && global && (
+              <StudioInfoButton 
+                label={studio.moreInfoButtonLabel}
+                className="link line"
+                studio={studio}
+                global={global}
+              />
+            )}
+          </div>
         </StickyContent>
 
+        {/* 
         {studio?.hireStudioButtonLabel && (
           <HideOnFooter>
             <StudioHireButton 
@@ -76,7 +88,8 @@ export default async function StudioPage() {
               global={global}
             />
           </HideOnFooter>
-        )}
+        )} 
+        */}
       </div>
 
       {studio?.imageGallery && studio.imageGallery.length > 1 && (
