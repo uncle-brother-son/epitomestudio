@@ -14,17 +14,17 @@
   --font-sans: 'General Sans', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --grid-cols-12: repeat(12, minmax(0, 1fr));
   --grid-cols-24: repeat(24, minmax(0, 1fr));
-
-  /* --text-sm: 0.625rem;
+/* 
+  --text-sm: 0.625rem;
   --text-md: 0.75rem ;
   --text-lg: 0.875rem;
   --text-xl: 1rem;
   --text-sm--line-height: 0.625rem;
   --text-md--line-height: 1.125rem;
   --text-lg--line-height: 1rem;
-  --text-xl--line-height: 1.125rem; */
-
-  /*
+  --text-xl--line-height: 1.125rem;
+ */
+/*   
   --text-sm: 11px; 
   --text-md: 13px; 
   --text-lg: 15px; 
@@ -35,7 +35,6 @@
   --text-xl--line-height: 19px;
   */
 
-  
   --text-sm: 12px; 
   --text-md: 14px; 
   --text-lg: 16px; 
@@ -45,7 +44,6 @@
   --text-lg--line-height: 18px; 
   --text-xl--line-height: 20px;
  
-
   --radius: 0.125rem; /* 2px */
   --transition-duration-sm: 240ms;
   --transition-duration-md: 480ms;
@@ -82,7 +80,11 @@
   .link { @apply text-sm font-medium uppercase text-black dark:text-natural inline-flex flex-row gap-1 items-center justify-start transition-all duration-lg ease-es; }
   .link.line { @apply relative pb-1.5 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-px after:bg-black dark:after:bg-natural hover:after:bottom-px after:transition-all after:duration-md after:ease-es; }
   .link.line-header { @apply relative pb-1.5 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-px hover:after:bg-black dark:hover:after:bg-natural hover:after:bottom-px after:transition-all after:duration-md after:ease-es; }
-  .btn { @apply text-sm font-medium uppercase text-natural dark:text-black bg-black dark:bg-natural px-6 py-2 h-8 rounded inline-flex flex-row gap-1 items-center justify-start; }
+  .btn { @apply text-sm font-medium uppercase text-natural dark:text-black bg-black dark:bg-natural px-6 py-2 h-8 rounded inline-flex flex-row gap-1 items-center justify-center; }
+  .btn-outline { @apply text-sm font-medium uppercase text-black dark:text-natural border border-black dark:border-natural px-6 py-2 h-8 rounded inline-flex flex-row gap-1 items-center justify-center; }
+  .cookie-banner .btn { @apply text-black dark:text-natural bg-natural dark:bg-black; }
+  .cookie-banner .btn-outline { @apply text-natural dark:text-black border-natural dark:border-black; }
+  
   .close { @apply text-sm font-medium uppercase text-black dark:text-natural hover:bg-black/10 hover:dark:bg-natural/10 px-4 py-1 rounded flex flex-row gap-1 items-center justify-start transition-colors duration-md ease-es; }
   .qty { @apply p-1 bg-black dark:bg-natural flex items-center justify-center rounded transition duration-lg ease-es; }
   .qty-form { @apply p-1 bg-natural dark:bg-black flex items-center justify-center rounded transition duration-lg ease-es; }
@@ -140,14 +142,15 @@
   .field label { @apply absolute top-4 left-4 text-xl lg:text-lg text-black/60 dark:text-natural/60 transition-all duration-sm ease-es cursor-text; }
   .field svg { @apply shrink-0 absolute top-4.5 lg:top-4 right-4 pointer-events-none; }
   .field.preselect svg { @apply top-6.5; }
+  .field:has(select) label { @apply pointer-events-none; }
   
   /* Textarea styles */
-  .field.message { @apply px-4 pt-6 pb-2  box-border rounded  bg-black/10 dark:bg-natural/10 duration-lg ease-es ; }
+  .field.message { @apply pl-4 pr-2 pt-6 pb-2  box-border rounded  bg-black/10 dark:bg-natural/10 duration-lg ease-es ; }
   .field.message textarea { @apply text-xl lg:text-lg text-black dark:text-natural focus:outline-none placeholder:text-xl lg:placeholder:text-lg placeholder:text-black/60 dark:placeholder:text-natural/60 duration-lg ease-es; }
 
   /* Search field specific styles */
   .field.search { @apply flex flex-row gap-2 bg-black/10 dark:bg-natural/10 rounded px-4 py-3 items-center; }
-  .field.search input { @apply static bg-transparent p-0 grow; } 
+  .field.search input { @apply static bg-transparent p-0 grow min-w-0; } 
   .field.search svg { @apply static; }
   .field.search button { @apply static; } 
   .field.search button svg.icon-close { @apply static; } 

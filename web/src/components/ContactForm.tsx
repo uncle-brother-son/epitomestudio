@@ -81,16 +81,6 @@ export default function ContactForm() {
       if (response.ok) {
         setStatus('success')
         setErrors({})
-        setFormData({ 
-          name: '', 
-          email: '', 
-          countryCode: '+44',
-          phone: '',
-          subject: '',
-          message: '' 
-        })
-        // Reset success message after 5 seconds
-        setTimeout(() => setStatus('idle'), 5000)
       } else {
         setStatus('error')
         setErrorMessage(data.error || 'Failed to send message')
@@ -101,12 +91,41 @@ export default function ContactForm() {
     }
   }
 
+  const handleReset = () => {
+    setFormData({ 
+      name: '', 
+      email: '', 
+      countryCode: '+44',
+      phone: '',
+      subject: '',
+      message: '' 
+    })
+    setStatus('idle')
+    setErrorMessage('')
+    setErrors({})
+  }
+
+  if (status === 'success') {
+    return (
+      <div className="flex items-start gap-4 bg-black/10 dark:bg-natural/10 rounded p-6">
+        <Icon name="icon-tick" className="icon-tick w-4 h-4 fill-black" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Success</title></Icon>
+        <div className="flex flex-col items-start gap-2">
+          <p>Thank you. Your message has been sent.</p>
+          <p>We'll respond to your enquiry soon.</p>
+          <button onClick={handleReset} className="btn self-start mt-4">
+            <span>Send Another Message</span>
+          </button>
+        </div>        
+      </div>
+    )
+  }
+
   return (
     <form onSubmit={handleSubmit} noValidate>
 
       <div className='field-wrapper'>
         <div className='field'>
-          <input type="text" id="name" value={formData.name} onChange={(e) => updateField('name', e.target.value)} disabled={status === 'loading'} placeholder="" aria-invalid={!!errors.name} aria-describedby={errors.name ? "name-error" : undefined} />
+          <input type="text" id="name" value={formData.name} onChange={(e) => updateField('name', e.target.value)} disabled={status === 'loading'} placeholder=" " aria-invalid={!!errors.name} aria-describedby={errors.name ? "name-error" : undefined} />
           <label htmlFor="name">Name</label>
         </div>
         <AnimatedMessage show={!!errors.name} className="flex items-center gap-2 error">
@@ -117,7 +136,7 @@ export default function ContactForm() {
 
       <div className='field-wrapper'>
         <div className='field'>
-          <input type="email" id="email" value={formData.email} onChange={(e) => updateField('email', e.target.value)} disabled={status === 'loading'} placeholder="" aria-invalid={!!errors.email} aria-describedby={errors.email ? "email-error" : undefined} />
+          <input type="email" id="email" value={formData.email} onChange={(e) => updateField('email', e.target.value)} disabled={status === 'loading'} placeholder=" " aria-invalid={!!errors.email} aria-describedby={errors.email ? "email-error" : undefined} />
           <label htmlFor="email">Email</label>
         </div>
         <AnimatedMessage show={!!errors.email} className="flex items-center gap-2 error">
@@ -139,7 +158,7 @@ export default function ContactForm() {
           <Icon name="icon-chevron" className="icon-chevron h-3 w-3 fill-black dark:fill-natural rotate-90" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Dropdown</title></Icon>
         </div>
         <div className='field flex-6'>
-          <input type="tel" id="phone" value={formData.phone} onChange={(e) => updateField('phone', e.target.value)} disabled={status === 'loading'} placeholder="" />
+          <input type="tel" id="phone" value={formData.phone} onChange={(e) => updateField('phone', e.target.value)} disabled={status === 'loading'} placeholder=" " />
           <label htmlFor="phone">Phone Number</label>
         </div>
       </div>
@@ -165,7 +184,7 @@ export default function ContactForm() {
 
       <div className='field-wrapper'>
         <div className='field message'>
-          <textarea id="message" rows={8} value={formData.message} onChange={(e) => updateField('message', e.target.value)} disabled={status === 'loading'} placeholder="" aria-invalid={!!errors.message} aria-describedby={errors.message ? "message-error" : undefined} />
+          <textarea id="message" rows={8} value={formData.message} onChange={(e) => updateField('message', e.target.value)} disabled={status === 'loading'} placeholder=" " aria-invalid={!!errors.message} aria-describedby={errors.message ? "message-error" : undefined} />
           <label htmlFor="message">Message</label>
         </div>
         <AnimatedMessage show={!!errors.message} className="flex items-center gap-2 error">
@@ -177,11 +196,6 @@ export default function ContactForm() {
       <button type="submit" disabled={status === 'loading'} className="btn self-end mt-4">
         {status === 'loading' ? 'Sending...' : 'Send'}
       </button>
-
-      <AnimatedMessage show={status === 'success'} className="flex items-center gap-2 note mt-4">
-        <Icon name="icon-subArrow" className="icon-subArrow h-3 w-3 fill-green mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Success</title></Icon>
-        <span>Message sent successfully! We'll get back to you soon.</span>
-      </AnimatedMessage>
 
       <AnimatedMessage show={status === 'error'} className="flex items-center gap-2 error mt-4">
         <Icon name="icon-subArrow" className="icon-subArrow h-3 w-3 fill-red mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Error</title></Icon>

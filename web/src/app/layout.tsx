@@ -3,9 +3,12 @@ import './globals.css'
 import { getGlobal } from '@/queries/global'
 import { urlFor } from '@/lib/sanityImage'
 import { EquipmentCartProvider } from '@/contexts/EquipmentCartContext'
+import { CookieConsentProvider } from '@/contexts/CookieConsentContext'
 import { DarkModeHandler } from '@/components/DarkModeHandler'
 import { PageTransition } from '@/components/PageTransition'
 import { ConditionalHeader } from '@/components/ConditionalHeader'
+import { CookieBanner } from '@/components/CookieBanner'
+import { GoogleAnalytics } from '@/components/GoogleAnalytics'
 
 export async function generateMetadata(): Promise<Metadata> {
   const global = await getGlobal()
@@ -44,14 +47,7 @@ export default async function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        {/* Google Analytics */}
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-GYB0PFE8BQ"></script>
-        <script dangerouslySetInnerHTML={{__html: `
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', 'G-GYB0PFE8BQ');
-        `}} />
+        <GoogleAnalytics />
         
         <script dangerouslySetInnerHTML={{__html: `
           if (window.location.pathname.includes('/equipment-hire')) {
@@ -63,12 +59,15 @@ export default async function RootLayout({
       </head>
       <body className="bg-natural dark:bg-black text-black dark:text-natural text-md subpixel-antialiased flex flex-col min-h-screen transition-colors duration-lg ease-es">
         <DarkModeHandler />
-        <EquipmentCartProvider>
-          <ConditionalHeader global={global} />
-          <PageTransition>
-            {children}
-          </PageTransition>
-        </EquipmentCartProvider>
+        <CookieConsentProvider>
+          <EquipmentCartProvider>
+            <ConditionalHeader global={global} />
+            <PageTransition>
+              {children}
+            </PageTransition>
+          </EquipmentCartProvider>
+          <CookieBanner />
+        </CookieConsentProvider>
       </body>
     </html>
   )

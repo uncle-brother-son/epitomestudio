@@ -269,7 +269,7 @@ export function StudioHireForm({ onClose, studio, global }: Props) {
           
             <div className='field-wrapper'>
               <div className="field">
-                <input type="text" id="name" value={formData.name} onChange={(e) => updateField('name', e.target.value)} placeholder="" aria-invalid={!!errors.name} aria-describedby={errors.name ? "name-error" : undefined} />
+                <input type="text" id="name" value={formData.name} onChange={(e) => updateField('name', e.target.value)} placeholder=" " aria-invalid={!!errors.name} aria-describedby={errors.name ? "name-error" : undefined} />
                 <label htmlFor="name">Name</label>
               </div>
               <AnimatedMessage show={!!errors.name} className="error">
@@ -298,7 +298,7 @@ export function StudioHireForm({ onClose, studio, global }: Props) {
               <>
                 <div className='field-wrapper'>
                   <div className="field">
-                    <input type="text" id="companyName" value={formData.companyName} onChange={(e) => updateField('companyName', e.target.value)} placeholder="" aria-invalid={!!errors.companyName} aria-describedby={errors.companyName ? "companyName-error" : undefined} />
+                    <input type="text" id="companyName" value={formData.companyName} onChange={(e) => updateField('companyName', e.target.value)} placeholder=" " aria-invalid={!!errors.companyName} aria-describedby={errors.companyName ? "companyName-error" : undefined} />
                     <label htmlFor="companyName">Company Name</label>
                   </div>
                   <AnimatedMessage show={!!errors.companyName} className="error">
@@ -311,7 +311,7 @@ export function StudioHireForm({ onClose, studio, global }: Props) {
 
             <div className='field-wrapper'>
               <div className="field">
-                <input type="email" id="email" value={formData.email} onChange={(e) => updateField('email', e.target.value)} placeholder="" aria-invalid={!!errors.email} aria-describedby={errors.email ? "email-error" : undefined} />
+                <input type="email" id="email" value={formData.email} onChange={(e) => updateField('email', e.target.value)} placeholder=" " aria-invalid={!!errors.email} aria-describedby={errors.email ? "email-error" : undefined} />
                 <label htmlFor="email">Email</label>
               </div>
               <AnimatedMessage show={!!errors.email} className="error">
@@ -333,7 +333,7 @@ export function StudioHireForm({ onClose, studio, global }: Props) {
                 <Icon name="icon-chevron" className="icon-chevron h-3 w-3 fill-black dark:fill-natural rotate-90" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Dropdown</title></Icon>
               </div>
               <div className="field flex-6">
-                <input type="tel" id="phoneNumber" value={formData.phoneNumber} onChange={(e) => updateField('phoneNumber', e.target.value)} placeholder="" />
+                <input type="tel" id="phoneNumber" value={formData.phoneNumber} onChange={(e) => updateField('phoneNumber', e.target.value)} placeholder=" " />
                 <label htmlFor="phoneNumber">Phone Number</label>
               </div>
             </div>
@@ -352,7 +352,7 @@ export function StudioHireForm({ onClose, studio, global }: Props) {
             <div className='field-wrapper'>
               <div className="field-row">
                 <div className="basis-1/2 field">
-                  <input type="date" id="hireStartDate" value={formData.hireStartDate} onChange={(e) => updateField('hireStartDate', e.target.value)} min={today} placeholder="" aria-invalid={!!errors.hireStartDate} aria-describedby={errors.hireStartDate ? "hireStartDate-error" : undefined} />
+                  <input type="date" id="hireStartDate" value={formData.hireStartDate} onChange={(e) => updateField('hireStartDate', e.target.value)} min={today} placeholder=" " aria-invalid={!!errors.hireStartDate} aria-describedby={errors.hireStartDate ? "hireStartDate-error" : undefined} />
                   <label htmlFor="hireStartDate">Hire Start Date</label>
                   <Icon name="icon-date" className="icon-date h-4 w-4 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Date Picker</title></Icon>
                 </div>
@@ -377,12 +377,12 @@ export function StudioHireForm({ onClose, studio, global }: Props) {
 
             <div className="field-row">
               <div className="field grow">
-                <input type="time" id="arrivalTime" value={formData.arrivalTime} onChange={(e) => updateField('arrivalTime', e.target.value)} placeholder='' step="900" />
+                <input type="time" id="arrivalTime" value={formData.arrivalTime} onChange={(e) => updateField('arrivalTime', e.target.value)} placeholder=" " step="900" />
                 <label htmlFor="arrivalTime">Arrival Time</label>
                 <Icon name="icon-time" className="icon-time h-4 w-4 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Time Picker</title></Icon>
               </div>
               <div className="field grow">
-                <input type="time" id="leavingTime" value={formData.leavingTime} onChange={(e) => updateField('leavingTime', e.target.value)} placeholder='' step="900" />
+                <input type="time" id="leavingTime" value={formData.leavingTime} onChange={(e) => updateField('leavingTime', e.target.value)} placeholder=" " step="900" />
                 <label htmlFor="leavingTime">Leaving Time</label>
                 <Icon name="icon-time" className="icon-time h-4 w-4 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Time Picker</title></Icon>
               </div>
@@ -440,7 +440,7 @@ export function StudioHireForm({ onClose, studio, global }: Props) {
             </div>
 
             <div className="field message">
-              <textarea id="message" value={formData.message} onChange={(e) => updateField('message', e.target.value)} rows={4} placeholder='' />
+              <textarea id="message" value={formData.message} onChange={(e) => updateField('message', e.target.value)} rows={4} placeholder=" " />
               <label htmlFor="message">Message (optional)</label>
             </div>
 

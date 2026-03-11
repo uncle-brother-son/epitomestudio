@@ -27,11 +27,13 @@ export function EquipmentFilterAndList({ categories, items, equipmentListUrl, eq
   const [searchQuery, setSearchQuery] = useState('')
   const [viewMode, setViewMode] = useState<'image' | 'list'>('image')
   const [displayedViewMode, setDisplayedViewMode] = useState<'image' | 'list'>('image')
-  const [visibleCount, setVisibleCount] = useState(40)
+  const [visibleCount, setVisibleCount] = useState(50)
+  const [previousVisibleCount, setPreviousVisibleCount] = useState(50)
   const [isAnimating, setIsAnimating] = useState(false)
   const [animationPhase, setAnimationPhase] = useState<'idle' | 'fadeOut' | 'fadeIn'>('idle')
-  const [displayedItems, setDisplayedItems] = useState<EquipmentItem[]>([])
+  const [displayedItems, setDisplayedItems] = useState<EquipmentItem[]>(items)
   const [isCartOpen, setIsCartOpen] = useState(false)
+  const [isInitialized, setIsInitialized] = useState(false)
   const { quantities, updateQuantity, getTotalItems, getTotalPrice, setItems } = useEquipmentCart()
 
   // Set items in context when component mounts or items change
@@ -103,17 +105,11 @@ export function EquipmentFilterAndList({ categories, items, equipmentListUrl, eq
     return true
   })
 
-  // Initialize displayed items on mount
-  useEffect(() => {
-    if (displayedItems.length === 0) {
-      setDisplayedItems(filteredItems)
-    }
-  }, [])
-
   // Handle filter/search changes with animations
   useEffect(() => {
     // Skip animation on initial mount
-    if (displayedItems.length === 0) {
+    if (!isInitialized) {
+      setIsInitialized(true)
       return
     }
 
@@ -123,7 +119,8 @@ export function EquipmentFilterAndList({ categories, items, equipmentListUrl, eq
     // Wait for fade out to complete, then update items and fade in
     setTimeout(() => {
       setDisplayedItems(filteredItems)
-      setVisibleCount(40) // Reset to initial count
+      setVisibleCount(50) // Reset to initial count
+      setPreviousVisibleCount(0) // Reset to 0 so all items animate in
       
       // Scroll to top of page
       window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -134,14 +131,15 @@ export function EquipmentFilterAndList({ categories, items, equipmentListUrl, eq
       setTimeout(() => {
         setIsAnimating(false)
         setAnimationPhase('idle')
+        setPreviousVisibleCount(50) // Update to current count after animation
       }, 960)
     }, 480)
   }, [selectedCategories, searchQuery])
 
   // Handle viewMode changes with animations (no item swap)
   useEffect(() => {
-    // Skip animation on initial mount
-    if (displayedItems.length === 0) {
+    // Skip animation on initial mount  
+    if (!isInitialized) {
       return
     }
 
@@ -151,6 +149,7 @@ export function EquipmentFilterAndList({ categories, items, equipmentListUrl, eq
     // Wait for fade out to complete, then update view mode and fade in
     setTimeout(() => {
       setDisplayedViewMode(viewMode)
+      setPreviousVisibleCount(0) // Reset to 0 so all visible items animate in
       
       // Scroll to top of page
       window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -161,9 +160,24 @@ export function EquipmentFilterAndList({ categories, items, equipmentListUrl, eq
       setTimeout(() => {
         setIsAnimating(false)
         setAnimationPhase('idle')
+        setPreviousVisibleCount(visibleCount) // Update to current count after animation
       }, 960)
     }, 480)
   }, [viewMode])
+
+  // Handle Load More with fade in animation
+  const handleLoadMore = () => {
+    const newCount = visibleCount + 50
+    setPreviousVisibleCount(visibleCount)
+    setVisibleCount(newCount)
+    setAnimationPhase('fadeIn')
+    
+    // Calculate max animation duration for new items (50 items * 50ms = 2500ms base + 480ms fade)
+    setTimeout(() => {
+      setAnimationPhase('idle')
+      setPreviousVisibleCount(newCount)
+    }, 480 + (50 * 50))
+  }
 
   // Get count of unique items in cart for a category
   const getCategoryCartCount = (categoryId: string, includeChildren: boolean = false): number => {
@@ -224,7 +238,7 @@ export function EquipmentFilterAndList({ categories, items, equipmentListUrl, eq
               <div className='text-black/60 dark:text-natural/60 text-xl'>Filter</div>
               <Icon name="icon-filter" className="icon-filter w-3 h-3 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Filter</title></Icon>
             </button>
-            <ul className='hidden lg:flex flex-col p-4 lg:p-0'>
+            <ul className='hidden lg:flex flex-col p-4 lg:p-0 max-h-[calc(100vh-500px)] overflow-y-auto'>
               {parentCategories.map((parent, index) => {
                 const children = getChildren(parent._id)
                 const isSelected = selectedCategories.includes(parent._id)
@@ -275,35 +289,41 @@ export function EquipmentFilterAndList({ categories, items, equipmentListUrl, eq
       </div>
 
       <div className={`col-start-1 col-span-12 lg:col-start-7 lg:col-span-11 2xl:col-start-8 2xl:col-span-9 flex flex-col ${displayedViewMode === 'list' ? 'gap-0' : 'gap-6'}`}>
-        {displayedItems.slice(0, visibleCount).map((item, index) => (
-          <div
-            key={item._id}
-            className={`${
-              animationPhase === 'fadeOut' ? 'fadeout' : 
-              animationPhase === 'fadeIn' ? 'fadein' : ''
-            }`}
-            style={{
-              animationDelay: animationPhase === 'fadeIn' ? `${index * 50}ms` : '0ms'
-            }}
-          >
-            <EquipmentItemCard 
-              item={item} 
-              viewMode={displayedViewMode}
-              quantity={quantities[item._id] || 0}
-              onQuantityChange={(qty) => updateQuantity(item._id, qty)}
-              priority={index < 3}
-            />
-          </div>
-        ))}
+        {displayedItems.slice(0, visibleCount).map((item, index) => {
+          const isNewItem = index >= previousVisibleCount
+          
+          return (
+            <div
+              key={item._id}
+              className={`${
+                animationPhase === 'fadeOut' ? 'fadeout' : 
+                animationPhase === 'fadeIn' && isNewItem ? 'fadein' : ''
+              }`}
+              style={{
+                animationDelay: animationPhase === 'fadeIn' && isNewItem 
+                  ? `${(index - previousVisibleCount) * 50}ms` 
+                  : '0ms'
+              }}
+            >
+              <EquipmentItemCard 
+                item={item} 
+                viewMode={displayedViewMode}
+                quantity={quantities[item._id] || 0}
+                onQuantityChange={(qty) => updateQuantity(item._id, qty)}
+                priority={index < 3}
+              />
+            </div>
+          )
+        })}
         
         {displayedItems.length > visibleCount && (
-          <button 
-            onClick={() => setVisibleCount(prev => prev + 40)}
-            className="btn self-center mt-8"
-            disabled={isAnimating}
-          >
-            Load More ({displayedItems.length - visibleCount} remaining)
-          </button>
+          <div className="flex flex-col gap-6 justify-center items-center pt-20 self-center w-1/2">
+            <span>Showing {visibleCount} of {displayedItems.length} Items</span>
+            <div className=' w-full bg-black dark:bg-natural flex rounded'>
+              <div className='h-0.5 bg-natural/60 dark:bg-black/60' style={{ width: `${(visibleCount / displayedItems.length) * 100}%` }}></div>
+            </div>
+            <button onClick={handleLoadMore} className="btn" disabled={isAnimating}>Load More</button>
+          </div>
         )}
       </div>
       <HideOnFooter translateAmount="translate-y-full">

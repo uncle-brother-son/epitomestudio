@@ -52,7 +52,7 @@ export async function Footer({ global }: { global: Global | null }) {
         &#169; {currentYear} {global?.companyName}
       </div>
 
-      <nav className="col-start-1 col-span-12 lg:col-start-17 lg:col-span-8 flex flex-row gap-6 items-start justify-start">
+      <nav className="col-start-1 col-span-12 lg:col-start-17 lg:col-span-8 flex flex-row gap-4 lg:gap-8 items-start justify-start">
         {legalPages.map((legal) => (
           <Link key={legal._id} href={`/legal/${legal.slug.current}`} className="link">
             <span>{legal.header}</span>
