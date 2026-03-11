@@ -24,7 +24,7 @@
   --text-lg--line-height: 1rem;
   --text-xl--line-height: 1.125rem;
  */
-   
+/*    
   --text-sm: 11px; 
   --text-md: 13px; 
   --text-lg: 15px; 
@@ -33,8 +33,8 @@
   --text-md--line-height: 19px; 
   --text-lg--line-height: 17px; 
   --text-xl--line-height: 19px;
- 
-/* 
+  */
+
   --text-sm: 12px; 
   --text-md: 14px; 
   --text-lg: 16px; 
@@ -43,7 +43,7 @@
   --text-md--line-height: 20px; 
   --text-lg--line-height: 18px; 
   --text-xl--line-height: 20px;
-  */
+ 
   --radius: 0.125rem; /* 2px */
   --transition-duration-sm: 240ms;
   --transition-duration-md: 480ms;

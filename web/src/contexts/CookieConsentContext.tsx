@@ -10,7 +10,7 @@ interface CookieConsent {
 
 interface CookieConsentContextType {
   consent: CookieConsent | null
-  hasConsent: (category: keyof CookieConsent) => boolean
+  hasConsent: (category: 'necessary' | 'analytics') => boolean
   updateConsent: (analytics: boolean) => void
   showBanner: boolean
 }
@@ -89,7 +89,7 @@ export function CookieConsentProvider({ children }: { children: ReactNode }) {
     }
   }
 
-  const hasConsent = (category: keyof CookieConsent): boolean => {
+  const hasConsent = (category: 'necessary' | 'analytics'): boolean => {
     if (!consent) return category === 'necessary'
     return consent[category]
   }
