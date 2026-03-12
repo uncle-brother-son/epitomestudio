@@ -50,7 +50,7 @@ export default async function StudioPage() {
 
       <div className='lg:row-span-2 col-start-1 col-span-12 lg:col-start-19 lg:col-span-6 2xl:col-start-19 2xl:col-span-5 px-2 lg:px-0 flex flex-col lg:justify-between gap-8'>
         
-        <StickyContent className="flex flex-col gap-8 lg:sticky"  top={20}>
+        <StickyContent dTop={20} className="flex flex-col gap-8 lg:sticky">
           {studio?.content && (
             <div className="flex flex-col gap-8 rich">
               <PortableText value={studio.content} />

@@ -22,6 +22,7 @@ export interface Card {
       current: string
     }
   }
+  darkMode?: boolean
 }
 
 export interface Home {
@@ -50,7 +51,8 @@ export async function getHome(): Promise<Home | null> {
       linkType,
       legalPage-> {
         slug
-      }
+      },
+      darkMode
     }
   }`
 

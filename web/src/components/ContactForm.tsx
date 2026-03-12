@@ -107,11 +107,11 @@ export default function ContactForm() {
 
   if (status === 'success') {
     return (
-      <div className="flex items-start gap-4 bg-black/10 dark:bg-natural/10 rounded p-6">
-        <Icon name="icon-tick" className="icon-tick w-4 h-4 fill-black" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Success</title></Icon>
+      <div className="flex items-start gap-2 bg-black/10 dark:bg-natural/10 rounded p-6">
+        <Icon name="icon-tick" className="icon-tick w-4 h-4 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Success</title></Icon>
         <div className="flex flex-col items-start gap-2">
-          <p>Thank you. Your message has been sent.</p>
-          <p>We'll respond to your enquiry soon.</p>
+          <p>Thanks, we have received your enquiry.</p>
+          <p>We'll get back to you soon.</p>
           <button onClick={handleReset} className="btn self-start mt-4">
             <span>Send Another Message</span>
           </button>

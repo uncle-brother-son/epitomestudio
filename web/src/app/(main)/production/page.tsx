@@ -25,7 +25,7 @@ export default async function ProductionPage() {
 
       <div className='col-start-1 col-span-12 lg:col-start-1 lg:col-span-6 2xl:col-start-2 2xl:col-span-5 px-2 lg:px-0 flex flex-col lg:justify-between gap-8'>
         {production?.content && (
-          <StickyContent className="flex flex-col gap-8 lg:sticky items-start" top={20}>
+          <StickyContent dTop={20} className="flex flex-col gap-8 lg:sticky items-start">
             <PortableText value={production.content} />
             {production?.link?.url && production?.link?.label && (
               <a href={production.link.url} target="_blank" rel="noopener noreferrer" className="link line">

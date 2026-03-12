@@ -27,7 +27,7 @@ export default async function ContactPage() {
     <main id="main-content" className="grid_ my-xl gap-y-lg grow">
               
         <div className='px-2 lg:px-0 col-start-1 col-span-12 lg:col-start-1 lg:col-span-6 2xl:col-start-2 2xl:col-span-5'>
-          <StickyContent className="flex flex-col gap-6 lg:sticky" top={20}>
+          <StickyContent dTop={20} className="flex flex-col gap-6 lg:sticky">
             {contact?.intro && (
               <div className="text-balance">
                 <PortableText value={contact.intro} />

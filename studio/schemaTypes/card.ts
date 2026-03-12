@@ -59,6 +59,13 @@ export const card = defineType({
           return true
         }),
     },
+    {
+      name: 'darkMode',
+      title: 'Dark Mode',
+      type: 'boolean',
+      description: 'Enable dark mode when navigating to this page',
+      initialValue: false,
+    },
   ],
   preview: {
     select: {

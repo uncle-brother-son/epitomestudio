@@ -7,7 +7,6 @@ import { CookieConsentProvider } from '@/contexts/CookieConsentContext'
 import { DarkModeHandler } from '@/components/DarkModeHandler'
 import { PageTransition } from '@/components/PageTransition'
 import { ConditionalHeader } from '@/components/ConditionalHeader'
-import { CookieBanner } from '@/components/CookieBanner'
 import { GoogleAnalytics } from '@/components/GoogleAnalytics'
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -57,7 +56,7 @@ export default async function RootLayout({
         <link rel="preload" href="/fonts/GeneralSans-Regular.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
         <link rel="preload" href="/fonts/GeneralSans-Medium.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
       </head>
-      <body className="bg-natural dark:bg-black text-black dark:text-natural text-md subpixel-antialiased flex flex-col min-h-screen transition-colors duration-lg ease-es">
+      <body className="bg-natural dark:bg-black text-black dark:text-natural text-md subpixel-antialiased flex flex-col min-h-dvh transition-colors duration-lg ease-es">
         <DarkModeHandler />
         <CookieConsentProvider>
           <EquipmentCartProvider>
@@ -66,7 +65,6 @@ export default async function RootLayout({
               {children}
             </PageTransition>
           </EquipmentCartProvider>
-          <CookieBanner />
         </CookieConsentProvider>
       </body>
     </html>

@@ -1,10 +1,10 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import { urlFor } from '@/lib/sanityImage'
 import { Icon } from '@/components/Icons'
+import { usePageTransition } from '@/components/PageTransition'
 import type { Card } from '@/queries/home'
 
 type AnimationPhase = 'logo-in' | 'logo-out' | 'cards-in' | 'complete'
@@ -14,11 +14,10 @@ interface HomeIntroProps {
 }
 
 export function HomeIntro({ cards }: HomeIntroProps) {
-  const router = useRouter()
+  const { navigate } = usePageTransition()
   const [phase, setPhase] = useState<AnimationPhase>('logo-in')
   const [maskingOut, setMaskingOut] = useState(false)
   const [clickedIndex, setClickedIndex] = useState<number | null>(null)
-  const [fadingOut, setFadingOut] = useState(false)
 
   const getCardLink = (card: Card) => {
     switch (card.linkType) {
@@ -39,15 +38,26 @@ export function HomeIntro({ cards }: HomeIntroProps) {
     }
   }
 
-  const handleCardClick = (card: Card, index: number, e: React.MouseEvent) => {
+  const handleCardClick = (card: Card, index: number, e: React.MouseEvent<HTMLAnchorElement>) => {
+    // Prevent navigation
     e.preventDefault()
+    
+    // Only handle one click at a time
     if (maskingOut) return
     
+    // Toggle dark mode immediately
+    if (card.darkMode) {
+      document.documentElement.classList.add('dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+    }
+    
+    // Start masking animation
     setClickedIndex(index)
     setMaskingOut(true)
     
-    setTimeout(() => setFadingOut(true), 1440)
-    setTimeout(() => router.push(getCardLink(card)), 2400)
+    // Trigger navigation with 960ms delay (after expansion completes)
+    navigate(getCardLink(card), 960)
   }
 
   useEffect(() => {
@@ -74,8 +84,8 @@ export function HomeIntro({ cards }: HomeIntroProps) {
   const easing = 'cubic-bezier(0.295, 0.850, 0.440, 1.000)'
 
   return (
-    <main id="main-content">
-      <div className="h-screen w-screen flex flex-col lg:flex-row">
+    <main id="main-content" className="h-dvh overflow-hidden">
+      <div className="h-full w-screen flex flex-col lg:flex-row">
         {cards.map((card, index) => {
           const isClickedCard = clickedIndex === index
           
@@ -84,17 +94,15 @@ export function HomeIntro({ cards }: HomeIntroProps) {
               key={card._key}
               href={getCardLink(card)}
               onClick={(e) => handleCardClick(card, index, e)}
-              className={`group relative overflow-hidden transition-all duration-lg ease-es cursor-pointer ${
+              className={`group relative overflow-hidden cursor-pointer transition-all duration-lg ease-es ${
                 maskingOut
                   ? isClickedCard
                     ? 'flex-1 z-10'
-                    : 'flex-[0]'
+                    : 'flex-0'
                   : 'flex-1 hover:flex-[1.1]'
               }`}
               style={
-                maskingOut && isClickedCard
-                  ? { transitionDuration: '960ms', transitionTimingFunction: easing, opacity: fadingOut ? 0 : 1 }
-                  : maskingOut
+                maskingOut
                   ? { transitionDuration: '960ms', transitionTimingFunction: easing }
                   : showCards
                   ? { animation: `fadein 1440ms ${easing} 0ms backwards` }
@@ -109,11 +117,7 @@ export function HomeIntro({ cards }: HomeIntroProps) {
                 ) : null}
               </div>
               <div className="absolute inset-0 flex items-center justify-center">
-                <div 
-                  className={`absolute inset-0 bg-black/20 transition-opacity duration-lg ease-es ${
-                    maskingOut && isClickedCard ? 'opacity-0' : 'opacity-100'
-                  }`} 
-                />
+                <div className="absolute inset-0 bg-black/20" />
                 <h2 className="relative text-lg font-medium uppercase text-natural">
                   {card.title}
                 </h2>

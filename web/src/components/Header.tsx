@@ -20,6 +20,7 @@ export function Header({ global }: { global: Global | null }) {
   const currentYear = new Date().getFullYear()
   const [isMobileMenu, setIsMobileMenu] = useState(false)
   const [isClosing, setIsClosing] = useState(false)
+  const [isContentFading, setIsContentFading] = useState(false)
   const pathname = usePathname()
 
   const closeMenu = () => {
@@ -27,6 +28,7 @@ export function Header({ global }: { global: Global | null }) {
     setTimeout(() => {
       setIsMobileMenu(false)
       setIsClosing(false)
+      setIsContentFading(false)
     }, 480) // duration-md for simultaneous fade
   }
 
@@ -176,12 +178,12 @@ export function Header({ global }: { global: Global | null }) {
       <a href="#main-content" className="sr-only">Skip to main content</a>
       <header 
         ref={headerRef} 
-        className={`px-4 py-4 z-20 mobile-menu-bg ${isMobileMenu ? `fixed inset-0 flex flex-col ${!isClosing ? 'bg-natural dark:bg-black' : ''}` : 'grid_ fixed top-0 left-0 right-0'} ${isClosing ? 'closing' : ''}`}
+        className={`px-4 py-4 z-20 mobile-menu-bg ${isMobileMenu ? `fixed inset-0 flex flex-col ${!isClosing ? 'bg-natural dark:bg-black' : ''}` : 'grid_ fixed top-0 left-0 right-0'} ${isClosing ? 'closing' : ''} ${isContentFading ? 'content-fading' : ''}`}
         {...(!isMobileMenu && { style: { transform: `translateY(${translateY}px)` } })}
       >
         <div className="col-start-1 col-span-12 lg:col-start-1 lg:col-span-9 flex items-start justify-between">
           <Link href="/" aria-label="Epitomestudio home">
-            <Icon name="icon-logo" className="icon-logo fill-black dark:fill-natural h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 266 24"><title>Epitomestudio</title></Icon>
+            <Icon name="icon-logo" className="icon-logo fill-black dark:fill-natural h-5 transition-colors duration-lg ease-es" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 266 24"><title>Epitomestudio</title></Icon>
           </Link>
           <button ref={menuButtonRef} className='lg:hidden p-3 -mr-3 -mt-3' onClick={toggleMobileMenu} aria-label="Toggle navigation menu" aria-expanded={isMobileMenu} aria-controls="mobile-navigation">
             {isMobileMenu ? (
@@ -221,8 +223,10 @@ export function Header({ global }: { global: Global | null }) {
                       href={item.url} 
                       className={`link text-lg mobile-menu-content${isActive ? ' line' : ''}`} 
                       onClick={() => {
-                        sessionStorage.setItem('skipPageFade', 'true')
-                        closeMenu()
+                        setIsContentFading(true)
+                        setTimeout(() => {
+                          closeMenu()
+                        }, 960)
                       }} 
                       aria-current={isActive ? 'page' : undefined}
                     >

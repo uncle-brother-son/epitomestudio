@@ -5,12 +5,12 @@ import { ReactNode, useEffect, useRef } from 'react'
 interface StickyContentProps {
   children: ReactNode
   className?: string
-  top?: number
+  mTop?: number
+  dTop?: number
 }
 
-export function StickyContent({ children, className = '', top = 20 }: StickyContentProps) {
+export function StickyContent({ children, className = '', mTop, dTop }: StickyContentProps) {
   const containerRef = useRef<HTMLDivElement>(null)
-  const topPx = (top / 4) * 16
   
   useEffect(() => {
     const container = containerRef.current
@@ -19,11 +19,23 @@ export function StickyContent({ children, className = '', top = 20 }: StickyCont
     let ticking = false
     
     const updatePosition = () => {
-      // Only run on lg screens and up (1024px+)
-      if (window.innerWidth < 1024) {
+      const isMobile = window.innerWidth < 1024
+      
+      // Skip mobile if mTop not defined
+      if (isMobile && mTop === undefined) {
         container.style.removeProperty('top')
         return
       }
+      
+      // Skip desktop if dTop not defined
+      if (!isMobile && dTop === undefined) {
+        container.style.removeProperty('top')
+        return
+      }
+      
+      // Use appropriate value
+      const currentTop = isMobile ? mTop : dTop
+      const topPx = (currentTop! / 4) * 16
       
       const header = document.querySelector('header')
       if (!header) return
@@ -68,7 +80,7 @@ export function StickyContent({ children, className = '', top = 20 }: StickyCont
       window.removeEventListener('scroll', onScroll)
       window.removeEventListener('resize', onResize)
     }
-  }, [topPx])
+  }, [mTop, dTop])
   
   return (
     <div 

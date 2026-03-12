@@ -269,33 +269,27 @@ export function EquipmentHireForm({ onClose, equipment, global }: Props) {
 
   if (isSuccess) {
     return (
-      <>
       <div className="grow flex flex-col p-4 pt-20">
-      
+
         <button onClick={onClose} className="close absolute top-4 right-4">
           <span>Close</span><Icon name="icon-close" className="icon-close w-3 h-3 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Close</title></Icon>
         </button>
 
         <div className="grow grid_ gap-y-6 overflow-y-scroll lg:overflow-y-auto">
-          <div className="col-start-1 col-span-12 sm:col-start-2 sm:col-span-10 lg:col-start-8 lg:col-span-10 flex flex-col gap-4 mt-11">
-            <p>Thank you.</p>
-            <p>Your equipment hire enquiry has been submitted.</p>
-            <p>We'll be in touch soon.</p>
-            
-            <button onClick={onClose} className="btn self-start mt-4">
-              <span>Done</span>
-            </button>
+          <div className="col-start-1 col-span-12 sm:col-start-2 sm:col-span-10 lg:col-start-8 lg:col-span-10 flex flex-col gap-4 mt-9 px-2 lg:px-0">
+            <div className="flex items-start gap-2 bg-black/10 dark:bg-natural/10 rounded p-6">
+              <Icon name="icon-tick" className="icon-tick w-4 h-4 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Success</title></Icon>
+              <div className="flex flex-col items-start gap-2">
+                <p>Thanks, we have received your Equipment Hire enquiry.</p>
+                <p>We'll get back to you soon.</p>
+                <button onClick={onClose} className="btn self-start mt-4">
+                    <span>Done</span>
+                </button>
+              </div>        
+            </div>
           </div>
         </div>
       </div>
-      
-      {/* Terms Slide Panel */}
-      {equipment && global && (
-        <SlidePanel isOpen={isTermsDrawerOpen} onClose={() => setIsTermsDrawerOpen(false)}>
-          <EquipmentTerms onClose={() => setIsTermsDrawerOpen(false)} equipment={equipment} global={global} />
-        </SlidePanel>
-      )}
-      </>
     )
   }
 

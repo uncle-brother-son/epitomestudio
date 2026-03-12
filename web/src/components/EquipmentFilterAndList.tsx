@@ -33,6 +33,8 @@ export function EquipmentFilterAndList({ categories, items, equipmentListUrl, eq
   const [animationPhase, setAnimationPhase] = useState<'idle' | 'fadeOut' | 'fadeIn'>('idle')
   const [displayedItems, setDisplayedItems] = useState<EquipmentItem[]>(items)
   const [isCartOpen, setIsCartOpen] = useState(false)
+  const [isFilterOpen, setIsFilterOpen] = useState(false)
+  const [isSearchFocused, setIsSearchFocused] = useState(false)
   const [isInitialized, setIsInitialized] = useState(false)
   const { quantities, updateQuantity, getTotalItems, getTotalPrice, setItems } = useEquipmentCart()
 
@@ -207,7 +209,7 @@ export function EquipmentFilterAndList({ categories, items, equipmentListUrl, eq
 
   return (
     <>
-      <StickyContent className="col-start-1 col-span-12 flex flex-row items-center justify-between lg:sticky lg:left-4 lg:w-[calc(((100vw-216px)/4.8)+32px)] 2xl:left-[calc(((100vw-216px)/24)+24px)]" top={10}>
+      <StickyContent mTop={-16} dTop={10} className="z-10 pt-20 lg:pt-0 -mt-20 lg:mt-0 bg-natural dark:bg-black lg:bg-transparent lg:dark:bg-transparent col-start-1 col-span-12 flex flex-row items-center justify-between sticky lg:left-4 lg:w-[calc(((100vw-216px)/4.8)+32px)] 2xl:left-[calc(((100vw-216px)/24)+24px)] transition-colors duration-lg ease-es">
         <div className='label pl-4'>{filteredItems.length} / {items.length} Items</div>
         <button className='group relative hover:bg-black/10 dark:hover:bg-natural/10 p-0.5 rounded flex flex-row gap-1 items-center justify-start duration-md ease-es group' onClick={() => setViewMode(viewMode === 'image' ? 'list' : 'image')}>
           <div className='z-1 py-1 px-4'>
@@ -220,12 +222,19 @@ export function EquipmentFilterAndList({ categories, items, equipmentListUrl, eq
         </button>
       </StickyContent>
 
-      <div className='col-start-1 col-span-12 lg:col-start-1 lg:col-span-5 2xl:col-start-2 2xl:col-span-5 flex flex-col'>
+      <StickyContent mTop={10} className='z-10 py-4 lg:py-0 -my-4 lg:my-0 bg-natural dark:bg-black lg:bg-transparent lg:dark:bg-transparent col-start-1 col-span-12 lg:col-start-1 lg:col-span-5 2xl:col-start-2 2xl:col-span-5 flex flex-col sticky lg:static transition-colors duration-lg ease-es'>
 
-        <StickyContent className="flex flex-row gap-2 items-start lg:items-stretch lg:flex-col lg:gap-8 lg:sticky" top={25.5}>
-          <div className='basis-1/2 min-w-0 field search'>
+        <StickyContent dTop={25.5} className="flex flex-row gap-2 items-start lg:items-stretch lg:flex-col lg:gap-8 lg:sticky">
+          <div className={`${isSearchFocused ? 'grow' : isFilterOpen ? 'hidden lg:block' : 'basis-1/2'} min-w-0 field search transition-all duration-md ease-es`}>
             <Icon name="icon-search" className="icon-search w-3 h-3 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Search</title></Icon>
-            <input type='text' placeholder='Search' value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
+            <input 
+              type='text' 
+              placeholder='Search' 
+              value={searchQuery} 
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onFocus={() => setIsSearchFocused(true)}
+              onBlur={() => setIsSearchFocused(false)}
+            />
             {searchQuery && (
               <button onClick={() => setSearchQuery('')} aria-label='Clear search'>
                 <Icon name="icon-close" className="icon-close w-3 h-3 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Clear search</title></Icon>
@@ -233,12 +242,18 @@ export function EquipmentFilterAndList({ categories, items, equipmentListUrl, eq
             )}
           </div>
 
-          <div className='basis-1/2 min-w-0 bg-black/10 dark:bg-natural/10 lg:bg-transparent lg:dark:bg-transparent rounded lg:rounded-none flex flex-col'>
-            <button className='flex flex-row gap-2 justify-between items-center lg:hidden px-4 py-3'>
-              <div className='text-black/60 dark:text-natural/60 text-xl'>Filter</div>
-              <Icon name="icon-filter" className="icon-filter w-3 h-3 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Filter</title></Icon>
+          <div className={`${isSearchFocused ? 'hidden lg:flex' : isFilterOpen ? 'grow ml-auto' : 'basis-1/2'} min-w-0 bg-black/10 dark:bg-natural/10 lg:bg-transparent lg:dark:bg-transparent rounded lg:rounded-none flex flex-col transition-all duration-md ease-es`}>
+            <button onClick={() => setIsFilterOpen(!isFilterOpen)} className='flex flex-row gap-2 justify-between items-center lg:hidden px-4 py-3' type="button">
+              <div className='text-black dark:text-natural text-xl lg:text-lg'>Filters <span className='text-lg'>{selectedCategories.length > 0 && `[ ${selectedCategories.length} ]`}</span></div>
+              {isFilterOpen ? (
+                <Icon name="icon-close" className="icon-close w-3 h-3 fill-black dark:fill-natural transition-opacity duration-md ease-es" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Close Filter</title></Icon>
+              ) : (
+                <Icon name="icon-filter" className="icon-filter w-3 h-3 fill-black dark:fill-natural transition-opacity duration-md ease-es" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Open Filter</title></Icon>
+              )}
             </button>
-            <ul className='hidden lg:flex flex-col p-4 lg:p-0 max-h-[calc(100vh-500px)] overflow-y-auto'>
+            
+            <div className={`grid transition-all duration-lg lg:duration-0 ease-es lg:grid-rows-[1fr]! lg:opacity-100! ${isFilterOpen ? 'p-4' : 'p-0'}`} style={{ gridTemplateRows: isFilterOpen ? '1fr' : '0fr', opacity: isFilterOpen ? 1 : 0 }}>
+              <ul className='overflow-hidden flex flex-col max-h-[calc(100vh-500px)] overflow-y-auto'>
               {parentCategories.map((parent, index) => {
                 const children = getChildren(parent._id)
                 const isSelected = selectedCategories.includes(parent._id)
@@ -274,19 +289,20 @@ export function EquipmentFilterAndList({ categories, items, equipmentListUrl, eq
                 )
               })}
             </ul>
+            </div>
           </div>
         </StickyContent>
 
-        {equipmentListUrl && (
+        {/* {equipmentListUrl && (
           <div className='lg:sticky lg:bottom-20 lg:mt-auto self-start ml-4'> 
             <a href={equipmentListUrl} target="_blank" rel="noopener noreferrer" className="link line self-start">
               <span>{equipmentListButtonLabel || 'Download Equipment List'}</span>
               <Icon name="icon-download" className="icon-download fill-black dark:fill-natural h-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Download</title></Icon>
             </a>
           </div>
-        )}
+        )} */}
         
-      </div>
+      </StickyContent>
 
       <div className={`col-start-1 col-span-12 lg:col-start-7 lg:col-span-11 2xl:col-start-8 2xl:col-span-9 flex flex-col ${displayedViewMode === 'list' ? 'gap-0' : 'gap-6'}`}>
         {displayedItems.slice(0, visibleCount).map((item, index) => {
@@ -327,8 +343,8 @@ export function EquipmentFilterAndList({ categories, items, equipmentListUrl, eq
         )}
       </div>
       <HideOnFooter translateAmount="translate-y-full">
-        <div className='fixed lg:static p-4 pb-[calc(1rem+env(safe-area-inset-bottom))] lg:p-0 bottom-0 left-0 right-0 bg-black lg:bg-transparent lg:col-start-20 lg:col-span-5 2xl:col-start-19 2xl:col-span-5'>
-          <StickyContent className="flex flex-col bg-black/10 dark:bg-natural/10 rounded overflow-hidden lg:sticky" top={25.5}>
+        <div className='fixed lg:static p-4 pb-[calc(1rem+env(safe-area-inset-bottom))] lg:p-0 bottom-0 left-0 right-0 bg-natural dark:bg-black lg:bg-transparent lg:dark:bg-transparent lg:col-start-20 lg:col-span-5 2xl:col-start-19 2xl:col-span-5 transition-colors duration-lg ease-es'>
+          <StickyContent dTop={25.5} className="flex flex-col bg-black/10 dark:bg-natural/10 rounded overflow-hidden lg:sticky transition-colors duration-lg ease-es">
           <button onClick={() => setIsCartOpen(!isCartOpen)} className='flex flex-row justify-between w-full lg:cursor-default p-4' type="button">
             <div className="label">Your List<span className='lg:hidden pl-2'>[ {totalItems} ]</span></div>
             <Icon name="icon-chevron" className={`icon-chevron w-3 h-3 fill-black dark:fill-natural lg:hidden transition-transform duration-lg ease-es ${isCartOpen ? 'rotate-270' : 'rotate-90'}`} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Toggle Cart</title></Icon>
