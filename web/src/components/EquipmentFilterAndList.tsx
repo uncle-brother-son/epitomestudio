@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { EquipmentItemCard } from './EquipmentItemCard'
 import { Icon } from './Icons'
 import { EquipmentHireButton } from './EquipmentHireButton'
@@ -36,6 +36,7 @@ export function EquipmentFilterAndList({ categories, items, equipmentListUrl, eq
   const [isFilterOpen, setIsFilterOpen] = useState(false)
   const [isSearchFocused, setIsSearchFocused] = useState(false)
   const [isInitialized, setIsInitialized] = useState(false)
+  const blurTimeoutRef = useRef<NodeJS.Timeout | null>(null)
   const { quantities, updateQuantity, getTotalItems, getTotalPrice, setItems } = useEquipmentCart()
 
   // Set items in context when component mounts or items change
@@ -209,7 +210,7 @@ export function EquipmentFilterAndList({ categories, items, equipmentListUrl, eq
 
   return (
     <>
-      <StickyContent mTop={-16} dTop={10} className="z-10 pt-20 lg:pt-0 -mt-20 lg:mt-0 bg-natural dark:bg-black lg:bg-transparent lg:dark:bg-transparent col-start-1 col-span-12 flex flex-row items-center justify-between sticky lg:left-4 lg:w-[calc(((100vw-216px)/4.8)+32px)] 2xl:left-[calc(((100vw-216px)/24)+24px)] transition-colors duration-lg ease-es">
+      <StickyContent mTop={-16} dTop={10} className="z-2 pt-20 lg:pt-0 -mt-20 lg:mt-0 bg-natural dark:bg-black lg:bg-transparent lg:dark:bg-transparent col-start-1 col-span-12 flex flex-row items-center justify-between sticky lg:left-4 lg:w-[calc(((100vw-216px)/4.8)+32px)] 2xl:left-[calc(((100vw-216px)/24)+24px)] transition-colors duration-lg ease-es">
         <div className='label pl-4'>{filteredItems.length} / {items.length} Items</div>
         <button className='group relative hover:bg-black/10 dark:hover:bg-natural/10 p-0.5 rounded flex flex-row gap-1 items-center justify-start duration-md ease-es group' onClick={() => setViewMode(viewMode === 'image' ? 'list' : 'image')}>
           <div className='z-1 py-1 px-4'>
@@ -222,18 +223,28 @@ export function EquipmentFilterAndList({ categories, items, equipmentListUrl, eq
         </button>
       </StickyContent>
 
-      <StickyContent mTop={10} className='z-10 py-4 lg:py-0 -my-4 lg:my-0 bg-natural dark:bg-black lg:bg-transparent lg:dark:bg-transparent col-start-1 col-span-12 lg:col-start-1 lg:col-span-5 2xl:col-start-2 2xl:col-span-5 flex flex-col sticky lg:static transition-colors duration-lg ease-es'>
+      <StickyContent mTop={10} className='z-1 py-4 lg:py-0 -my-4 lg:my-0 bg-natural dark:bg-black lg:bg-transparent lg:dark:bg-transparent col-start-1 col-span-12 lg:col-start-1 lg:col-span-5 2xl:col-start-2 2xl:col-span-5 flex flex-col sticky lg:static transition-colors duration-lg ease-es'>
 
         <StickyContent dTop={25.5} className="flex flex-row gap-2 items-start lg:items-stretch lg:flex-col lg:gap-8 lg:sticky">
-          <div className={`${isSearchFocused ? 'grow' : isFilterOpen ? 'hidden lg:block' : 'basis-1/2'} min-w-0 field search transition-all duration-md ease-es`}>
+          <div className={`${isSearchFocused ? 'grow' : isFilterOpen ? 'hidden lg:block' : 'basis-1/2'} min-w-0 field search transition-all duration-md ease-es max-h-10.5`}>
             <Icon name="icon-search" className="icon-search w-3 h-3 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Search</title></Icon>
             <input 
               type='text' 
               placeholder='Search' 
               value={searchQuery} 
               onChange={(e) => setSearchQuery(e.target.value)}
-              onFocus={() => setIsSearchFocused(true)}
-              onBlur={() => setIsSearchFocused(false)}
+              onFocus={() => {
+                if (blurTimeoutRef.current) {
+                  clearTimeout(blurTimeoutRef.current)
+                  blurTimeoutRef.current = null
+                }
+                setIsSearchFocused(true)
+              }}
+              onBlur={() => {
+                blurTimeoutRef.current = setTimeout(() => {
+                  setIsSearchFocused(false)
+                }, 100)
+              }}
             />
             {searchQuery && (
               <button onClick={() => setSearchQuery('')} aria-label='Clear search'>
@@ -243,7 +254,7 @@ export function EquipmentFilterAndList({ categories, items, equipmentListUrl, eq
           </div>
 
           <div className={`${isSearchFocused ? 'hidden lg:flex' : isFilterOpen ? 'grow ml-auto' : 'basis-1/2'} min-w-0 bg-black/10 dark:bg-natural/10 lg:bg-transparent lg:dark:bg-transparent rounded lg:rounded-none flex flex-col transition-all duration-md ease-es`}>
-            <button onClick={() => setIsFilterOpen(!isFilterOpen)} className='flex flex-row gap-2 justify-between items-center lg:hidden px-4 py-3' type="button">
+            <button onClick={() => setIsFilterOpen(!isFilterOpen)} className='flex flex-row gap-2 justify-between items-center lg:hidden px-4 py-3 min-h-10.5' type="button">
               <div className='text-black dark:text-natural text-xl lg:text-lg'>Filters <span className='text-lg'>{selectedCategories.length > 0 && `[ ${selectedCategories.length} ]`}</span></div>
               {isFilterOpen ? (
                 <Icon name="icon-close" className="icon-close w-3 h-3 fill-black dark:fill-natural transition-opacity duration-md ease-es" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Close Filter</title></Icon>
