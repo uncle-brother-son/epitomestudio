@@ -194,7 +194,7 @@ export function Header({ global }: { global: Global | null }) {
           </button>
         </div>
 
-        <nav aria-label="Main navigation" className="col-start-10 col-span-3 lg:col-span-8 hidden lg:flex items-start justify-end gap-8">
+        <nav aria-label="Main navigation" className="col-start-10 col-span-3 lg:col-span-8 hidden lg:flex items-start justify-end gap-10">
           {mainNav.map((item) => {
             const isActive = pathname === item.url && item.url !== '/'
             return (
