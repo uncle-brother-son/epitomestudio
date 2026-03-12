@@ -354,8 +354,8 @@ export function EquipmentFilterAndList({ categories, items, equipmentListUrl, eq
         )}
       </div>
       <HideOnFooter translateAmount="translate-y-full">
-        <div className='fixed lg:static p-4 pb-[calc(1rem+env(safe-area-inset-bottom))] lg:p-0 bottom-0 left-0 right-0 bg-natural dark:bg-black lg:bg-transparent lg:dark:bg-transparent lg:col-start-20 lg:col-span-5 2xl:col-start-19 2xl:col-span-5 transition-colors duration-lg ease-es'>
-          <StickyContent dTop={25.5} className="flex flex-col bg-black/10 dark:bg-natural/10 rounded overflow-hidden lg:sticky transition-colors duration-lg ease-es">
+        <div className='fixed lg:static pb-[calc(1rem+env(safe-area-inset-bottom))] bottom-0 left-0 right-0 bg-natural dark:bg-black lg:bg-transparent lg:dark:bg-transparent lg:col-start-20 lg:col-span-5 2xl:col-start-19 2xl:col-span-5 transition-colors duration-lg ease-es'>
+          <StickyContent dTop={25.5} className="flex flex-col lg:bg-black/10 lg:dark:bg-natural/10 rounded overflow-hidden lg:sticky transition-colors duration-lg ease-es">
           <button onClick={() => setIsCartOpen(!isCartOpen)} className='flex flex-row justify-between w-full lg:cursor-default p-4' type="button">
             <div className="label">Your List<span className='lg:hidden pl-2'>[ {totalItems} ]</span></div>
             <Icon name="icon-chevron" className={`icon-chevron w-3 h-3 fill-black dark:fill-natural lg:hidden transition-transform duration-lg ease-es ${isCartOpen ? 'rotate-270' : 'rotate-90'}`} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Toggle Cart</title></Icon>

@@ -319,7 +319,7 @@ export function EquipmentHireForm({ onClose, equipment, global }: Props) {
           <div className="row-start-1 col-start-1 col-span-12 sm:col-start-2 sm:col-span-10 lg:col-start-16 lg:col-span-5 flex flex-col gap-2">
             <div className="bg-black/10 dark:bg-natural/10 rounded flex flex-col overflow-hidden">
                 <button onClick={() => setIsSummaryOpen(!isSummaryOpen)}className='flex flex-row justify-between w-full lg:cursor-default p-4' type="button">
-                  <div className="label">Item Summary<span className='lg:hidden pl-2'>[ {formData.items.length} ]</span></div>
+                  <div className="label">Item Summary<span className='lg:hidden pl-2'>[ {formData.items.reduce((sum, item) => sum + item.quantity, 0)} ]</span></div>
                   <Icon name="icon-chevron" className={`icon-chevron w-3 h-3 fill-black dark:fill-natural lg:hidden transition-transform duration-lg ease-es ${isSummaryOpen ? 'rotate-270' : 'rotate-90'}`} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Toggle Summary</title></Icon>
                 </button>
                 
