@@ -9,8 +9,8 @@
   --color-black: #121214;
   --color-natural: #F5F2EB;
   --color-bamboo: #87755B; /* new 40382E */
-  --color-red: #A86E6C;
-  --color-green: #79A86C;
+  --color-red: #9b5e5c;
+  --color-green: #618f55;
   --font-sans: 'General Sans', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --grid-cols-12: repeat(12, minmax(0, 1fr));
   --grid-cols-24: repeat(24, minmax(0, 1fr));
@@ -58,6 +58,7 @@
   p { @apply text-md; }
   b, strong { @apply font-medium; }
   button { @apply cursor-pointer; }
+  *:focus-visible { @apply outline outline-black dark:outline-natural outline-offset-2; }
 }
 
 @layer components {

@@ -12,10 +12,15 @@ export const revalidate = 0
 
 export async function generateMetadata(): Promise<Metadata> {
   const contact = await getContact()
+  const baseUrl = 'https://www.epitomestudio.co.uk'
+  const canonicalPath = contact?.slug?.current || 'contact'
   
   return {
     title: contact?.title || 'Contact',
     description: contact?.metaDescription || 'Get in touch with us',
+    alternates: {
+      canonical: `${baseUrl}/${canonicalPath}`,
+    },
   }
 }
 
@@ -25,6 +30,7 @@ export default async function ContactPage() {
 
   return (
     <main id="main-content" className="grid_ my-xl gap-y-lg grow">
+      {contact?.title && <h1 className="sr-only">{contact.title}</h1>}
               
         <div className='px-2 lg:px-0 col-start-1 col-span-12 lg:col-start-1 lg:col-span-6 2xl:col-start-2 2xl:col-span-5'>
           <StickyContent dTop={20} className="flex flex-col gap-6 lg:sticky">
@@ -41,7 +47,7 @@ export default async function ContactPage() {
             )}
 
             {global?.email && (
-              <a target='_blank' href={`mailto:${global.email}`} className="">
+              <a target='_blank' rel="noopener noreferrer" href={`mailto:${global.email}`} className="">
                 {global.email}
               </a>
             )}

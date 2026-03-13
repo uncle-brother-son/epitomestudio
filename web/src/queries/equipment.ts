@@ -3,6 +3,7 @@ import { client } from '@/lib/sanityClient'
 export interface Equipment {
   _id: string
   title: string
+  slug?: { current: string }
   metaDescription?: string
   equipmentList?: {
     asset: {
@@ -46,6 +47,7 @@ export async function getEquipment(): Promise<Equipment | null> {
   const query = `*[_type == "equipment"][0] {
     _id,
     title,
+    slug,
     metaDescription,
     equipmentList {
       asset-> {

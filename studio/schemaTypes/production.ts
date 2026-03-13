@@ -13,6 +13,16 @@ export const production = defineType({
       description: 'Main heading for the production page',
     },
     {
+      name: 'slug',
+      title: 'URL Slug',
+      type: 'slug',
+      validation: (Rule) => Rule.required(),
+      description: 'Used to generate the page URL. Click "Generate" to create from the title.',
+      options: {
+        source: 'title',
+      },
+    },
+    {
       name: 'content',
       title: 'Content',
       type: 'portableText',

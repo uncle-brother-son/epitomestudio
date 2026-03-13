@@ -6,6 +6,13 @@ export const home = defineType({
   type: 'document',
   fields: [
     {
+      name: 'title',
+      title: 'Page Title (H1)',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
+      description: 'Main heading for the homepage (H1 for SEO)',
+    },
+    {
       name: 'cards',
       title: 'Cards',
       type: 'array',

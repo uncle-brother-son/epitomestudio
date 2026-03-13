@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import { getGlobal } from '@/queries/global'
+import { getHome } from '@/queries/home'
 import { urlFor } from '@/lib/sanityImage'
 import { EquipmentCartProvider } from '@/contexts/EquipmentCartContext'
 import { CookieConsentProvider } from '@/contexts/CookieConsentContext'
@@ -8,29 +9,37 @@ import { DarkModeHandler } from '@/components/DarkModeHandler'
 import { PageTransition } from '@/components/PageTransition'
 import { ConditionalHeader } from '@/components/ConditionalHeader'
 import { GoogleAnalytics } from '@/components/GoogleAnalytics'
+import { StructuredData } from '@/components/StructuredData'
 
 export async function generateMetadata(): Promise<Metadata> {
   const global = await getGlobal()
-  const baseUrl = 'https://epitomestudio.ubs-demo.workers.dev'
+  const home = await getHome()
+  const baseUrl = 'https://www.epitomestudio.co.uk'
   
   const ogImageUrl = global?.ogImage 
     ? urlFor(global.ogImage).width(1200).height(630).url()
     : undefined
 
+  const siteName = global?.siteName || 'EPITOMESTUDIO'
+  const siteDescription = home?.metaDescription || 'Professional studio, equipment hire and production services'
+
   return {
-    title: global?.siteName || 'EPITOMESTUDIO',
-    description: 'A modern web application built with Next.js and Sanity CMS',
+    title: {
+      template: `%s | ${siteName}`,
+      default: siteName,
+    },
+    description: siteDescription,
     metadataBase: new URL(baseUrl),
     openGraph: {
-      title: global?.siteName || 'EPITOMESTUDIO',
-      description: 'A modern web application built with Next.js and Sanity CMS',
+      title: siteName,
+      description: siteDescription,
       type: 'website',
       ...(ogImageUrl && { images: [ogImageUrl] }),
     },
     twitter: {
       card: 'summary_large_image',
-      title: global?.siteName || 'EPITOMESTUDIO',
-      description: 'A modern web application built with Next.js and Sanity CMS',
+      title: siteName,
+      description: siteDescription,
       ...(ogImageUrl && { images: [ogImageUrl] }),
     },
   }
@@ -47,6 +56,7 @@ export default async function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <GoogleAnalytics />
+        <StructuredData global={global} />
         
         <script dangerouslySetInnerHTML={{__html: `
           if (window.location.pathname.includes('/equipment-hire')) {

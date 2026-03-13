@@ -12,14 +12,14 @@ export async function Footer({ global }: { global: Global | null }) {
 
       {global?.openingTimes && (
         <div className="col-start-1 col-span-12 lg:col-start-1 lg:col-span-6">
-          <h4 className='mb-1'>Opening Times</h4>
+          <div className='label mb-1'>Opening Times</div>
           <PortableText value={global.openingTimes} />
         </div>
       )}
       
       {global?.location && (
         <div className="col-start-1 col-span-12 lg:col-start-7 lg:col-span-6">
-          <h4 className='mb-1'>Location</h4>
+          <div className='label mb-1'>Location</div>
           {global.addressUrl ? (
             <a href={global.addressUrl} target="_blank" rel="noopener noreferrer">
               <PortableText value={global.location} />
@@ -32,8 +32,8 @@ export async function Footer({ global }: { global: Global | null }) {
 
       {global?.email && (
         <div className="col-start-1 col-span-12 lg:col-start-17 lg:col-span-4">
-          <h4 className='mb-1'>General Enquiries</h4>
-          <a target='_blank' href={`mailto:${global.email}`}>
+          <div className='label mb-1'>General Enquiries</div>
+          <a target='_blank' rel="noopener noreferrer" href={`mailto:${global.email}`}>
             {global.email}
           </a>
         </div>
@@ -41,7 +41,7 @@ export async function Footer({ global }: { global: Global | null }) {
 
       {global?.instagram && (
         <div className="col-start-1 col-span-12 lg:col-start-21 lg:col-span-4">
-          <h4 className='mb-1'>Instagram</h4>
+          <div className='label mb-1'>Instagram</div>
           <a href={global.instagram.startsWith('http') ? global.instagram : `https://instagram.com/${global.instagram.replace('@', '')}`} target="_blank" rel="noopener noreferrer">
             {global.instagram}
           </a>

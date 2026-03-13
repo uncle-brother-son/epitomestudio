@@ -31,7 +31,7 @@ export function CookieBanner() {
   if (!showBanner) return null
 
   return (
-    <div className={`cookie-banner fixed bottom-0 left-0 right-0 z-50 p-4 pb-[calc(1rem+env(safe-area-inset-bottom))] transition-all ease-es ${
+    <div className={`cookie-banner fixed bottom-0 left-0 right-0 z-50 p-4 lg:p-6 pb-[calc(1rem+env(safe-area-inset-bottom))] transition-all ease-es ${
       isExiting 
         ? 'opacity-0 translate-y-full duration-lg' 
         : isVisible 

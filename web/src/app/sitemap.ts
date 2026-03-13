@@ -1,12 +1,25 @@
 import { MetadataRoute } from 'next'
 import { getAllLegal } from '@/queries/legal'
+import { client } from '@/lib/sanityClient'
 
 export const dynamic = 'force-static'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = 'https://epitomestudio.ubs-demo.workers.dev'
+  const baseUrl = 'https://www.epitomestudio.co.uk'
 
+  // Fetch all legal pages
   const legal = await getAllLegal()
+
+  // Fetch all main pages from Sanity
+  const pages = await client.fetch(`
+    {
+      "home": *[_type == "home" && _id == "home"][0]{ _updatedAt },
+      "studio": *[_type == "studio" && _id == "studio"][0]{ _updatedAt, slug },
+      "equipment": *[_type == "equipment" && _id == "equipment"][0]{ _updatedAt, slug },
+      "production": *[_type == "production" && _id == "production"][0]{ _updatedAt, slug },
+      "contact": *[_type == "contact" && _id == "contact"][0]{ _updatedAt, slug }
+    }
+  `)
 
   const legalUrls = legal.map((item) => ({
     url: `${baseUrl}/legal/${item.slug.current}`,
@@ -15,37 +28,57 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.5,
   }))
 
-  return [
-    {
+  const sitemap: MetadataRoute.Sitemap = []
+
+  // Add homepage
+  if (pages.home) {
+    sitemap.push({
       url: baseUrl,
-      lastModified: new Date(),
+      lastModified: new Date(pages.home._updatedAt),
       changeFrequency: 'weekly',
       priority: 1,
-    },
-    {
-      url: `${baseUrl}/studio`,
-      lastModified: new Date(),
+    })
+  }
+
+  // Add studio page
+  if (pages.studio?.slug?.current) {
+    sitemap.push({
+      url: `${baseUrl}/${pages.studio.slug.current}`,
+      lastModified: new Date(pages.studio._updatedAt),
       changeFrequency: 'weekly',
       priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/equipment`,
-      lastModified: new Date(),
+    })
+  }
+
+  // Add equipment page
+  if (pages.equipment?.slug?.current) {
+    sitemap.push({
+      url: `${baseUrl}/${pages.equipment.slug.current}`,
+      lastModified: new Date(pages.equipment._updatedAt),
       changeFrequency: 'weekly',
       priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/production`,
-      lastModified: new Date(),
+    })
+  }
+
+  // Add production page
+  if (pages.production?.slug?.current) {
+    sitemap.push({
+      url: `${baseUrl}/${pages.production.slug.current}`,
+      lastModified: new Date(pages.production._updatedAt),
       changeFrequency: 'weekly',
       priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/contact`,
-      lastModified: new Date(),
+    })
+  }
+
+  // Add contact page
+  if (pages.contact?.slug?.current) {
+    sitemap.push({
+      url: `${baseUrl}/${pages.contact.slug.current}`,
+      lastModified: new Date(pages.contact._updatedAt),
       changeFrequency: 'monthly',
       priority: 0.7,
-    },
-    ...legalUrls,
-  ]
+    })
+  }
+
+  return [...sitemap, ...legalUrls]
 }

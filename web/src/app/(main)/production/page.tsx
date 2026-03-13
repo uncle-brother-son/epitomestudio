@@ -10,10 +10,15 @@ export const revalidate = 0
 
 export async function generateMetadata(): Promise<Metadata> {
   const production = await getProduction()
+  const baseUrl = 'https://www.epitomestudio.co.uk'
+  const canonicalPath = production?.slug?.current || 'production'
   
   return {
     title: production?.title || 'Production',
     description: production?.metaDescription || 'Our production services',
+    alternates: {
+      canonical: `${baseUrl}/${canonicalPath}`,
+    },
   }
 }
 
@@ -22,6 +27,7 @@ export default async function ProductionPage() {
 
   return (
     <main id="main-content" className="grid_ my-xl gap-y-lg grow">
+      {production?.title && <h1 className="sr-only">{production.title}</h1>}
 
       <div className='col-start-1 col-span-12 lg:col-start-1 lg:col-span-6 2xl:col-start-2 2xl:col-span-5 px-2 lg:px-0 flex flex-col lg:justify-between gap-8'>
         {production?.content && (

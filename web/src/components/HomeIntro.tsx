@@ -11,9 +11,10 @@ type AnimationPhase = 'logo-in' | 'logo-out' | 'cards-in' | 'complete'
 
 interface HomeIntroProps {
   cards: Card[]
+  title?: string
 }
 
-export function HomeIntro({ cards }: HomeIntroProps) {
+export function HomeIntro({ cards, title }: HomeIntroProps) {
   const { navigate } = usePageTransition()
   const [phase, setPhase] = useState<AnimationPhase>('logo-in')
   const [maskingOut, setMaskingOut] = useState(false)
@@ -85,6 +86,7 @@ export function HomeIntro({ cards }: HomeIntroProps) {
 
   return (
     <main id="main-content" className="h-dvh overflow-hidden">
+      {title && <h1 className="sr-only">{title}</h1>}
       <div className="h-full w-screen flex flex-col lg:flex-row">
         {cards.map((card, index) => {
           const isClickedCard = clickedIndex === index

@@ -4,9 +4,11 @@ interface AnimatedMessageProps {
   show: boolean
   children: React.ReactNode
   className?: string
+  ariaLive?: 'polite' | 'assertive' | 'off'
+  role?: string
 }
 
-export function AnimatedMessage({ show, children, className = '' }: AnimatedMessageProps) {
+export function AnimatedMessage({ show, children, className = '', ariaLive = 'polite', role }: AnimatedMessageProps) {
   const contentRef = useRef<React.ReactNode>(null)
   
   // Store content when show is true so it persists during fade-out
@@ -26,6 +28,8 @@ export function AnimatedMessage({ show, children, className = '' }: AnimatedMess
           ? 'grid-template-rows 0.48s cubic-bezier(0.295, 0.850, 0.440, 1.000), opacity 0.48s cubic-bezier(0.295, 0.850, 0.440, 1.000) 0.24s'
           : 'opacity 0.48s cubic-bezier(0.295, 0.850, 0.440, 1.000), grid-template-rows 0.48s cubic-bezier(0.295, 0.850, 0.440, 1.000) 0.24s'
       }}
+      aria-live={show ? ariaLive : 'off'}
+      {...(role && { role })}
     >
       <div className="overflow-hidden">
         <div className={className}>

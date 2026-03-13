@@ -29,6 +29,17 @@ export const studio = defineType({
       group: 'page',
     },
     {
+      name: 'slug',
+      title: 'URL Slug',
+      type: 'slug',
+      validation: (Rule) => Rule.required(),
+      description: 'Used to generate the page URL. Click "Generate" to create from the title.',
+      group: 'page',
+      options: {
+        source: 'title',
+      },
+    },
+    {
       name: 'content',
       title: 'Content',
       type: 'portableText',

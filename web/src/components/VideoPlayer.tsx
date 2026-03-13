@@ -14,6 +14,15 @@ export default function VideoPlayer({ src, className = '', aspectRatio = 'aspect
   const [isPlaying, setIsPlaying] = useState(true)
 
   useEffect(() => {
+    // Check if user prefers reduced motion
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    
+    // Don't autoplay if user prefers reduced motion
+    if (prefersReducedMotion) {
+      setIsPlaying(false)
+      return
+    }
+
     // Attempt to autoplay when component mounts
     if (videoRef.current) {
       videoRef.current.play().catch(() => {

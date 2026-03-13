@@ -10,6 +10,7 @@ export const revalidate = 0
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
   const legal = await getLegalBySlug(slug)
+  const baseUrl = 'https://www.epitomestudio.co.uk'
   
   if (!legal) {
     return {
@@ -20,6 +21,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: legal.header,
     description: legal.metaDescription || legal.header,
+    alternates: {
+      canonical: `${baseUrl}/legal/${slug}`,
+    },
   }
 }
 

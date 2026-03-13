@@ -3,6 +3,7 @@ import { client } from '@/lib/sanityClient'
 export interface Studio {
   _id: string
   title: string
+  slug?: { current: string }
   content?: any
   moreInfoButtonLabel?: string
   hireStudioButtonLabel?: string
@@ -38,6 +39,7 @@ export async function getStudio(): Promise<Studio | null> {
   const query = `*[_type == "studio" && _id == "studio"][0] {
     _id,
     title,
+    slug,
     content,
     moreInfoButtonLabel,
     hireStudioButtonLabel,

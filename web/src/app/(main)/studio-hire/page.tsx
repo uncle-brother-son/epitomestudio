@@ -15,10 +15,15 @@ import { StickyContent } from '@/components/StickyContent'
 
 export async function generateMetadata(): Promise<Metadata> {
   const studio = await getStudio()
+  const baseUrl = 'https://www.epitomestudio.co.uk'
+  const canonicalPath = studio?.slug?.current || 'studio-hire'
   
   return {
     title: studio?.title || 'Studio',
     description: studio?.metaDescription || 'Learn about our studio',
+    alternates: {
+      canonical: `${baseUrl}/${canonicalPath}`,
+    },
   }
 }
 
@@ -30,6 +35,7 @@ export default async function StudioPage() {
 
   return (
     <main id="main-content" className="grid_ my-xl gap-y-md lg:gap-y-2 grow">
+      {studio?.title && <h1 className="sr-only">{studio.title}</h1>}
 
 
       {studio?.imageGallery && studio.imageGallery.length > 0 && (
