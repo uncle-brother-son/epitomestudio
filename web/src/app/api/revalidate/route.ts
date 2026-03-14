@@ -1,8 +1,6 @@
 import { revalidatePath } from 'next/cache'
 import { NextRequest, NextResponse } from 'next/server'
 
-export const runtime = 'edge'
-
 // Map of Sanity document types to their paths
 const TYPE_TO_PATH_MAP: Record<string, string> = {
   home: '/',
