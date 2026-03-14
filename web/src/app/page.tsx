@@ -3,7 +3,7 @@ import { getGlobal } from '@/queries/global'
 import type { Metadata } from 'next'
 import { HomeIntro } from '@/components/HomeIntro'
 
-export const revalidate = 60 // Fallback time-based revalidation
+export const revalidate = false // On-demand revalidation only
 
 export async function generateMetadata(): Promise<Metadata> {
   const home = await getHome()

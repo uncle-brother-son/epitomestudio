@@ -3,7 +3,7 @@ import { getGlobal } from '@/queries/global'
 import type { Metadata } from 'next'
 import { EquipmentFilterAndList } from '@/components/EquipmentFilterAndList'
 
-export const revalidate = 60 // Fallback time-based revalidation
+export const revalidate = false // On-demand revalidation only
 
 export async function generateMetadata(): Promise<Metadata> {
   const page = await getEquipment()

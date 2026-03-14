@@ -4,7 +4,7 @@ import { PortableText } from '@portabletext/react'
 import { getLegalBySlug } from '@/queries/legal'
 import type { Metadata } from 'next'
 
-export const revalidate = 60 // Fallback time-based revalidation
+export const revalidate = false // On-demand revalidation only
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params

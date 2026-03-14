@@ -9,7 +9,7 @@ import { StudioInfoButton } from '@/components/StudioInfoButton'
 import type { Metadata } from 'next'
 import { StickyContent } from '@/components/StickyContent'
 
-export const revalidate = 60 // Fallback time-based revalidation
+export const revalidate = false // On-demand revalidation only
 
 
 export async function generateMetadata(): Promise<Metadata> {
