@@ -20,6 +20,13 @@
 			"id": "f9535c192a1744eba286d65d3f789e8c"
 		}
 	],
+	"d1_databases": [
+		{
+			"binding": "NEXT_TAG_CACHE_D1",
+			"database_id": "0dfce98c-f4a1-45c8-b628-f40d7ae58e15",
+			"database_name": "epitomestudio-tag-cache"
+		}
+	],
 	"workers_dev": true,
 	"preview_urls": false
 }
