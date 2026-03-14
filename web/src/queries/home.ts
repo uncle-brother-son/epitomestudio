@@ -58,7 +58,5 @@ export async function getHome(): Promise<Home | null> {
     }
   }`
 
-  return await client.fetch(query, {}, {
-    next: { revalidate: 60 }
-  })
+  return client.fetch(query)
 }

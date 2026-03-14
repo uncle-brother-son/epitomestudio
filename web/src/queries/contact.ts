@@ -19,7 +19,5 @@ export async function getContact(): Promise<Contact | null> {
     metaDescription
   }`
 
-  return await client.fetch(query, {}, {
-    next: { revalidate: 60 }
-  })
+  return client.fetch(query)
 }

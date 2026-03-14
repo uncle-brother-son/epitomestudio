@@ -64,9 +64,7 @@ export async function getEquipment(): Promise<Equipment | null> {
     }
   }`
 
-  return await client.fetch(query, {}, {
-    next: { revalidate: 60 }
-  })
+  return client.fetch(query)
 }
 
 export async function getAllEquipmentItems(): Promise<EquipmentItem[]> {
@@ -93,9 +91,7 @@ export async function getAllEquipmentItems(): Promise<EquipmentItem[]> {
     }
   }`
 
-  return await client.fetch(query, {}, {
-    next: { revalidate: 60 }
-  })
+  return await client.fetch(query)
 }
 
 export interface Category {
@@ -123,7 +119,5 @@ export async function getAllCategories(): Promise<Category[]> {
     order
   }`
 
-  return await client.fetch(query, {}, {
-    next: { revalidate: 60 }
-  })
+  return await client.fetch(query)
 }

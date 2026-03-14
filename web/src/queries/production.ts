@@ -28,7 +28,5 @@ export async function getProduction(): Promise<Production | null> {
     metaDescription
   }`
 
-  return await client.fetch(query, {}, {
-    next: { revalidate: 60 }
-  })
+  return client.fetch(query)
 }

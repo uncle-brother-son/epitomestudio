@@ -71,7 +71,5 @@ export async function getStudio(): Promise<Studio | null> {
     }
   }`
 
-  return await client.fetch(query, {}, {
-    next: { revalidate: 60 }
-  })
+  return client.fetch(query)
 }

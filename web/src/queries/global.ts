@@ -43,9 +43,7 @@ export async function getGlobal(): Promise<Global | null> {
     }
   }`
 
-  const result = await client.fetch(query, {}, {
-    next: { revalidate: 60 } // Cache for 60 seconds
-  })
+  const result = await client.fetch(query)
   
   // Transform references to navigation items
   if (result?.headerNavigation && Array.isArray(result.headerNavigation)) {

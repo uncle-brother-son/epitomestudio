@@ -17,9 +17,7 @@ export async function getAllLegal(): Promise<Legal[]> {
     metaDescription
   }`
 
-  return await client.fetch(query, {}, {
-    next: { revalidate: 60 }
-  })
+  return await client.fetch(query)
 }
 
 export async function getLegalBySlug(slug: string): Promise<Legal | null> {
@@ -31,7 +29,5 @@ export async function getLegalBySlug(slug: string): Promise<Legal | null> {
     metaDescription
   }`
 
-  return await client.fetch(query, { slug }, {
-    next: { revalidate: 60 }
-  })
+  return await client.fetch(query, { slug })
 }
