@@ -8,7 +8,6 @@ import { EquipmentTermsButton } from './EquipmentTermsButton'
 import type { EquipmentItem, Category, Equipment } from '@/queries/equipment'
 import type { Global } from '@/queries/global'
 import { useEquipmentCart } from '@/contexts/EquipmentCartContext'
-import { Reveal } from '@/components/Reveal'
 import { StickyContent } from '@/components/StickyContent'
 import { HideOnFooter } from '@/components/HideOnFooter'
 
@@ -271,7 +270,7 @@ export function EquipmentFilterAndList({ categories, items, equipmentListUrl, eq
                 const parentCount = getCategoryCartCount(parent._id, true)
 
                 return (
-                  <Reveal index={index} key={parent._id} className='flex flex-col'>
+                  <div key={parent._id} className='flex flex-col fadein' style={{ animationDelay: `${index * 150}ms` }}>
                     <label className='checkbox grow px-2 lg:px-4 py-1.75 rounded flex flex-row items-center justify-start gap-2 duration-md ease-es cursor-pointer'>
                       <input type='checkbox' checked={isSelected} onChange={() => toggleCategory(parent._id)} />
                       <Icon name="icon-tick" className="icon-tick h-4 w-4 transition-opacity duration-md ease-es" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Check</title></Icon>
@@ -285,18 +284,18 @@ export function EquipmentFilterAndList({ categories, items, equipmentListUrl, eq
                           const childCount = getCategoryCartCount(child._id, false)
                           
                           return (
-                            <Reveal index={childIndex} key={child._id} className='flex flex-col'>
+                            <div key={child._id} className='flex flex-col fadein' style={{ animationDelay: `${childIndex * 150}ms` }}>
                               <label className='checkbox grow px-2 lg:px-4 py-1.75 rounded flex flex-row items-center justify-start gap-2 duration-md ease-es cursor-pointer'>
                                 <input type='checkbox' checked={isChildSelected} onChange={() => toggleCategory(child._id)} />
                                 <Icon name="icon-tick" className="icon-tick h-4 w-4 transition-opacity duration-md ease-es" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Check</title></Icon>
                                 <span>{child.name}{childCount > 0 && ` (${childCount})`}</span>
                               </label>
-                            </Reveal>
+                            </div>
                           )
                         })}
                       </ul>
                     )}
-                  </Reveal>
+                  </div>
                 )
               })}
             </ul>

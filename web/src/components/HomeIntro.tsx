@@ -113,7 +113,16 @@ export function HomeIntro({ cards, title }: HomeIntroProps) {
             >
               <div className="lg:absolute lg:inset-y-0 lg:w-screen lg:left-1/2 lg:-translate-x-1/2 overflow-hidden">
                 {card.video?.asset?.url ? (
-                  <video src={card.video.asset.url} className="absolute inset-0 w-full h-full object-cover" autoPlay loop muted playsInline />
+                  <video 
+                    src={card.video.asset.url} 
+                    poster={card.videoPoster ? urlFor(card.videoPoster).width(800).height(1000).url() : undefined}
+                    preload="metadata"
+                    className="absolute inset-0 w-full h-full object-cover" 
+                    autoPlay 
+                    loop 
+                    muted 
+                    playsInline 
+                  />
                 ) : card.image?.asset ? (
                   <Image src={urlFor(card.image.asset).width(800).height(1000).url()} alt={card.title} fill className="object-cover" priority /> 
                 ) : null}

@@ -2,10 +2,16 @@
 
 import { useState } from 'react'
 import { createPortal } from 'react-dom'
+import dynamic from 'next/dynamic'
 import { Drawer } from './Drawer'
-import { StudioHireForm } from './StudioHireForm'
 import type { Studio } from '@/queries/studio'
 import type { Global } from '@/queries/global'
+
+// Lazy load the form component - only loads when user clicks "Hire Studio"
+const StudioHireForm = dynamic(
+  () => import('./StudioHireForm').then(mod => ({ default: mod.StudioHireForm })),
+  { ssr: false }
+)
 
 interface Props {
   label: string

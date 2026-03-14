@@ -3,6 +3,7 @@ import { client } from '@/lib/sanityClient'
 export interface Card {
   _key: string
   title: string
+  mediaType?: 'image' | 'video'
   image?: {
     asset: {
       _ref: string
@@ -15,6 +16,9 @@ export interface Card {
       _type: 'reference'
       url?: string
     }
+  }
+  videoPoster?: {
+    asset: any
   }
   linkType: 'home' | 'studio' | 'equipment' | 'production' | 'contact' | 'legal'
   legalPage?: {
@@ -40,6 +44,7 @@ export async function getHome(): Promise<Home | null> {
     cards[] {
       _key,
       title,
+      mediaType,
       image {
         asset
       },
@@ -49,6 +54,9 @@ export async function getHome(): Promise<Home | null> {
           _type,
           url
         }
+      },
+      videoPoster {
+        asset
       },
       linkType,
       legalPage-> {

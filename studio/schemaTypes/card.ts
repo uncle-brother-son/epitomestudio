@@ -4,6 +4,13 @@ export const card = defineType({
   name: 'card',
   title: 'Card',
   type: 'object',
+  fieldsets: [
+    {
+      name: 'media',
+      title: 'Media',
+      options: { collapsible: true, collapsed: false },
+    },
+  ],
   fields: [
     {
       name: 'title',
@@ -12,21 +19,66 @@ export const card = defineType({
       validation: (Rule) => Rule.required(),
     },
     {
+      name: 'mediaType',
+      title: 'Media Type',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Image', value: 'image' },
+          { title: 'Video', value: 'video' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'image',
+      validation: (Rule) => Rule.required(),
+      fieldset: 'media',
+    },
+    {
       name: 'image',
       title: 'Image',
       type: 'image',
       options: {
         hotspot: true,
       },
+      hidden: ({ parent }) => parent?.mediaType !== 'image',
+      validation: (Rule) =>
+        Rule.custom((image, context) => {
+          const parent = context.parent as { mediaType?: string }
+          if (parent?.mediaType === 'image' && !image) {
+            return 'Please upload an image'
+          }
+          return true
+        }),
+      fieldset: 'media',
     },
     {
       name: 'video',
       title: 'Video',
       type: 'file',
-      description: 'If video is added, it will be used instead of the image',
       options: {
         accept: 'video/*',
       },
+      hidden: ({ parent }) => parent?.mediaType !== 'video',
+      validation: (Rule) =>
+        Rule.custom((video, context) => {
+          const parent = context.parent as { mediaType?: string }
+          if (parent?.mediaType === 'video' && !video) {
+            return 'Please upload a video'
+          }
+          return true
+        }),
+      fieldset: 'media',
+    },
+    {
+      name: 'videoPoster',
+      title: 'Video Poster Image',
+      type: 'image',
+      description: 'Thumbnail shown before video loads (recommended)',
+      options: {
+        hotspot: true,
+      },
+      hidden: ({ parent }) => parent?.mediaType !== 'video',
+      fieldset: 'media',
     },
     {
       name: 'linkType',

@@ -12,6 +12,9 @@ export interface Production {
   video?: {
     asset: any
   }
+  videoPoster?: {
+    asset: any
+  }
   metaDescription?: string
 }
 
@@ -23,6 +26,9 @@ export async function getProduction(): Promise<Production | null> {
     content,
     link,
     video {
+      asset
+    },
+    videoPoster {
       asset
     },
     metaDescription

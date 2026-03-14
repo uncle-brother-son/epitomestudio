@@ -5,9 +5,7 @@ import { getHome } from '@/queries/home'
 import { urlFor } from '@/lib/sanityImage'
 import { EquipmentCartProvider } from '@/contexts/EquipmentCartContext'
 import { CookieConsentProvider } from '@/contexts/CookieConsentContext'
-import { DarkModeHandler } from '@/components/DarkModeHandler'
 import { PageTransition } from '@/components/PageTransition'
-import { ConditionalHeader } from '@/components/ConditionalHeader'
 import { GoogleAnalytics } from '@/components/GoogleAnalytics'
 import { StructuredData } from '@/components/StructuredData'
 
@@ -58,19 +56,15 @@ export default async function RootLayout({
         <GoogleAnalytics />
         <StructuredData global={global} />
         
-        <script dangerouslySetInnerHTML={{__html: `
-          if (window.location.pathname.includes('/equipment-hire')) {
-            document.documentElement.classList.add('dark');
-          }
-        `}} />
+        <link rel="preconnect" href="https://cdn.sanity.io" />
+        <link rel="dns-prefetch" href="https://cdn.sanity.io" />
+        
         <link rel="preload" href="/fonts/GeneralSans-Regular.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
         <link rel="preload" href="/fonts/GeneralSans-Medium.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
       </head>
       <body className="bg-natural dark:bg-black text-black dark:text-natural text-md subpixel-antialiased flex flex-col min-h-dvh transition-colors duration-lg ease-es">
-        <DarkModeHandler />
         <CookieConsentProvider>
           <EquipmentCartProvider>
-            <ConditionalHeader global={global} />
             <PageTransition>
               {children}
             </PageTransition>

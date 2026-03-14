@@ -25,14 +25,14 @@
   --text-xl--line-height: 1.125rem; 
   */
    
-  --text-sm: 11px; 
-  --text-md: 13px; 
-  --text-lg: 15px; 
-  --text-xl: 16px; 
-  --text-sm--line-height: 11px; 
-  --text-md--line-height: 19px; 
-  --text-lg--line-height: 17px; 
-  --text-xl--line-height: 18px;
+  --text-sm: 0.6875rem; /* 11px in rem is 0.6875rem */
+  --text-md: 0.8125rem; /* 13px in rem is 0.8125rem */
+  --text-lg: 0.9375rem; /* 15px in rem is 0.9375rem */
+  --text-xl: 1rem; /* 16px in rem is 1rem */
+  --text-sm--line-height: 0.6875rem; /* 11px in rem is 0.6875rem */
+  --text-md--line-height: 1.1875rem; /* 19px in rem is 1.1875rem */
+  --text-lg--line-height: 1.0625rem; /* 17px in rem is 1.0625rem */
+  --text-xl--line-height: 1.125rem; /* 18px in rem is 1.125rem */
  
   /* 
   --text-sm: 12px; 
@@ -192,7 +192,28 @@
     0% { opacity: 0; }
     100% { opacity: 1; }
   }
+  
+  /* Traditional animation for explicit timing (mobile menu, etc) */
   .fadein { animation: fadein 960ms cubic-bezier(0.295, 0.850, 0.440, 1.000) backwards; }
+  
+  /* Modern CSS scroll-driven animation for on-scroll reveals */
+  .reveal-on-scroll {
+    animation: fadein linear forwards;
+    animation-timeline: view();
+    animation-range: entry 0% cover 30%;
+  }
+  
+  /* Fallback for browsers without scroll-driven animations */
+  @supports not (animation-timeline: view()) {
+    .reveal-on-scroll {
+      animation: fadein 960ms cubic-bezier(0.295, 0.850, 0.440, 1.000) backwards;
+      opacity: 0;
+    }
+    .reveal-on-scroll.is-visible {
+      animation-play-state: running;
+      opacity: 1;
+    }
+  }
   
   @keyframes fadeout {
     0% { opacity: 1; }

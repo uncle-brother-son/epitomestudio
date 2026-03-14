@@ -4,6 +4,13 @@ export const production = defineType({
   name: 'production',
   title: 'Production',
   type: 'document',
+  fieldsets: [
+    {
+      name: 'video',
+      title: 'Video',
+      options: { collapsible: true, collapsed: false },
+    },
+  ],
   fields: [
     {
       name: 'title',
@@ -52,6 +59,17 @@ export const production = defineType({
       options: {
         accept: 'video/*',
       },
+      fieldset: 'video',
+    },
+    {
+      name: 'videoPoster',
+      title: 'Video Poster Image',
+      type: 'image',
+      description: 'Thumbnail image shown before video loads (recommended for faster perceived load)',
+      options: {
+        hotspot: true,
+      },
+      fieldset: 'video',
     },
     {
       name: 'metaDescription',

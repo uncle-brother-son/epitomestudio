@@ -5,11 +5,13 @@ import { Icon } from './Icons'
 
 interface VideoPlayerProps {
   src: string
+  poster?: string
+  priority?: boolean
   className?: string
   aspectRatio?: string // e.g., "aspect-video", "aspect-square", "aspect-4/5"
 }
 
-export default function VideoPlayer({ src, className = '', aspectRatio = 'aspect-video' }: VideoPlayerProps) {
+export default function VideoPlayer({ src, poster, priority = false, className = '', aspectRatio = 'aspect-video' }: VideoPlayerProps) {
   const videoRef = useRef<HTMLVideoElement>(null)
   const [isPlaying, setIsPlaying] = useState(true)
 
@@ -53,7 +55,18 @@ export default function VideoPlayer({ src, className = '', aspectRatio = 'aspect
         </div>
       </button>
       
-      <video ref={videoRef} className={`absolute inset-0 -z-10 w-full h-full object-cover ${aspectRatio}`} src={src} muted loop playsInline onPlay={() => setIsPlaying(true)} onPause={() => setIsPlaying(false)} >
+      <video 
+        ref={videoRef} 
+        className={`absolute inset-0 -z-10 w-full h-full object-cover ${aspectRatio}`} 
+        src={src} 
+        poster={poster}
+        preload={priority ? 'auto' : 'metadata'}
+        muted 
+        loop 
+        playsInline 
+        onPlay={() => setIsPlaying(true)} 
+        onPause={() => setIsPlaying(false)}
+      >
         Your browser does not support the video tag.
       </video>
 

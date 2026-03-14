@@ -2,11 +2,17 @@
 
 import { useState } from 'react'
 import { createPortal } from 'react-dom'
+import dynamic from 'next/dynamic'
 import { Drawer } from './Drawer'
-import { EquipmentHireForm } from './EquipmentHireForm'
 import { useEquipmentCart } from '@/contexts/EquipmentCartContext'
 import type { Equipment } from '@/queries/equipment'
 import type { Global } from '@/queries/global'
+
+// Lazy load the form component - only loads when user clicks "Hire Equipment"
+const EquipmentHireForm = dynamic(
+  () => import('./EquipmentHireForm').then(mod => ({ default: mod.EquipmentHireForm })),
+  { ssr: false }
+)
 
 interface Props {
   label: string

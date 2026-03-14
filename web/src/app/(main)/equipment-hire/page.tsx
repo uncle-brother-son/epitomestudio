@@ -2,6 +2,7 @@ import { getEquipment, getAllEquipmentItems, getAllCategories } from '@/queries/
 import { getGlobal } from '@/queries/global'
 import type { Metadata } from 'next'
 import { EquipmentFilterAndList } from '@/components/EquipmentFilterAndList'
+import { EquipmentDarkMode } from '@/components/EquipmentDarkMode'
 
 export const revalidate = false // On-demand revalidation only
 
@@ -27,6 +28,7 @@ export default async function EquipmentPage() {
 
   return (
     <main id="main-content" className="grid_ px-4 my-xl gap-y-lg grow">
+      <EquipmentDarkMode />
       {page?.title && <h1 className="sr-only">{page.title}</h1>}
 
       <EquipmentFilterAndList 

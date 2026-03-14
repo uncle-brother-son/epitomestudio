@@ -8,7 +8,6 @@ import { urlFor } from '@/lib/sanityImage'
 import { Icon } from '@/components/Icons'
 import { useHeaderScroll } from '@/contexts/HeaderScrollContext'
 import { usePathname } from 'next/navigation'
-import { Reveal } from '@/components/Reveal'
 
 export function Header({ global }: { global: Global | null }) {
   const { translateY, setTranslateY } = useHeaderScroll()
@@ -218,7 +217,7 @@ export function Header({ global }: { global: Global | null }) {
               {navigation.map((item, index) => {
                 const isActive = pathname === item.url && item.url !== '/'
                 return (
-                  <Reveal index={index} key={item.label}>
+                  <div key={item.label} className="fadein" style={{ animationDelay: `${index * 150}ms` }}>
                     <Link 
                       href={item.url} 
                       className={`link text-lg mobile-menu-content${isActive ? ' line' : ''}`} 
@@ -232,7 +231,7 @@ export function Header({ global }: { global: Global | null }) {
                     >
                       <span>{item.label}</span>
                     </Link>
-                  </Reveal>
+                  </div>
                 )
               })}
             </nav>
