@@ -39,20 +39,39 @@ export async function POST(request: NextRequest) {
     console.log('Revalidating for document type:', documentType)
 
     // Revalidate the appropriate path(s)
+    let revalidatedPath: string | null = null
+    
     if (documentType === 'legal' && body.slug?.current) {
       // Revalidate specific legal page
       const legalPath = `/legal/${body.slug.current}`
       revalidatePath(legalPath)
+      revalidatedPath = legalPath
       console.log('Revalidated:', legalPath)
     } else if (documentType === 'global') {
       // Global changes affect all pages - revalidate everything
       revalidatePath('/', 'layout')
+      revalidatedPath = '/'
       console.log('Revalidated: all pages (layout)')
     } else if (TYPE_TO_PATH_MAP[documentType]) {
       // Revalidate the specific page
       const path = TYPE_TO_PATH_MAP[documentType]
       revalidatePath(path)
+      revalidatedPath = path
       console.log('Revalidated:', path)
+    }
+
+    // Warm the cache by fetching the page after revalidation
+    if (revalidatedPath) {
+      const baseUrl = request.nextUrl.origin
+      const warmUrl = `${baseUrl}${revalidatedPath}`
+      
+      // Fire and forget - don't wait for the response
+      fetch(warmUrl, { 
+        headers: { 'User-Agent': 'Sanity-Webhook-Cache-Warmer' },
+        cache: 'no-store' 
+      }).catch(err => console.error('Cache warming failed:', err))
+      
+      console.log('Warming cache for:', warmUrl)
     }
 
     return NextResponse.json(
