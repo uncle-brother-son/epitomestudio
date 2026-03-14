@@ -7,8 +7,7 @@ import type { Metadata } from 'next'
 import { Icon } from '@/components/Icons'
 import { StickyContent } from '@/components/StickyContent'
 
-export const dynamic = 'force-dynamic'
-export const revalidate = 0
+export const revalidate = 60 // Fallback time-based revalidation
 
 export async function generateMetadata(): Promise<Metadata> {
   const contact = await getContact()

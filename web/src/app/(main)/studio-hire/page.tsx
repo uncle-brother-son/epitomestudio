@@ -7,10 +7,9 @@ import { HideOnFooter } from '@/components/HideOnFooter'
 import { StudioHireButton } from '@/components/StudioHireButton'
 import { StudioInfoButton } from '@/components/StudioInfoButton'
 import type { Metadata } from 'next'
-
-export const dynamic = 'force-dynamic'
-export const revalidate = 0
 import { StickyContent } from '@/components/StickyContent'
+
+export const revalidate = 60 // Fallback time-based revalidation
 
 
 export async function generateMetadata(): Promise<Metadata> {

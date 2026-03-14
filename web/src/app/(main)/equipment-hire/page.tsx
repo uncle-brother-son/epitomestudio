@@ -1,10 +1,9 @@
 import { getEquipment, getAllEquipmentItems, getAllCategories } from '@/queries/equipment'
 import { getGlobal } from '@/queries/global'
 import type { Metadata } from 'next'
-
-export const dynamic = 'force-dynamic'
-export const revalidate = 0
 import { EquipmentFilterAndList } from '@/components/EquipmentFilterAndList'
+
+export const revalidate = 60 // Fallback time-based revalidation
 
 export async function generateMetadata(): Promise<Metadata> {
   const page = await getEquipment()

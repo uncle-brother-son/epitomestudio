@@ -14,6 +14,12 @@
 		}
 	],
 	"compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+	"kv_namespaces": [
+		{
+			"binding": "NEXT_INC_CACHE_KV",
+			"id": "f9535c192a1744eba286d65d3f789e8c"
+		}
+	],
 	"workers_dev": true,
 	"preview_urls": false
 }
