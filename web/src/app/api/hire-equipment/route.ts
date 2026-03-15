@@ -80,7 +80,7 @@ export async function POST(request: NextRequest) {
         </tr>
     `).join('')
 
-    // Send email
+    // Send email to company
     const data = await resend.emails.send({
       from: 'Equipment Hire <onboarding@resend.dev>', // Update with your verified domain
       to: process.env.CONTACT_EMAIL || 'your-email@example.com', // Update with your email
@@ -262,6 +262,211 @@ export async function POST(request: NextRequest) {
 
 
                     
+                  </table>
+
+                </td>
+              </tr>
+            </table>
+          </body>
+        </html>
+      `,
+    })
+
+    // Send confirmation email to customer
+    await resend.emails.send({
+      from: 'EPITOMESTUDIO <onboarding@resend.dev>',
+      to: email,
+      subject: 'Equipment Hire Enquiry Received — EPITOMESTUDIO',
+      html: `
+        <!DOCTYPE html>
+        <html style="background-color: #F5F2EB;">
+          <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style>
+              @media only screen and (max-width: 600px) {
+                .email-container { width: 100% !important; }
+              }
+              @media only screen and (max-width: 480px) {
+                .header-cell { display: block !important; width: 100% !important; text-align: left !important; }
+                .header-space { padding-bottom: 16px !important; }
+                .list-cell { display: block !important; width: 100% !important; text-align: left !important; }
+                .list-space { padding-bottom: 12px !important; }
+              }
+            </style>
+          </head>
+          <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #F5F2EB;">
+            <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #F5F2EB;">
+              <tr>
+                <td align="center" style="padding: 32px 16px;">
+                  
+                  <!-- Header -->
+                  <table width="600" cellpadding="0" cellspacing="0" style="padding: 0 0 40px; max-width: 600px; width: 100%; overflow: hidden;" class="email-container">
+                    <tr>
+                      <td style="padding: 0; text-align: left;">
+                        <img src="https://epitomestudio.ubs-demo.workers.dev/logo.svg" alt="EPITOMESTUDIO" style="width: 266px; height: 24px; display: block;" />
+                      </td>
+                    </tr>
+                  </table>
+
+                  <!-- Greeting -->
+                  <table width="600" cellpadding="0" cellspacing="0" style="padding: 0 0 40px; max-width: 600px; width: 100%; overflow: hidden;" class="email-container">
+                    <tr>
+                      <td style="padding: 0 0 16px;">
+                        <div style="font-size: 12px; color: #121214;">Hi ${name.split(' ')[0]},</div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="padding: 0 0 16px;">
+                        <div style="font-size: 12px; color: #121214;">Thank you for your equipment hire enquiry. We're reviewing your request and will send you a detailed quote within 24 hours.</div>
+                      </td>
+                    </tr>
+                  </table>
+
+                  <!-- Booking Summary Header -->
+                  <table width="600" cellpadding="0" cellspacing="0" style="padding: 0 0 16px; max-width: 600px; width: 100%; overflow: hidden;" class="email-container">
+                    <tr>
+                      <td style="padding: 0;">
+                        <div style="font-size: 10px; font-weight: 500; color: #121214; text-transform: uppercase;">Booking Summary</div>
+                      </td>
+                    </tr>
+                  </table>
+
+                  <!-- Booking Details -->
+                  <table width="600" cellpadding="0" cellspacing="0" style="max-width: 600px; width: 100%; overflow: hidden;" class="email-container">
+                    <tr>
+                      <td style="padding: 0 0 8px; width: 128px; vertical-align: top;">
+                        <div style="font-size: 10px; font-weight: 500; color: #121214; text-transform: uppercase;">Start Date</div>
+                      </td>
+                      <td style="padding: 0 0 8px;">
+                        <div style="font-size: 12px; color: #121214;">${formattedDate}</div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="padding: 0 0 8px; width: 128px; vertical-align: top;">
+                        <div style="font-size: 10px; font-weight: 500; color: #121214; text-transform: uppercase;">Days</div>
+                      </td>
+                      <td style="padding: 0 0 8px;">
+                        <div style="font-size: 12px; color: #121214;">${days}</div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="padding: 0 0 8px; width: 128px; vertical-align: top;">
+                        <div style="font-size: 10px; font-weight: 500; color: #121214; text-transform: uppercase;">Times</div>
+                      </td>
+                      <td style="padding: 0 0 8px;">
+                        <div style="font-size: 12px; color: #121214;">${pickUpTime} - ${dropOffTime}</div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="padding: 0 0 40px; width: 128px; vertical-align: top;">
+                        <div style="font-size: 10px; font-weight: 500; color: #121214; text-transform: uppercase;">Hire Studio</div>
+                      </td>
+                      <td style="padding: 0 0 40px;">
+                        <div style="font-size: 12px; color: #121214;">${hireStudio ? 'Yes' : 'No'}</div>
+                      </td>
+                    </tr>
+
+                    ${message ? `
+                    <tr>
+                      <td colspan="2">
+                        <table width="100%" cellpadding="0" cellspacing="0">
+                          <tr>
+                            <td class="list-cell list-space" style="padding: 0 0 40px; width: 128px; vertical-align: top;">
+                              <div style="font-size: 10px; font-weight: 500; color: #121214; text-transform: uppercase;">Message</div>
+                            </td>
+                            <td class="list-cell" style="padding: 0 0 40px;">
+                              <div style="font-size: 12px; color: #121214; white-space: pre-wrap; word-break: break-word;">${message}</div>
+                            </td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+                    ` : ''}
+
+                    <!-- Equipment Items -->
+                    ${items && items.length > 0 ? `
+                    <tr>
+                      <td colspan="2">
+                        <table width="100%" cellpadding="0" cellspacing="0">
+                          <tr>
+                            <td class="list-cell list-space" style="padding: 0 0 40px; width: 128px; vertical-align: top;">
+                              <div style="font-size: 10px; font-weight: 500; color: #121214; text-transform: uppercase;">Equipment</div>
+                            </td>
+                            <td class="list-cell" style="padding: 0 0 40px;">
+                              <div style="font-size: 10px; color: #121214;"><table>${equipmentItemsHtml}</table></div>
+                            </td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td style="padding: 0 0 8px; width: 128px; vertical-align: top;">
+                        <div style="font-size: 10px; font-weight: 500; color: #121214; text-transform: uppercase;">Estimated Subtotal</div>
+                      </td>
+                      <td style="padding: 0 0 8px;">
+                        <div style="font-size: 12px; color: #121214;">£${calculateSubtotal()}</div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="padding: 0 0 8px; width: 128px; vertical-align: top;">
+                        <div style="font-size: 10px; font-weight: 500; color: #121214; text-transform: uppercase;">Days</div>
+                      </td>
+                      <td style="padding: 0 0 8px;">
+                        <div style="font-size: 12px; color: #121214;">× ${days}</div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="padding: 0 0 40px; width: 128px; vertical-align: top;">
+                        <div style="font-size: 10px; font-weight: 500; color: #121214; text-transform: uppercase;">Estimated Total (excl. VAT)</div>
+                      </td>
+                      <td style="padding: 0 0 40px;">
+                        <div style="font-size: 12px; color: #121214;">£${calculateTotal()}</div>
+                      </td>
+                    </tr>
+                    ` : ''}
+                  </table>
+
+                  <!-- Next Steps -->
+                  <table width="600" cellpadding="0" cellspacing="0" style="padding: 0 0 16px; max-width: 600px; width: 100%; overflow: hidden;" class="email-container">
+                    <tr>
+                      <td style="padding: 0;">
+                        <div style="font-size: 10px; font-weight: 500; color: #121214; text-transform: uppercase;">Next Steps</div>
+                      </td>
+                    </tr>
+                  </table>
+
+                  <table width="600" cellpadding="0" cellspacing="0" style="padding: 0 0 40px; max-width: 600px; width: 100%; overflow: hidden;" class="email-container">
+                    <tr>
+                      <td style="padding: 0 0 8px;">
+                        <div style="font-size: 12px; color: #121214;">1. We'll confirm equipment availability</div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="padding: 0 0 8px;">
+                        <div style="font-size: 12px; color: #121214;">2. You'll receive a formal quote and booking terms</div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="padding: 0;">
+                        <div style="font-size: 12px; color: #121214;">3. Once you accept, we'll send payment details and confirmation</div>
+                      </td>
+                    </tr>
+                  </table>
+
+                  <!-- Footer -->
+                  <table width="600" cellpadding="0" cellspacing="0" style="padding: 0 0 400px; max-width: 600px; width: 100%; overflow: hidden;" class="email-container">
+                    <tr>
+                      <td style="padding: 0 0 16px;">
+                        <div style="font-size: 12px; color: #121214;">If you need to make changes or have questions, simply reply to this email.</div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="padding: 0;">
+                        <div style="font-size: 12px; color: #121214;">Best regards,<br>EPITOMESTUDIO</div>
+                      </td>
+                    </tr>
                   </table>
 
                 </td>

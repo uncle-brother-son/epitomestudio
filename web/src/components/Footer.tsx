@@ -22,7 +22,7 @@ export async function Footer({ global }: { global: Global | null }) {
           <div className='label mb-1'>Location</div>
           {global.addressUrl ? (
             <a href={global.addressUrl} target="_blank" rel="noopener noreferrer">
-              <PortableText value={global.location} />
+              <PortableText value={global.location} components={{ block: { normal: ({children}) => <>{children}</> } }} />
             </a>
           ) : (
             <PortableText value={global.location} />

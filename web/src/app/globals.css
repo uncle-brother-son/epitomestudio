@@ -14,36 +14,17 @@
   --font-sans: 'General Sans', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --grid-cols-12: repeat(12, minmax(0, 1fr));
   --grid-cols-24: repeat(24, minmax(0, 1fr));
-  /* 
-  --text-sm: 0.625rem;
-  --text-md: 0.75rem ;
-  --text-lg: 0.875rem;
-  --text-xl: 1rem;
-  --text-sm--line-height: 0.625rem;
-  --text-md--line-height: 1.125rem;
-  --text-lg--line-height: 1rem;
-  --text-xl--line-height: 1.125rem; 
-  */
    
-  --text-sm: 0.6875rem; /* 11px in rem is 0.6875rem */
-  --text-md: 0.8125rem; /* 13px in rem is 0.8125rem */
-  --text-lg: 0.9375rem; /* 15px in rem is 0.9375rem */
-  --text-xl: 1rem; /* 16px in rem is 1rem */
-  --text-sm--line-height: 0.6875rem; /* 11px in rem is 0.6875rem */
-  --text-md--line-height: 1.1875rem; /* 19px in rem is 1.1875rem */
-  --text-lg--line-height: 1.0625rem; /* 17px in rem is 1.0625rem */
-  --text-xl--line-height: 1.125rem; /* 18px in rem is 1.125rem */
- 
-  /* 
-  --text-sm: 12px; 
-  --text-md: 14px; 
-  --text-lg: 16px; 
-  --text-xl: 18px; 
-  --text-sm--line-height: 12px; 
-  --text-md--line-height: 20px; 
-  --text-lg--line-height: 18px; 
-  --text-xl--line-height: 20px;
-  */
+  --text-sm: 0.6875rem; /* 11px */
+  --text-md: 0.8125rem; /* 13px */
+  --text-lg: 0.9375rem; /* 15px */
+  --text-label-lg: 0.9375rem; /* 15px */
+  --text-xl: 1rem; /* 16px */
+  --text-sm--line-height: 0.6875rem; /* 11px */
+  --text-md--line-height: 1.1875rem; /* 19px */
+  --text-lg--line-height: 1.313rem; /* 21px */
+  --text-label-lg--line-height: 1rem; /* 16px */
+  --text-xl--line-height: 1.125rem; /* 18px */
 
   --radius: 0.125rem; /* 2px */
   --transition-duration-sm: 240ms;
@@ -66,10 +47,6 @@
   .grid_ { @apply grid grid-cols-12 lg:grid-cols-24 gap-2 px-2 lg:px-4; }
 
   .cd4 { @apply w-[calc(((100vw-120px)/3)+23px)] sm:w-[calc(((100vw-120px)/4)+23px)] lg:w-[calc(((100vw-216px)/8)+16px)]; }
-  
-  /* Accessibility */
-  .sr-only { @apply absolute w-px h-px p-0 -m-px overflow-hidden whitespace-nowrap border-0; }
-  .sr-only:focus { @apply fixed w-auto h-auto p-4 m-0 overflow-visible bg-black dark:bg-natural text-natural dark:text-black z-100 top-0 left-0; }
 
   /* Mobile Menu Animations */
   .mobile-menu-bg { @apply transition-colors duration-md ease-es; }
@@ -82,8 +59,8 @@
   .link { @apply text-sm font-medium uppercase text-black dark:text-natural inline-flex flex-row gap-1 items-center justify-start transition-all duration-lg ease-es; }
   .link.line { @apply relative pb-1.5 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-px after:bg-black dark:after:bg-natural hover:after:bottom-px after:transition-all after:duration-md after:ease-es; }
   .link.line-header { @apply relative pb-1.5 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-px hover:after:bg-black dark:hover:after:bg-natural hover:after:bottom-px after:transition-all after:duration-md after:ease-es; }
-  .btn { @apply text-sm font-medium uppercase text-natural dark:text-black bg-black dark:bg-natural px-6 py-2 h-8 rounded inline-flex flex-row gap-1 items-center justify-center; }
-  .btn-outline { @apply text-sm font-medium uppercase text-black dark:text-natural border border-black dark:border-natural px-6 py-2 h-8 rounded inline-flex flex-row gap-1 items-center justify-center; }
+  .btn { @apply text-sm font-medium uppercase text-natural dark:text-black bg-black dark:bg-natural px-6 py-3 h-9 rounded inline-flex flex-row gap-1 items-center justify-center; }
+  .btn-outline { @apply text-sm font-medium uppercase text-black dark:text-natural border border-black dark:border-natural px-6 py-3 h-9 rounded inline-flex flex-row gap-1 items-center justify-center; }
   .cookie-banner .btn { @apply text-black dark:text-natural bg-natural dark:bg-black; }
   .cookie-banner .btn-outline { @apply text-natural dark:text-black border-natural dark:border-black; }
   
@@ -102,25 +79,32 @@
   .gap-y-lg { @apply gap-y-20 lg:gap-y-30; }
   .gap-y-xl { @apply gap-y-30 lg:gap-y-40; }
 
-  .rich ul, .terms ul { @apply ml-3.5; }
-  .rich ul li, .terms ul li { @apply relative; }
-  .rich ul li::before, .terms ul li::before { @apply absolute top-0 -left-3.5; content: '—'; }
+  .rich ul { @apply ml-3.5; }
+  .rich ul li { @apply relative; }
+  .rich ul li::before { @apply absolute top-0 -left-3.5; content: '—'; }
+
+  .terms-page, .terms-page p { @apply text-lg leading-5.25!; }
+  .terms-page ul { @apply ml-3.5; }
+  .terms-page ul li { @apply relative; }
+  .terms-page ul li::before { @apply absolute top-0 -left-3.5; content: '—'; }
+  .terms-page h2 { @apply text-sm font-medium uppercase mt-9; }
+  .terms-page p, .terms-page h2, .terms-page ul { @apply mb-3; }
+  
+  .terms p { @apply text-lg mb-2; }
+  .terms p:last-child { @apply mb-0; }
   
   ol.terms  { @apply pl-6 list-outside; counter-reset: item; }
-  ol.terms > li { @apply relative mb-2 text-lg; counter-increment: item; }
+  ol.terms > li { @apply relative mb-2 text-label-lg; counter-increment: item; }
   ol.terms > li::before { @apply absolute top-0 -left-6 text-xl; content: counter(item) ". "; }
   ol.terms > li ol { @apply pl-7 list-outside; counter-reset: subitem; list-style-type: none; }
-  ol.terms > li ol > li { @apply relative mb-2 text-lg; counter-increment: subitem; }
-  ol.terms > li ol > li::before { @apply absolute top-0 -left-7 text-lg; content: counter(item) "." counter(subitem) " "; }
+  ol.terms > li ol > li { @apply relative mb-2 text-label-lg; counter-increment: subitem; }
+  ol.terms > li ol > li::before { @apply absolute top-0 -left-7 text-label-lg; content: counter(item) "." counter(subitem) " "; }
   ol.terms > li ul { @apply pl-7; }
   ol.terms > li ul > li { @apply relative; }
   ol.terms > li ul > li ul li::before { @apply absolute top-0 -left-7; content: '—'; }
   ol.terms > li ol > li ol { @apply pl-8 list-outside; counter-reset: subsubitem; list-style-type: none; }
-  ol.terms > li ol > li ol > li { @apply mb-2 text-lg; counter-increment: subsubitem; }
-  ol.terms > li ol > li ol > li::before { @apply absolute top-0 -left-8 text-lg; content: counter(item) "." counter(subitem) "." counter(subsubitem) " "; }
-
-  .terms p { @apply text-lg mb-2; }
-  .terms p:last-child { @apply mb-0; }
+  ol.terms > li ol > li ol > li { @apply mb-2 text-label-lg; counter-increment: subsubitem; }
+  ol.terms > li ol > li ol > li::before { @apply absolute top-0 -left-8 text-label-lg; content: counter(item) "." counter(subitem) "." counter(subsubitem) " "; }
 
   [class*="icon-"] { @apply shrink-0; }
 
@@ -140,15 +124,15 @@
   .field-row { @apply flex flex-row gap-2; }
 
   /* Input & Select styles */
-  .field input, .field select { @apply px-4 pt-6 pb-2 text-xl lg:text-lg placeholder:text-xl lg:placeholder:text-lg box-border rounded text-black dark:text-natural bg-black/10 dark:bg-natural/10 focus:outline-none placeholder:text-black/60 dark:placeholder:text-natural/60 duration-lg ease-es focus:bg-black/10 dark:focus:bg-natural/10; }
-  .field label { @apply absolute top-4 left-4 text-xl lg:text-lg text-black/60 dark:text-natural/60 transition-all duration-sm ease-es cursor-text; }
+  .field input, .field select { @apply px-4 pt-6 pb-2 text-xl lg:text-label-lg placeholder:text-xl lg:placeholder:text-label-lg box-border rounded text-black dark:text-natural bg-black/10 dark:bg-natural/10 focus:outline-none placeholder:text-black/60 dark:placeholder:text-natural/60 duration-lg ease-es focus:bg-black/10 dark:focus:bg-natural/10; }
+  .field label { @apply absolute top-4 left-4 text-xl lg:text-label-lg text-black/60 dark:text-natural/60 transition-all duration-sm ease-es cursor-text; }
   .field svg { @apply shrink-0 absolute top-4.5 lg:top-4 right-4 pointer-events-none; }
   .field.preselect svg { @apply top-6.5; }
   .field:has(select) label { @apply pointer-events-none; }
   
   /* Textarea styles */
   .field.message { @apply pl-4 pr-2 pt-6 pb-2  box-border rounded  bg-black/10 dark:bg-natural/10 duration-lg ease-es ; }
-  .field.message textarea { @apply text-xl lg:text-lg text-black dark:text-natural focus:outline-none placeholder:text-xl lg:placeholder:text-lg placeholder:text-black/60 dark:placeholder:text-natural/60 duration-lg ease-es; }
+  .field.message textarea { @apply text-xl lg:text-label-lg text-black dark:text-natural focus:outline-none placeholder:text-xl lg:placeholder:text-label-lg placeholder:text-black/60 dark:placeholder:text-natural/60 duration-lg ease-es; }
 
   /* Search field specific styles */
   .field.search { @apply flex flex-row gap-2 bg-black/10 dark:bg-natural/10 rounded px-4 py-3 items-center; }

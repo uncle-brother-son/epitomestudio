@@ -41,16 +41,6 @@ export default async function ProductionPage() {
             )}
           </StickyContent>
         )}
-        {/* 
-        {production?.link?.url && production?.link?.label && (
-          <div className='lg:sticky lg:bottom-20 lg:mt-auto self-start'> 
-            <a href={production.link.url} target="_blank" rel="noopener noreferrer" className="link line">
-              <span>{production.link.label}</span>
-              <Icon name="icon-arrowAngle" className="icon-arrowAngle fill-black dark:fill-natural h-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>External Link</title></Icon>
-            </a>
-          </div>
-        )} 
-        */}
       </div>
 
       {production?.video?.asset && (

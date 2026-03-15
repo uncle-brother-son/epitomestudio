@@ -254,7 +254,7 @@ export function EquipmentFilterAndList({ categories, items, equipmentListUrl, eq
 
           <div className={`${isSearchFocused ? 'hidden lg:flex' : isFilterOpen ? 'grow ml-auto' : 'basis-1/2'} min-w-0 bg-black/10 dark:bg-natural/10 lg:bg-transparent lg:dark:bg-transparent rounded lg:rounded-none flex flex-col transition-all duration-md ease-es`}>
             <button onClick={() => setIsFilterOpen(!isFilterOpen)} className='flex flex-row gap-2 justify-between items-center lg:hidden px-4 py-3 min-h-10.5' type="button">
-              <div className='text-black dark:text-natural text-xl lg:text-lg'>Filters <span className='text-lg'>{selectedCategories.length > 0 && `[ ${selectedCategories.length} ]`}</span></div>
+              <div className='text-black dark:text-natural text-xl lg:text-label-lg'>Filters <span className='text-label-lg'>{selectedCategories.length > 0 && `[ ${selectedCategories.length} ]`}</span></div>
               {isFilterOpen ? (
                 <Icon name="icon-close" className="icon-close w-3 h-3 fill-black dark:fill-natural transition-opacity duration-md ease-es" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Close Filter</title></Icon>
               ) : (
@@ -302,15 +302,6 @@ export function EquipmentFilterAndList({ categories, items, equipmentListUrl, eq
             </div>
           </div>
         </StickyContent>
-
-        {/* {equipmentListUrl && (
-          <div className='lg:sticky lg:bottom-20 lg:mt-auto self-start ml-4'> 
-            <a href={equipmentListUrl} target="_blank" rel="noopener noreferrer" className="link line self-start">
-              <span>{equipmentListButtonLabel || 'Download Equipment List'}</span>
-              <Icon name="icon-download" className="icon-download fill-black dark:fill-natural h-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Download</title></Icon>
-            </a>
-          </div>
-        )} */}
         
       </StickyContent>
 
@@ -354,30 +345,43 @@ export function EquipmentFilterAndList({ categories, items, equipmentListUrl, eq
       </div>
       <HideOnFooter translateAmount="translate-y-full">
         <div className='fixed lg:static pb-[calc(1rem+env(safe-area-inset-bottom))] bottom-0 left-0 right-0 bg-natural dark:bg-black lg:bg-transparent lg:dark:bg-transparent lg:col-start-20 lg:col-span-5 2xl:col-start-19 2xl:col-span-5 transition-colors duration-lg ease-es'>
-          <StickyContent dTop={25.5} className="flex flex-col lg:bg-black/10 lg:dark:bg-natural/10 rounded overflow-hidden lg:sticky transition-colors duration-lg ease-es">
-          <button onClick={() => setIsCartOpen(!isCartOpen)} className='flex flex-row justify-between w-full lg:cursor-default p-4' type="button">
-            <div className="label">Your List<span className='lg:hidden pl-2'>[ {totalItems} ]</span></div>
-            <Icon name="icon-chevron" className={`icon-chevron w-3 h-3 fill-black dark:fill-natural lg:hidden transition-transform duration-lg ease-es ${isCartOpen ? 'rotate-270' : 'rotate-90'}`} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Toggle Cart</title></Icon>
-          </button>
-          
-          <div className={`grid transition-all duration-lg lg:duration-0 ease-es lg:grid-rows-[1fr]! lg:opacity-100! px-4 lg:pb-4 lg:pt-2 ${isCartOpen ? 'pb-6 pt-2' : 'py-0'}`} style={{ gridTemplateRows: isCartOpen ? '1fr' : '0fr', opacity: isCartOpen ? 1 : 0 }}>
-            <div className="overflow-hidden">
-              <div className='flex flex-col gap-1'>
-                <div className='flex flex-row gap-2 justify-between items-center'>
-                  <div>Items</div>
-                  <div>{totalItems}</div>
-                </div>
-                <div className='flex flex-row gap-2 justify-between items-center'>
-                  <div>Total Per Day (excl. VAT)</div>
-                  <div>£{totalPrice}</div>
+          <StickyContent dTop={25.5} className='lg:sticky flex flex-col'>
+            <div className="flex flex-col lg:bg-black/10 lg:dark:bg-natural/10 rounded overflow-hidden transition-colors duration-lg ease-es">
+              <button onClick={() => setIsCartOpen(!isCartOpen)} className='flex flex-row justify-between w-full lg:cursor-default p-4' type="button">
+                <div className="label">Your List<span className='lg:hidden pl-2'>[ {totalItems} ]</span></div>
+                <Icon name="icon-chevron" className={`icon-chevron w-3 h-3 fill-black dark:fill-natural lg:hidden transition-transform duration-lg ease-es ${isCartOpen ? 'rotate-270' : 'rotate-90'}`} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Toggle Cart</title></Icon>
+              </button>
+              
+              <div className={`grid transition-all duration-lg lg:duration-0 ease-es lg:grid-rows-[1fr]! lg:opacity-100! px-4 lg:pb-4 lg:pt-2 ${isCartOpen ? 'pb-6 pt-2' : 'py-0'}`} style={{ gridTemplateRows: isCartOpen ? '1fr' : '0fr', opacity: isCartOpen ? 1 : 0 }}>
+                <div className="overflow-hidden">
+                  <div className='flex flex-col gap-1'>
+                    <div className='flex flex-row gap-2 justify-between items-center'>
+                      <div>Items</div>
+                      <div>{totalItems}</div>
+                    </div>
+                    <div className='flex flex-row gap-2 justify-between items-center'>
+                      <div>Total Per Day (excl. VAT)</div>
+                      <div>£{totalPrice}</div>
+                    </div>
+                  </div>
                 </div>
               </div>
+              
+              <div className="p-4 pt-1 lg:pt-4 flex flex-col">
+                <EquipmentHireButton label="Hire Equipment" className="btn" equipment={equipment} global={global} />
+              </div>
+
             </div>
-          </div>
-          
-            <div className="p-4 pt-1 lg:pt-4 flex flex-col">
-              <EquipmentHireButton label="Hire Equipment" className="btn" equipment={equipment} global={global} />
+
+            <div className='p-4 pt-0 lg:pt-4 self-end'>
+              {equipmentListUrl && (
+                <a href={equipmentListUrl} target="_blank" rel="noopener noreferrer" className="link line self-start">
+                  <span>{equipmentListButtonLabel || 'Download Equipment List'}</span>
+                  <Icon name="icon-download" className="icon-download fill-black dark:fill-natural h-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Download</title></Icon>
+                </a>
+              )}
             </div>
+            
           </StickyContent>
         </div>
       </HideOnFooter>

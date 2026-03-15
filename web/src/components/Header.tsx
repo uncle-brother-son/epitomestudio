@@ -174,7 +174,7 @@ export function Header({ global }: { global: Global | null }) {
 
   return (
     <>
-      <a href="#main-content" className="sr-only">Skip to main content</a>
+      <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-16 focus:left-4 focus:z-60 focus:px-2 focus:py-1">Skip to main content</a>
       <header 
         ref={headerRef} 
         className={`px-4 py-4 z-20 mobile-menu-bg ${isMobileMenu ? `fixed inset-0 flex flex-col ${!isClosing ? 'bg-natural dark:bg-black' : ''}` : 'grid_ fixed top-0 left-0 right-0'} ${isClosing ? 'closing' : ''} ${isContentFading ? 'content-fading' : ''}`}
@@ -220,7 +220,7 @@ export function Header({ global }: { global: Global | null }) {
                   <div key={item.label} className="fadein" style={{ animationDelay: `${index * 150}ms` }}>
                     <Link 
                       href={item.url} 
-                      className={`link text-lg mobile-menu-content${isActive ? ' line' : ''}`} 
+                      className={`link text-label-lg mobile-menu-content${isActive ? ' line' : ''}`} 
                       onClick={() => {
                         setIsContentFading(true)
                         setTimeout(() => {

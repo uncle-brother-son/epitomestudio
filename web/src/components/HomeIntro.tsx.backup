@@ -148,7 +148,7 @@ export function HomeIntro({ cards }: HomeIntroProps) {
                     maskingOut && isClickedCard ? 'opacity-0' : 'opacity-100'
                   }`} 
                 />
-                <h2 className="relative text-lg font-medium uppercase text-natural">
+                <h2 className="relative text-label-lg font-medium uppercase text-natural">
                   {card.title}
                 </h2>
               </div>

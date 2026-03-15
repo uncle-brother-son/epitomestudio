@@ -350,12 +350,12 @@ export function StudioHireForm({ onClose, studio, global }: Props) {
                   <Icon name="icon-date" className="icon-date h-4 w-4 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Date Picker</title></Icon>
                 </div>
                 <div className="basis-1/2 flex flex-row items-center justify-between bg-black/10 dark:bg-natural/10 rounded px-4 py-3.5">
-                  <label className="text-lg opacity-60">Days</label>
+                  <label className="text-xl lg:text-label-lg opacity-60">Days</label>
                   <div className="flex flex-row gap-1.5 items-center">
                     <button type="button" className={`qty-form ${formData.days === 1 ? 'opacity-60' : ''}`} onClick={() => updateField('days', Math.max(1, formData.days - 1))}>
                       <Icon name="icon-minus" className="icon-minus w-3 h-3 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Decrease</title></Icon>
                     </button>
-                    <span className="text-lg w-4 text-center">{formData.days}</span>
+                    <span className="text-xl lg:text-label-lg w-4 text-center">{formData.days}</span>
                     <button type="button" className="qty-form" onClick={() => updateField('days', formData.days + 1)}>
                       <Icon name="icon-plus" className="icon-plus w-3 h-3 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Increase</title></Icon>
                     </button>
@@ -401,12 +401,12 @@ export function StudioHireForm({ onClose, studio, global }: Props) {
             </div>
 
             <div className="flex flex-row items-center justify-between bg-black/10 dark:bg-natural/10 rounded px-4 py-3.75 lg:py-3.5">
-              <label className="text-xl lg:text-lg opacity-60">Attendees</label>
+              <label className="text-xl lg:text-label-lg opacity-60">Attendees</label>
               <div className="flex flex-row gap-1.5 items-center">
                 <button type="button" className={`qty-form ${formData.attendees === 10 ? 'opacity-60' : ''}`} onClick={() => updateField('attendees', Math.max(10, formData.attendees - 10))}>
                   <Icon name="icon-minus" className="icon-minus w-3 h-3 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Decrease</title></Icon>
                 </button>
-                <span className="text-lg w-4 text-center">{formData.attendees}</span>
+                <span className="text-xl lg:text-label-lg w-4 text-center">{formData.attendees}</span>
                 <button type="button" className={`qty-form ${formData.attendees === 40 ? 'opacity-60' : ''}`} onClick={() => updateField('attendees', Math.min(40, formData.attendees + 10))}>
                   <Icon name="icon-plus" className="icon-plus w-3 h-3 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Increase</title></Icon>
                 </button>
@@ -416,7 +416,7 @@ export function StudioHireForm({ onClose, studio, global }: Props) {
             <div className='field-wrapper'>
               <div className="field">
                 <input type="checkbox" id="hireEquipment" checked={formData.hireEquipment} onChange={(e) => updateField('hireEquipment', e.target.checked)} className="sr-only" />
-                <label htmlFor="hireEquipment" className="flex flex-row items-center justify-between cursor-pointer text-xl lg:text-lg static bg-black/10 dark:bg-natural/10 rounded px-4 py-3.25 lg:py-3">
+                <label htmlFor="hireEquipment" className="flex flex-row items-center justify-between cursor-pointer text-xl lg:text-label-lg static bg-black/10 dark:bg-natural/10 rounded px-4 py-3.25 lg:py-3">
                   <div>Hire Equipment</div>
                   <div className='flex flex-row gap-2 items-center justify-center'>
                     <div className='text-black dark:text-natural'>{formData.hireEquipment ? 'Yes' : 'No'}</div>
@@ -433,7 +433,7 @@ export function StudioHireForm({ onClose, studio, global }: Props) {
             </div>
 
             <div className="field message">
-              <textarea id="message" value={formData.message} onChange={(e) => updateField('message', e.target.value)} rows={4} placeholder=" " />
+              <textarea id="message" value={formData.message} onChange={(e) => updateField('message', e.target.value)} rows={6} placeholder=" " />
               <label htmlFor="message">Message (optional)</label>
             </div>
 

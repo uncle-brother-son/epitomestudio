@@ -51,7 +51,7 @@ export function EquipmentItemCard({ item, viewMode, quantity, onQuantityChange, 
     return (
       <div className={`group flex flex-row gap-x-4 items-start hover:bg-black/10 dark:hover:bg-natural/10 rounded py-2 lg:py-1.5 px-4 lg:-mx-4 transition-colors duration-lg ease-es ${quantity > 0 ? 'bg-black/10 dark:bg-natural/10' : ''}`}>
         <div className="grow">
-          <h2 className="text-lg">
+          <h2 className="text-label-lg">
             {item.brand} {item.name}
           </h2>
         </div>
@@ -60,13 +60,13 @@ export function EquipmentItemCard({ item, viewMode, quantity, onQuantityChange, 
             <button className={`qty lg:opacity-0 ${quantity === 0 ? 'opacity-60 group-hover:opacity-60' : 'group-hover:opacity-100'}`} onClick={() => onQuantityChange(Math.max(0, quantity - 1))}>
               <Icon name="icon-minus" className="icon-minus w-3 h-3 fill-natural dark:fill-black" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Decrease quantity</title></Icon>
             </button>
-            <span className="text-lg w-4 text-center">{quantity}</span>
+            <span className="text-label-lg w-4 text-center">{quantity}</span>
             <button className="qty lg:opacity-0 lg:group-hover:opacity-100" onClick={() => onQuantityChange(quantity + 1)}>
               <Icon name="icon-plus" className="icon-plus w-3 h-3 fill-natural dark:fill-black" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Increase quantity</title></Icon>
             </button>
           </div>
           <div>
-            <p className="text-lg w-8 text-right">£{item.price}</p>
+            <p className="text-label-lg w-8 text-right">£{item.price}</p>
           </div>
         </div>
       </div>
@@ -82,7 +82,7 @@ export function EquipmentItemCard({ item, viewMode, quantity, onQuantityChange, 
       )}
       <div className="basis-1/2 lg:basis-7/11 flex flex-col lg:flex-row gap-x-4 gap-y-6 py-1 lg:py-1.5 pl-2">
         <div className="lg:grow flex flex-col gap-2">
-          <h2 className="text-lg">
+          <h2 className="text-label-lg">
             {item.brand} {item.name}
           </h2>
           {item.description && (
@@ -104,13 +104,13 @@ export function EquipmentItemCard({ item, viewMode, quantity, onQuantityChange, 
             <button className={`qty ${quantity === 0 ? 'opacity-60' : ''}`} onClick={() => onQuantityChange(Math.max(0, quantity - 1))}>
               <Icon name="icon-minus" className="icon-minus w-3 h-3 fill-natural dark:fill-black" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Decrease quantity</title></Icon>
             </button>
-            <span className="text-lg w-4 text-center">{quantity}</span>
+            <span className="text-label-lg w-4 text-center">{quantity}</span>
             <button className="qty" onClick={() => onQuantityChange(quantity + 1)}>
               <Icon name="icon-plus" className="icon-plus w-3 h-3 fill-natural dark:fill-black" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Increase quantity</title></Icon>
             </button>
           </div>
           <div>
-            <p className="text-lg w-8 text-right">£{item.price}</p>
+            <p className="text-label-lg w-8 text-right">£{item.price}</p>
           </div>
         </div>
       </div>

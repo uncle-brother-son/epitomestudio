@@ -129,7 +129,7 @@ export function HomeIntro({ cards, title }: HomeIntroProps) {
               </div>
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="absolute inset-0 bg-black/20" />
-                <h2 className="relative text-lg font-medium uppercase text-natural">
+                <h2 className="relative text-label-lg font-medium uppercase text-natural">
                   {card.title}
                 </h2>
               </div>
