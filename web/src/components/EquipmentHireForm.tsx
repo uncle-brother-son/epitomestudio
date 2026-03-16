@@ -585,7 +585,7 @@ export function EquipmentHireForm({ onClose, equipment, global }: Props) {
               <label className='checkbox-simple'>
                 <input type='checkbox' checked={formData.subscribeToNewsletter} onChange={(e) => updateField('subscribeToNewsletter', e.target.checked)} />
                 <Icon name="icon-tick" className="icon-tick h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Check</title></Icon>
-                <span>Sign up to our newsletter to receive updates on new equipment.</span>
+                <span>Sign up to our newsletter to receive updates on New Equipment.</span>
               </label>
             </div>
 

@@ -162,9 +162,9 @@
   label.radio input { @apply appearance-none relative shrink-0 grow-0 h-4 w-4 rounded-full bg-natural/20 group-hover:bg-natural checked:bg-natural transition-colors duration-md ease-es after:content-[''] after:absolute after:top-1 after:left-1 after:w-2 after:h-2 after:rounded-full after:bg-transparent group-hover:after:bg-bamboo after:transition-colors after:duration-md after:ease-es; }
   label input[type="radio"]:checked { @apply after:bg-black; } 
 
-  .error { @apply flex gap-2 text-sm font-medium text-red px-3 mt-1; }
+  .error { @apply flex gap-2 text-md font-medium text-red px-3 mt-1 items-center; }
   .error svg { @apply static; }
-  .note { @apply flex gap-2 text-sm text-black/60 dark:text-natural/60 px-3 mt-1 items-start; }
+  .note { @apply flex gap-2 text-md text-black/60 dark:text-natural/60 px-3 mt-1 items-center; }
   .note svg { @apply static; }
 
 }

@@ -477,13 +477,16 @@ export async function POST(request: NextRequest) {
       `,
     })
 
-    // Handle newsletter subscription
+    // Handle newsletter subscription (with delay to avoid rate limit)
     if (subscribeToNewsletter) {
       const topicId = process.env.RESEND_EQUIPMENT_TOPIC_ID
       
       if (!topicId) {
         console.warn('Newsletter signup attempted but RESEND_EQUIPMENT_TOPIC_ID is not set')
       } else {
+        // Wait 1 second to avoid hitting Resend's 2 requests/second rate limit
+        await new Promise(resolve => setTimeout(resolve, 1000))
+        
         try {
           // Add contact to newsletter using Resend API
           const response = await fetch('https://api.resend.com/contacts', {

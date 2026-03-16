@@ -220,8 +220,9 @@ export function NewsletterBanner({ settings }: NewsletterBannerProps) {
                     </div>
 
                     {submitStatus === 'error' && errorMessage && (
-                        <div className="">
-                            <p className="text-sm text-red">{errorMessage}</p>
+                        <div className="note">
+                            <Icon name="icon-subArrow" className="icon-subArrow h-3 w-3 fill-black mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Error</title></Icon>
+                            <p className="text-sm text-black">{errorMessage}</p>
                         </div>
                     )}
 
