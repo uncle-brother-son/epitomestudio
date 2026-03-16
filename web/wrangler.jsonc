@@ -15,6 +15,7 @@
 	],
 	"compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
 	"vars": {
+		"CONTACT_EMAIL": "wayne@unclebrotherson.com",
 		"RESEND_STUDIO_TOPIC_ID": "779fa857-b0be-43a4-baae-7312305f65c7",
 		"RESEND_EQUIPMENT_TOPIC_ID": "b0c280ab-6402-4fe4-975b-3961f4ca37f2"
 	},
