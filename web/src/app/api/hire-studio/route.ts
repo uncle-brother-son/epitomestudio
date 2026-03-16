@@ -238,7 +238,7 @@ export async function POST(request: NextRequest) {
     await resend.emails.send({
       from: 'EPITOMESTUDIO <onboarding@resend.dev>', // Update with your verified domain
       to: email,
-      subject: 'Studio Hire Enquiry Received — EPITOMESTUDIO',
+      subject: 'Studio Hire Enquiry Received',
       html: `
         <!DOCTYPE html>
         <html style="background-color: #F5F2EB;">

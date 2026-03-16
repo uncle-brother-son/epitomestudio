@@ -276,7 +276,7 @@ export async function POST(request: NextRequest) {
     await resend.emails.send({
       from: 'EPITOMESTUDIO <onboarding@resend.dev>',
       to: email,
-      subject: 'Equipment Hire Enquiry Received — EPITOMESTUDIO',
+      subject: 'Equipment Hire Enquiry Received',
       html: `
         <!DOCTYPE html>
         <html style="background-color: #F5F2EB;">
