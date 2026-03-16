@@ -52,7 +52,7 @@ export function TermsAccordion({ title, intro, terms }: TermsAccordionProps) {
                 </Icon>
               </button>
               <div 
-                className={`grid transition-all duration-lg ease-es pt-2 ${openAccordion === index ? 'pb-4' : 'pb-0'}`} 
+                className={`grid transition-all duration-lg ease-es ${openAccordion === index ? 'pt-4 pb-4' : 'pt-2 pb-0'}`} 
                 style={{ 
                   gridTemplateRows: openAccordion === index ? '1fr' : '0fr', 
                   opacity: openAccordion === index ? 1 : 0 

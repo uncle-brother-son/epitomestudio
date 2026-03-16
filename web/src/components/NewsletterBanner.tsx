@@ -213,7 +213,7 @@ export function NewsletterBanner({ settings }: NewsletterBannerProps) {
                 </div>
 
                 <div className='flex flex-col gap-4'>
-                    <div className='flex gap-2 p-1 pl-4 rounded bg-natural/20'>
+                    <div className='flex gap-2 p-1 pl-4 rounded bg-natural/10'>
                         <label htmlFor="newsletter-email" className="sr-only">{emailPlaceholder}</label>
                         <input className='grow text-xl lg:text-label-lg placeholder:text-xl lg:placeholder:text-label-lg box-border text-natural focus:outline-none placeholder:text-natural/80 duration-lg ease-es min-w-0' type="email" id="newsletter-email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder={emailPlaceholder} required />
                         <button type="submit" disabled={isSubmitting} className="btn shrink-0 bg-black text-natural">{isSubmitting ? 'Subscribing...' : ctaText}</button>

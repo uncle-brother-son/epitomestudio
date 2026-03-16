@@ -110,8 +110,9 @@
 
   /* Base input styles */
   input, select, textarea { @apply appearance-none outline-none grow; }
-  input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill { -webkit-box-shadow: 0 0 0 1000px rgba(233, 230, 223, 1) inset !important; -webkit-text-fill-color: #121214 !important; transition: background-color 5000s ease-in-out 0s; }
-  .dark input:-webkit-autofill, .dark textarea:-webkit-autofill, .dark select:-webkit-autofill { -webkit-box-shadow: 0 0 0 1000px rgba(29, 29, 31, 1) inset !important; -webkit-text-fill-color: #F5F2EB !important; transition: background-color 5000s ease-in-out 0s; }
+  input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill { -webkit-box-shadow: 0 0 0 1000px rgba(222, 220, 213, 1) inset !important; -webkit-text-fill-color: #121214 !important; transition: background-color 5000s ease-in-out 0s; }
+  .newsletter-banner input:-webkit-autofill { -webkit-box-shadow: 0 0 0 1000px rgba(146, 129, 105, 1) inset !important; -webkit-text-fill-color: #F5F2EB !important; transition: background-color 5000s ease-in-out 0s; }
+  .dark input:-webkit-autofill, .dark textarea:-webkit-autofill, .dark select:-webkit-autofill { -webkit-box-shadow: 0 0 0 1000px rgba(41, 40, 42, 1) inset !important; -webkit-text-fill-color: #F5F2EB !important; transition: background-color 5000s ease-in-out 0s; }
   input[type="date"]::-webkit-calendar-picker-indicator, input[type="time"]::-webkit-calendar-picker-indicator  { @apply absolute top-4.5 right-4 p-0 h-4 w-4 opacity-0; }
   input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webkit-search-decoration { @apply appearance-none; }
   select:invalid { @apply text-black/60 dark:text-natural/60; }
@@ -159,7 +160,7 @@
   label.checkbox-simple input:checked + svg { @apply fill-black dark:fill-natural; }
 
   label.radio { @apply relative grow-0 rounded flex flex-row items-center justify-start gap-2 cursor-pointer; }
-  label.radio input { @apply appearance-none relative shrink-0 grow-0 h-4 w-4 rounded-full bg-natural/20 group-hover:bg-natural checked:bg-natural transition-colors duration-md ease-es after:content-[''] after:absolute after:top-1 after:left-1 after:w-2 after:h-2 after:rounded-full after:bg-transparent group-hover:after:bg-bamboo after:transition-colors after:duration-md after:ease-es; }
+  label.radio input { @apply appearance-none relative shrink-0 grow-0 h-4 w-4 rounded-full bg-natural/20 transition-colors duration-md ease-es after:content-[''] after:absolute after:top-1 after:left-1 after:w-2 after:h-2 after:rounded-full after:bg-transparent group-hover:after:bg-bamboo after:transition-colors after:duration-md after:ease-es; }
   label input[type="radio"]:checked { @apply after:bg-black; } 
 
   .error { @apply flex gap-2 text-md font-medium text-red px-3 mt-1 items-center; }
