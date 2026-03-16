@@ -6,8 +6,5 @@
     "build": "cd web && npm install && npm run build",
     "install:web": "cd web && npm install",
     "install:studio": "cd studio && npm install"
-  },
-  "dependencies": {
-    "resend": "^6.9.2"
   }
 }
