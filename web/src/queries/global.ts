@@ -19,6 +19,15 @@ export interface Global {
     asset: any
     alt?: string
   }
+  newsletterBanner?: {
+    enabled?: boolean
+    pageCountTrigger?: number
+    heading?: string
+    ctaText?: string
+    emailPlaceholder?: string
+    privacyText?: string
+    successMessage?: string
+  }
 }
 
 export async function getGlobal(): Promise<Global | null> {
@@ -40,6 +49,15 @@ export async function getGlobal(): Promise<Global | null> {
     ogImage {
       asset,
       alt
+    },
+    newsletterBanner {
+      enabled,
+      pageCountTrigger,
+      heading,
+      ctaText,
+      emailPlaceholder,
+      privacyText,
+      successMessage
     }
   }`
 

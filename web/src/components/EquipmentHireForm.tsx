@@ -364,7 +364,7 @@ export function EquipmentHireForm({ onClose, equipment, global }: Props) {
                           </div>
                           <span className="text-black dark:text-natural">£{calculateTotal()}</span>
                         </div>
-                        <AnimatedMessage show={showPriceInfo} className="flex items-start gap-2 text-xs text-black/60 dark:text-natural/60 px-2">
+                        <AnimatedMessage show={showPriceInfo} className="flex items-start gap-2 text-sm text-black/60 dark:text-natural/60 px-2">
                           <Icon name="icon-subArrow" className="icon-subArrow w-3 h-3 fill-black/60 dark:fill-natural/60 mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Note</title></Icon>
                           <span>Total Price does not include insurance or a damage waiver fee.</span>
                         </AnimatedMessage>

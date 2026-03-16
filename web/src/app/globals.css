@@ -158,9 +158,13 @@
   label.checkbox-simple:hover svg { @apply fill-black/40 dark:fill-natural/40; }
   label.checkbox-simple input:checked + svg { @apply fill-black dark:fill-natural; }
 
-  .error { @apply flex gap-2 text-xs font-medium text-red px-3 mt-1; }
+  label.radio { @apply relative grow-0 rounded flex flex-row items-center justify-start gap-2 cursor-pointer; }
+  label.radio input { @apply appearance-none relative shrink-0 grow-0 h-4 w-4 rounded-full bg-natural/20 group-hover:bg-natural checked:bg-natural transition-colors duration-md ease-es after:content-[''] after:absolute after:top-1 after:left-1 after:w-2 after:h-2 after:rounded-full after:bg-transparent group-hover:after:bg-bamboo after:transition-colors after:duration-md after:ease-es; }
+  label input[type="radio"]:checked { @apply after:bg-black; } 
+
+  .error { @apply flex gap-2 text-sm font-medium text-red px-3 mt-1; }
   .error svg { @apply static; }
-  .note { @apply flex gap-2 text-xs text-black/60 dark:text-natural/60 px-3 mt-1 items-start; }
+  .note { @apply flex gap-2 text-sm text-black/60 dark:text-natural/60 px-3 mt-1 items-start; }
   .note svg { @apply static; }
 
 }

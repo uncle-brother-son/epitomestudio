@@ -8,6 +8,7 @@ import { CookieConsentProvider } from '@/contexts/CookieConsentContext'
 import { PageTransition } from '@/components/PageTransition'
 import { GoogleAnalytics } from '@/components/GoogleAnalytics'
 import { StructuredData } from '@/components/StructuredData'
+import { NewsletterBanner } from '@/components/NewsletterBanner'
 
 export async function generateMetadata(): Promise<Metadata> {
   const global = await getGlobal()
@@ -68,6 +69,7 @@ export default async function RootLayout({
             <PageTransition>
               {children}
             </PageTransition>
+            <NewsletterBanner settings={global?.newsletterBanner} />
           </EquipmentCartProvider>
         </CookieConsentProvider>
       </body>

@@ -124,7 +124,13 @@ export function HomeIntro({ cards, title }: HomeIntroProps) {
                     playsInline 
                   />
                 ) : card.image?.asset ? (
-                  <Image src={urlFor(card.image.asset).width(800).height(1000).url()} alt={card.title} fill className="object-cover" priority /> 
+                  <Image 
+                    src={urlFor(card.image.asset).width(800).height(1000).url()} 
+                    alt={card.title} 
+                    fill 
+                    className="object-cover" 
+                    priority={index === 0}
+                  /> 
                 ) : null}
               </div>
               <div className="absolute inset-0 flex items-center justify-center">
