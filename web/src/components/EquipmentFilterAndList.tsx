@@ -224,9 +224,8 @@ export function EquipmentFilterAndList({ categories, items, equipmentListUrl, eq
 
       <StickyContent mTop={10} className='z-1 py-4 lg:py-0 -my-4 lg:my-0 bg-natural dark:bg-black lg:bg-transparent lg:dark:bg-transparent col-start-1 col-span-12 lg:col-start-1 lg:col-span-5 2xl:col-start-2 2xl:col-span-5 flex flex-col sticky lg:static transition-colors duration-lg ease-es'>
 
-        <StickyContent dTop={25.5} className="flex flex-row gap-2 items-start lg:items-stretch lg:flex-col lg:gap-8 lg:sticky">
+        <StickyContent dTop={25.5} className="flex flex-row gap-2 items-start lg:items-stretch lg:flex-col lg:gap-4 lg:sticky">
           <div className={`${isSearchFocused ? 'grow' : isFilterOpen ? 'hidden lg:block' : 'basis-1/2'} min-w-0 field search transition-all duration-md ease-es max-h-10.5`}>
-            <Icon name="icon-search" className="icon-search w-3 h-3 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Search</title></Icon>
             <input 
               type='text' 
               placeholder='Search' 
@@ -250,19 +249,20 @@ export function EquipmentFilterAndList({ categories, items, equipmentListUrl, eq
                 <Icon name="icon-close" className="icon-close w-3 h-3 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Clear search</title></Icon>
               </button>
             )}
+            <Icon name="icon-search" className="icon-search w-3 h-3 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Search</title></Icon>
           </div>
 
-          <div className={`${isSearchFocused ? 'hidden lg:flex' : isFilterOpen ? 'grow ml-auto' : 'basis-1/2'} min-w-0 bg-black/10 dark:bg-natural/10 lg:bg-transparent lg:dark:bg-transparent rounded lg:rounded-none flex flex-col transition-all duration-md ease-es`}>
-            <button onClick={() => setIsFilterOpen(!isFilterOpen)} className='flex flex-row gap-2 justify-between items-center lg:hidden px-4 py-3 min-h-10.5' type="button">
-              <div className='text-black dark:text-natural text-xl lg:text-label-lg'>Filters <span className='text-label-lg'>{selectedCategories.length > 0 && `[ ${selectedCategories.length} ]`}</span></div>
+          <div className={`${isSearchFocused ? 'hidden lg:flex' : isFilterOpen ? 'grow ml-auto' : 'basis-1/2'} min-w-0 bg-black/10 dark:bg-natural/10 rounded lg:rounded-none flex flex-col transition-all duration-md ease-es`}>
+            <button onClick={() => setIsFilterOpen(!isFilterOpen)} className='flex flex-row gap-2 justify-between items-center px-4 py-3 min-h-10.5 lg:pointer-events-none lg:cursor-default' type="button">
+              <div className='text-black/60 dark:text-natural/60 text-xl lg:text-label-lg'>Categories <span className='text-label-lg'>{selectedCategories.length > 0 && `[ ${selectedCategories.length} ]`}</span></div>
               {isFilterOpen ? (
-                <Icon name="icon-close" className="icon-close w-3 h-3 fill-black dark:fill-natural transition-opacity duration-md ease-es" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Close Filter</title></Icon>
+                <Icon name="icon-close" className="icon-close w-3 h-3 fill-black dark:fill-natural transition-opacity duration-md ease-es lg:hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Close Filter</title></Icon>
               ) : (
-                <Icon name="icon-filter" className="icon-filter w-3 h-3 fill-black dark:fill-natural transition-opacity duration-md ease-es" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Open Filter</title></Icon>
+                <Icon name="icon-filter" className="icon-filter w-3 h-3 fill-black dark:fill-natural transition-opacity duration-md ease-es lg:hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Open Filter</title></Icon>
               )}
             </button>
             
-            <div className={`grid transition-all duration-lg lg:duration-0 ease-es lg:grid-rows-[1fr]! lg:opacity-100! ${isFilterOpen ? 'p-4' : 'p-0'}`} style={{ gridTemplateRows: isFilterOpen ? '1fr' : '0fr', opacity: isFilterOpen ? 1 : 0 }}>
+            <div className={`grid transition-all duration-lg lg:duration-0 ease-es lg:grid-rows-[1fr]! lg:opacity-100! lg:p-4 lg:pt-2 ${isFilterOpen ? 'p-4' : 'p-0'}`} style={{ gridTemplateRows: isFilterOpen ? '1fr' : '0fr', opacity: isFilterOpen ? 1 : 0 }}>
               <ul className='overflow-hidden flex flex-col max-h-[calc(100vh-500px)] overflow-y-auto'>
               {parentCategories.map((parent, index) => {
                 const children = getChildren(parent._id)

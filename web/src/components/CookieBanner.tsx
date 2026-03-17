@@ -40,7 +40,7 @@ export function CookieBanner() {
     }`}>
         <div className="bg-black dark:bg-natural text-natural dark:text-black rounded px-4 py-6 flex flex-col gap-6 w-full lg:w-[calc(((100vw-216px)/3)+56px)] shadow-lg transition-colors duration-lg ease-es">
             <div className="flex-1">
-                <h3 className="label mb-4">Cookie Preferences</h3>
+                <div className="label mb-4">Cookie Preferences</div>
                 <p>We use cookies to improve your experience. Essential cookies are always active. Analytics cookies help us understand how you use our site.</p>
             </div>
             <div className="flex flex-row gap-2">
