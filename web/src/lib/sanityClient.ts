@@ -6,4 +6,5 @@ export const client = createClient({
   apiVersion: process.env.NEXT_PUBLIC_SANITY_API_VERSION || '2024-01-01',
   useCdn: false, // Disable CDN for instant updates (30s ISR handles caching)
   perspective: 'published',
+  fetch: { cache: 'no-store' }, // Always fetch fresh from Sanity, never use Next.js build-time fetch cache
 })

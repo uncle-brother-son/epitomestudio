@@ -32,6 +32,6 @@
 			"database_name": "epitomestudio-tag-cache"
 		}
 	],
-	"workers_dev": false,
+	"workers_dev": true,
 	"preview_urls": false
 }
