@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "analyze": "ANALYZE=true next build",
-    "pages:build": "opennextjs-cloudflare build",
+    "pages:build": "rm -rf .next/cache && opennextjs-cloudflare build",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
     "upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload",
