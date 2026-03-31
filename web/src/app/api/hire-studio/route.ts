@@ -81,9 +81,10 @@ export async function POST(request: NextRequest) {
       const [startHours, startMinutes] = arrivalTime.split(':')
       startDate.setHours(parseInt(startHours), parseInt(startMinutes), 0)
       
-      // Calculate end date (start date + days)
+      // Calculate end date (start date + days - 1)
+      // E.g., 2 days starting April 2nd = April 2nd + April 3rd, ends April 3rd
       const endDate = new Date(startDate)
-      endDate.setDate(endDate.getDate() + parseInt(days))
+      endDate.setDate(endDate.getDate() + parseInt(days) - 1)
       const [endHours, endMinutes] = leavingTime.split(':')
       endDate.setHours(parseInt(endHours), parseInt(endMinutes), 0)
       
