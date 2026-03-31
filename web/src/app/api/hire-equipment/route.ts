@@ -20,7 +20,8 @@ export async function POST(request: NextRequest) {
       hireStudio,
       message,
       items,
-      subscribeToNewsletter
+      subscribeToNewsletter,
+      source
     } = await request.json()
 
     // Basic validation
@@ -80,10 +81,20 @@ export async function POST(request: NextRequest) {
         </tr>
     `).join('')
 
+    // Determine email routing based on source
+    // If coming from studio hire flow, route to studio email
+    const isFromStudioHire = source === 'studio-hire'
+    const recipientEmail = isFromStudioHire 
+      ? process.env.STUDIO_HIRE_EMAIL 
+      : process.env.EQUIPMENT_HIRE_EMAIL
+    const fromEmail = isFromStudioHire
+      ? 'Studio Hire <bookings@epitomestudio.co.uk>'
+      : 'Equipment Hire <rentals@epitomestudio.co.uk>'
+
     // Send email to company
     const data = await resend.emails.send({
-      from: 'Equipment Hire <onboarding@resend.dev>', // Update with your verified domain
-      to: process.env.EQUIPMENT_HIRE_EMAIL || 'your-email@example.com',
+      from: fromEmail,
+      to: recipientEmail || 'rentals@epitomestudio.co.uk',
       replyTo: email,
       subject: `[ Equipment Hire Enquiry ] ${name}${companyName ? ` — ${companyName}` : ''}`,
       html: `
@@ -274,7 +285,9 @@ export async function POST(request: NextRequest) {
 
     // Send confirmation email to customer
     await resend.emails.send({
-      from: 'EPITOMESTUDIO <onboarding@resend.dev>',
+      from: isFromStudioHire 
+        ? 'EPITOMESTUDIO <bookings@epitomestudio.co.uk>'
+        : 'EPITOMESTUDIO <rentals@epitomestudio.co.uk>',
       to: email,
       subject: 'Equipment Hire Enquiry Received',
       html: `

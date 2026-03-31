@@ -41,6 +41,9 @@ interface FormData {
   // Checkboxes
   agreeToTerms: boolean
   subscribeToNewsletter: boolean
+  
+  // Flow tracking
+  source?: string
 }
 
 interface Props {
@@ -99,6 +102,7 @@ export function EquipmentHireForm({ onClose, equipment, global }: Props) {
         pickUpTime: studioData.arrivalTime,
         dropOffTime: studioData.leavingTime,
         hireStudio: true, // Auto-set to Yes since they came from Studio Hire
+        source: 'studio-hire', // Track that this came from studio hire flow
       }))
     }
     

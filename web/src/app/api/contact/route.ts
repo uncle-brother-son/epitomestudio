@@ -34,8 +34,8 @@ export async function POST(request: NextRequest) {
 
     // Send email to company
     const data = await resend.emails.send({
-      from: 'Contact Form <onboarding@resend.dev>', // Update with your verified domain
-      to: process.env.CONTACT_EMAIL || 'your-email@example.com', // Update with your email
+      from: 'Contact Form <hello@epitomestudio.co.uk>',
+      to: process.env.CONTACT_EMAIL || 'hello@epitomestudio.co.uk',
       replyTo: email,
       subject: `[ Contact Enquiry ] ${subject} — ${name}`,
       html: `
@@ -132,7 +132,7 @@ export async function POST(request: NextRequest) {
 
     // Send confirmation email to customer
     await resend.emails.send({
-      from: 'EPITOMESTUDIO <onboarding@resend.dev>',
+      from: 'EPITOMESTUDIO <hello@epitomestudio.co.uk>',
       to: email,
       subject: 'Contact Enquiry Received — EPITOMESTUDIO',
       html: `
