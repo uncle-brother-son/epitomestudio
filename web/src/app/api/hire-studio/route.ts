@@ -74,12 +74,84 @@ export async function POST(request: NextRequest) {
     const formattedBusinessType = capitalizeFirst(businessType)
     const formattedTypeOfBooking = formatTypeOfBooking(typeOfBooking)
 
+    // Generate .ics calendar file
+    const generateICS = () => {
+      // Parse start date and time
+      const startDate = new Date(hireStartDate)
+      const [startHours, startMinutes] = arrivalTime.split(':')
+      startDate.setHours(parseInt(startHours), parseInt(startMinutes), 0)
+      
+      // Calculate end date (start date + days)
+      const endDate = new Date(startDate)
+      endDate.setDate(endDate.getDate() + parseInt(days))
+      const [endHours, endMinutes] = leavingTime.split(':')
+      endDate.setHours(parseInt(endHours), parseInt(endMinutes), 0)
+      
+      // Format dates for .ics (YYYYMMDDTHHmmss)
+      const formatICSDate = (date: Date) => {
+        const year = date.getFullYear()
+        const month = String(date.getMonth() + 1).padStart(2, '0')
+        const day = String(date.getDate()).padStart(2, '0')
+        const hours = String(date.getHours()).padStart(2, '0')
+        const minutes = String(date.getMinutes()).padStart(2, '0')
+        const seconds = String(date.getSeconds()).padStart(2, '0')
+        return `${year}${month}${day}T${hours}${minutes}${seconds}`
+      }
+      
+      const dtstart = formatICSDate(startDate)
+      const dtend = formatICSDate(endDate)
+      const dtstamp = formatICSDate(new Date())
+      
+      // Build description
+      const description = [
+        `Contact: ${name}`,
+        companyName ? `Company: ${companyName}` : '',
+        `Email: ${email}`,
+        `Phone: ${fullPhone}`,
+        `Business Type: ${formattedBusinessType}`,
+        `Booking Type: ${formattedTypeOfBooking}`,
+        `Attendees: ${attendees}`,
+        `Equipment Hire: ${hireEquipment ? 'Yes' : 'No'}`,
+        message ? `\\n${message}` : ''
+      ].filter(Boolean).join('\\n')
+      
+      const summary = `Studio Hire: ${name}${companyName ? ` - ${companyName}` : ''}`
+      
+      return [
+        'BEGIN:VCALENDAR',
+        'VERSION:2.0',
+        'PRODID:-//EPITOMESTUDIO//Studio Hire//EN',
+        'CALSCALE:GREGORIAN',
+        'METHOD:REQUEST',
+        'BEGIN:VEVENT',
+        `DTSTART:${dtstart}`,
+        `DTEND:${dtend}`,
+        `DTSTAMP:${dtstamp}`,
+        `SUMMARY:${summary}`,
+        `DESCRIPTION:${description}`,
+        `ORGANIZER;CN=${name}:mailto:${email}`,
+        `UID:studio-hire-${Date.now()}@epitomestudio.co.uk`,
+        'STATUS:TENTATIVE',
+        'SEQUENCE:0',
+        'END:VEVENT',
+        'END:VCALENDAR'
+      ].join('\r\n')
+    }
+
+    const icsContent = generateICS()
+
     // Send email to company
     const data = await resend.emails.send({
       from: 'Studio Hire <onboarding@resend.dev>', // Update with your verified domain
-      to: process.env.CONTACT_EMAIL || 'your-email@example.com', // Update with your email
+      to: process.env.STUDIO_HIRE_EMAIL || 'your-email@example.com',
       replyTo: email,
       subject: `[ Studio Hire Enquiry ] ${name}${companyName ? ` — ${companyName}` : ''}`,
+      attachments: [
+        {
+          filename: 'studio-hire.ics',
+          content: Buffer.from(icsContent).toString('base64'),
+        }
+      ],
       html: `
         <!DOCTYPE html>
         <html style="background-color: #F5F2EB;">

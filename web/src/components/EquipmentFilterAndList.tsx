@@ -24,8 +24,8 @@ interface Props {
 export function EquipmentFilterAndList({ categories, items, equipmentListUrl, equipmentListButtonLabel, equipment, global }: Props) {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([])
   const [searchQuery, setSearchQuery] = useState('')
-  const [viewMode, setViewMode] = useState<'image' | 'list'>('image')
-  const [displayedViewMode, setDisplayedViewMode] = useState<'image' | 'list'>('image')
+  const [viewMode, setViewMode] = useState<'image' | 'list'>('list')
+  const [displayedViewMode, setDisplayedViewMode] = useState<'image' | 'list'>('list')
   const [visibleCount, setVisibleCount] = useState(50)
   const [previousVisibleCount, setPreviousVisibleCount] = useState(50)
   const [isAnimating, setIsAnimating] = useState(false)
@@ -211,6 +211,7 @@ export function EquipmentFilterAndList({ categories, items, equipmentListUrl, eq
     <>
       <StickyContent mTop={-16} dTop={10} className="z-2 pt-20 lg:pt-0 -mt-20 lg:mt-0 bg-natural dark:bg-black lg:bg-transparent lg:dark:bg-transparent col-start-1 col-span-12 flex flex-row items-center justify-between sticky lg:left-4 lg:w-[calc(((100vw-216px)/4.8)+32px)] 2xl:left-[calc(((100vw-216px)/24)+24px)] transition-colors duration-lg ease-es">
         <div className='label pl-4'>{filteredItems.length} / {items.length} Items</div>
+        {/* 
         <button className='group relative hover:bg-black/10 dark:hover:bg-natural/10 p-0.5 rounded flex flex-row gap-1 items-center justify-start duration-md ease-es group' onClick={() => setViewMode(viewMode === 'image' ? 'list' : 'image')}>
           <div className='z-1 py-1 px-4'>
             <Icon name="icon-image" className={`icon-image w-3 h-3 ${viewMode === 'image' ? 'fill-black dark:fill-natural' : 'fill-black/40 dark:fill-natural/40'} duration-md ease-es`} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12"><title>Image View</title></Icon>
@@ -219,7 +220,8 @@ export function EquipmentFilterAndList({ categories, items, equipmentListUrl, eq
             <Icon name="icon-list" className={`icon-list w-3 h-3 ${viewMode === 'list' ? 'fill-black dark:fill-natural' : 'fill-black/40 dark:fill-natural/40'} duration-md ease-es`} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12"><title>List View</title></Icon>
           </div>
           <div className={`absolute top-0.5 ${viewMode === 'image' ? 'left-0.5' : 'left-12.5'} h-5 w-11 group-hover:bg-natural dark:group-hover:bg-black rounded transition-all duration-md ease-es`} />
-        </button>
+        </button> 
+        */}
       </StickyContent>
 
       <StickyContent mTop={10} className='z-1 py-4 lg:py-0 -my-4 lg:my-0 bg-natural dark:bg-black lg:bg-transparent lg:dark:bg-transparent col-start-1 col-span-12 lg:col-start-1 lg:col-span-5 2xl:col-start-2 2xl:col-span-5 flex flex-col sticky lg:static transition-colors duration-lg ease-es'>

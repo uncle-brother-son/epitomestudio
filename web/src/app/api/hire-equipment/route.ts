@@ -83,7 +83,7 @@ export async function POST(request: NextRequest) {
     // Send email to company
     const data = await resend.emails.send({
       from: 'Equipment Hire <onboarding@resend.dev>', // Update with your verified domain
-      to: process.env.CONTACT_EMAIL || 'your-email@example.com', // Update with your email
+      to: process.env.EQUIPMENT_HIRE_EMAIL || 'your-email@example.com',
       replyTo: email,
       subject: `[ Equipment Hire Enquiry ] ${name}${companyName ? ` — ${companyName}` : ''}`,
       html: `
