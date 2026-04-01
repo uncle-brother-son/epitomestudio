@@ -7,6 +7,7 @@ const TYPE_TO_PATH_MAP: Record<string, string> = {
   studio: '/studio-hire',
   equipment: '/equipment-hire',
   equipmentItem: '/equipment-hire', // Equipment items affect equipment page
+  category: '/equipment-hire', // Categories affect equipment page
   production: '/production',
   contact: '/contact',
   legal: '/legal', // Will need slug for specific page
