@@ -26,8 +26,8 @@ export function EquipmentFilterAndList({ categories, items, equipmentListUrl, eq
   const [searchQuery, setSearchQuery] = useState('')
   const [viewMode, setViewMode] = useState<'image' | 'list'>('list')
   const [displayedViewMode, setDisplayedViewMode] = useState<'image' | 'list'>('list')
-  const [visibleCount, setVisibleCount] = useState(50)
-  const [previousVisibleCount, setPreviousVisibleCount] = useState(50)
+  const [visibleCount, setVisibleCount] = useState(100)
+  const [previousVisibleCount, setPreviousVisibleCount] = useState(100)
   const [isAnimating, setIsAnimating] = useState(false)
   const [animationPhase, setAnimationPhase] = useState<'idle' | 'fadeOut' | 'fadeIn'>('idle')
   const [displayedItems, setDisplayedItems] = useState<EquipmentItem[]>(items)
@@ -121,7 +121,7 @@ export function EquipmentFilterAndList({ categories, items, equipmentListUrl, eq
     // Wait for fade out to complete, then update items and fade in
     setTimeout(() => {
       setDisplayedItems(filteredItems)
-      setVisibleCount(50) // Reset to initial count
+      setVisibleCount(100) // Reset to initial count
       setPreviousVisibleCount(0) // Reset to 0 so all items animate in
       
       // Scroll to top of page
@@ -133,7 +133,7 @@ export function EquipmentFilterAndList({ categories, items, equipmentListUrl, eq
       setTimeout(() => {
         setIsAnimating(false)
         setAnimationPhase('idle')
-        setPreviousVisibleCount(50) // Update to current count after animation
+        setPreviousVisibleCount(100) // Update to current count after animation
       }, 960)
     }, 480)
   }, [selectedCategories, searchQuery])
@@ -169,16 +169,16 @@ export function EquipmentFilterAndList({ categories, items, equipmentListUrl, eq
 
   // Handle Load More with fade in animation
   const handleLoadMore = () => {
-    const newCount = visibleCount + 50
+    const newCount = visibleCount + 100
     setPreviousVisibleCount(visibleCount)
     setVisibleCount(newCount)
     setAnimationPhase('fadeIn')
     
-    // Calculate max animation duration for new items (50 items * 50ms = 2500ms base + 480ms fade)
+    // Calculate max animation duration for new items (100 items * 50ms = 5000ms base + 480ms fade)
     setTimeout(() => {
       setAnimationPhase('idle')
       setPreviousVisibleCount(newCount)
-    }, 480 + (50 * 50))
+    }, 480 + (100 * 50))
   }
 
   // Get count of unique items in cart for a category
@@ -265,7 +265,7 @@ export function EquipmentFilterAndList({ categories, items, equipmentListUrl, eq
             </button>
             
             <div className={`grid transition-all duration-lg lg:duration-0 ease-es lg:grid-rows-[1fr]! lg:opacity-100! lg:p-4 lg:pt-2 ${isFilterOpen ? 'p-4' : 'p-0'}`} style={{ gridTemplateRows: isFilterOpen ? '1fr' : '0fr', opacity: isFilterOpen ? 1 : 0 }}>
-              <ul className='overflow-hidden flex flex-col max-h-[calc(100vh-500px)] overflow-y-auto'>
+              <ul className='overflow-hidden flex flex-col max-h-[calc(100vh-430px)] overflow-y-auto'>
               {parentCategories.map((parent, index) => {
                 const children = getChildren(parent._id)
                 const isSelected = selectedCategories.includes(parent._id)

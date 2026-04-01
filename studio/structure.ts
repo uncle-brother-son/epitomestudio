@@ -42,6 +42,12 @@ export const structure: StructureResolver = (S) =>
                   S.documentTypeList('equipmentItem')
                     .title('Equipment Items')
                 ),
+              S.listItem()
+                .title('Categories')
+                .child(
+                  S.documentTypeList('category')
+                    .title('Categories')
+                ),
             ])
         ),
       S.listItem()
