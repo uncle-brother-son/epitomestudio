@@ -32,7 +32,6 @@ interface FormData {
   days: number
   pickUpTime: string
   dropOffTime: string
-  hireStudio: boolean
   message: string
   
   // Equipment items (managed separately)
@@ -74,7 +73,6 @@ export function EquipmentHireForm({ onClose, equipment, global }: Props) {
     days: 1,
     pickUpTime: '09:00',
     dropOffTime: '18:00',
-    hireStudio: false,
     message: '',
     items: [],
     agreeToTerms: false,
@@ -101,7 +99,6 @@ export function EquipmentHireForm({ onClose, equipment, global }: Props) {
         days: studioData.days,
         pickUpTime: studioData.arrivalTime,
         dropOffTime: studioData.leavingTime,
-        hireStudio: true, // Auto-set to Yes since they came from Studio Hire
         source: 'studio-hire', // Track that this came from studio hire flow
       }))
     }
@@ -175,6 +172,15 @@ export function EquipmentHireForm({ onClose, equipment, global }: Props) {
   const validateStep1 = () => {
     const newErrors: Partial<Record<keyof FormData, string>> = {}
     
+    if (!formData.hireStartDate) {
+      newErrors.hireStartDate = 'Hire start date is required'
+    }
+    return newErrors
+  }
+
+  const validateStep2 = () => {
+    const newErrors: Partial<Record<keyof FormData, string>> = {}
+    
     if (!formData.name.trim()) {
       newErrors.name = 'Please enter your name'
     }
@@ -190,15 +196,6 @@ export function EquipmentHireForm({ onClose, equipment, global }: Props) {
     } else if (!emailRegex.test(formData.email)) {
       newErrors.email = 'Please enter a valid email address'
     }    
-    return newErrors
-  }
-
-  const validateStep2 = () => {
-    const newErrors: Partial<Record<keyof FormData, string>> = {}
-    
-    if (!formData.hireStartDate) {
-      newErrors.hireStartDate = 'Hire start date is required'
-    }
     return newErrors
   }
 
@@ -308,9 +305,9 @@ export function EquipmentHireForm({ onClose, equipment, global }: Props) {
  
       <div className="grid_">
         <div className="col-start-1 col-span-12 sm:col-start-2 sm:col-span-10 lg:col-start-5 lg:col-span-10 flex flex-row gap-2 justify-start items-center">
-          <button onClick={() => setCurrentStep(1)} className={`label transition-opacity duration-md ease-es ${currentStep >= 1 ? 'opacity-100' : 'opacity-40'} ${currentStep > 1 ? 'cursor-pointer hover:opacity-80' : 'cursor-default'}`}>Your Info</button>
+          <button onClick={() => setCurrentStep(1)} className={`label transition-opacity duration-md ease-es ${currentStep >= 1 ? 'opacity-100' : 'opacity-40'} ${currentStep > 1 ? 'cursor-pointer hover:opacity-80' : 'cursor-default'}`}>Equipment Enquiry</button>
           <Icon name="icon-chevron" className="icon-chevron w-3 h-3 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Arrow Right</title></Icon>
-          <button onClick={() => currentStep > 2 && setCurrentStep(2)} className={`label transition-opacity duration-md ease-es ${currentStep >= 2 ? 'opacity-100' : 'opacity-40'} ${currentStep > 2 ? 'cursor-pointer hover:opacity-80' : 'cursor-default'}`}>Equipment Enquiry</button>
+          <button onClick={() => currentStep > 2 && setCurrentStep(2)} className={`label transition-opacity duration-md ease-es ${currentStep >= 2 ? 'opacity-100' : 'opacity-40'} ${currentStep > 2 ? 'cursor-pointer hover:opacity-80' : 'cursor-default'}`}>Your Info</button>
           <Icon name="icon-chevron" className="icon-chevron w-3 h-3 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Arrow Right</title></Icon>
           <button className={`label transition-opacity duration-md ease-es ${currentStep >= 3 ? 'opacity-100' : 'opacity-40'} cursor-default`}>Review</button> 
         </div>
@@ -381,8 +378,69 @@ export function EquipmentHireForm({ onClose, equipment, global }: Props) {
           </div>
         )}
 
-        {/* Step 1: Your Info */}
+        {/* Step 1: Equipment Enquiry */}
         {currentStep === 1 && (
+          <div className={`row-start-2 lg:row-start-1 col-start-1 col-span-12 sm:col-start-2 sm:col-span-10 lg:col-start-5 lg:col-span-10 flex flex-col gap-2 transition-opacity duration-md ease-es ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}>
+
+            <div className='field-wrapper'>
+              <div className="field-row">
+                <div className="basis-1/2 field">
+                  <input type="date" id="hireStartDate" value={formData.hireStartDate} onChange={(e) => updateField('hireStartDate', e.target.value)} min={today} placeholder=" " aria-invalid={!!errors.hireStartDate} aria-describedby={errors.hireStartDate ? "hireStartDate-error" : undefined} />
+                    <label htmlFor="hireStartDate">Hire Start Date</label>
+                    <Icon name="icon-date" className="icon-date h-4 w-4 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Date Picker</title></Icon>
+                  </div>
+                <div className="basis-1/2 flex flex-row items-center justify-between bg-black/10 dark:bg-natural/10 rounded px-4 py-3.5">
+                  <label className="text-xl lg:text-label-lg opacity-60">Days</label>
+                  <div className="flex flex-row gap-1.5 items-center">
+                    <button type="button" className={`qty-form ${formData.days === 1 ? 'opacity-60' : ''}`} onClick={() => updateField('days', Math.max(1, formData.days - 1))}>
+                      <Icon name="icon-minus" className="icon-minus w-3 h-3 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Decrease</title></Icon>
+                    </button>
+                    <span className="text-xl lg:text-label-lg w-4 text-center">{formData.days}</span>
+                    <button type="button" className="qty-form" onClick={() => updateField('days', formData.days + 1)}>
+                      <Icon name="icon-plus" className="icon-plus w-3 h-3 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Increase</title></Icon>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <AnimatedMessage show={!!errors.hireStartDate} className="error">
+                <Icon name="icon-subArrow" className="icon-subArrow h-3 w-3 fill-red mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Error note</title></Icon>
+                <span id="hireStartDate-error">{errors.hireStartDate}</span>
+              </AnimatedMessage>
+            </div>
+
+            <div className='field-wrapper'>
+              <div className="field-row">
+                <div className="field basis-1/2">
+                  <input type="time" id="pickUpTime" value={formData.pickUpTime} onChange={(e) => updateField('pickUpTime', e.target.value)} step="900" />
+                  <label htmlFor="pickUpTime">Pick Up Time</label>
+                  <Icon name="icon-time" className="icon-time h-4 w-4 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Time Picker</title></Icon>
+                </div>
+                <div className="field basis-1/2">
+                  <input type="time" id="dropOffTime" value={formData.dropOffTime} onChange={(e) => updateField('dropOffTime', e.target.value)} step="900" />
+                  <label htmlFor="dropOffTime">Drop Off Time</label>
+                  <Icon name="icon-time" className="icon-time h-4 w-4 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Time Picker</title></Icon>
+                </div>
+              </div>
+              <AnimatedMessage show={formData.pickUpTime < '09:00' || formData.pickUpTime > '18:00' || formData.dropOffTime < '09:00' || formData.dropOffTime > '18:00'} className="note">
+                <Icon name="icon-subArrow" className="icon-subArrow h-3 w-3 fill-black/60 dark:fill-natural/60 mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Time note</title></Icon>
+                <span>Our standard hours are 9am to 6pm. An out of hours fee may apply to your hire.</span>
+              </AnimatedMessage>
+            </div>
+
+            <div className="field message">
+              <textarea id="message" value={formData.message} onChange={(e) => updateField('message', e.target.value)} rows={6} placeholder=" " />
+              <label htmlFor="message">Message (optional)</label>
+            </div>
+
+            <button onClick={handleNext} className="btn self-end mt-4">
+              <span>Next</span>
+              <Icon name="icon-arrow" className="icon-arrow w-3 h-3 fill-natural dark:fill-black" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Next</title></Icon>
+            </button>
+          </div>
+        )}
+
+        {/* Step 2: Your Info */}
+        {currentStep === 2 && (
           <div className={`row-start-2 lg:row-start-1 col-start-1 col-span-12 sm:col-start-2 sm:col-span-10 lg:col-start-5 lg:col-span-10 flex flex-col gap-2 transition-opacity duration-md ease-es ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}>
           
             <div className='field-wrapper'>
@@ -454,86 +512,6 @@ export function EquipmentHireForm({ onClose, equipment, global }: Props) {
               </div>
             </div>
 
-            <button onClick={handleNext} className="btn self-end mt-4">
-              <span>Next</span>
-              <Icon name="icon-arrow" className="icon-arrow w-3 h-3 fill-natural dark:fill-black" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Next</title></Icon>
-            </button>
-          </div>
-        )}
-
-        {/* Step 2: Equipment Enquiry */}
-        {currentStep === 2 && (
-          <div className={`row-start-2 lg:row-start-1 col-start-1 col-span-12 sm:col-start-2 sm:col-span-10 lg:col-start-5 lg:col-span-10 flex flex-col gap-2 transition-opacity duration-md ease-es ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}>
-
-            <div className='field-wrapper'>
-              <div className="field-row">
-                <div className="basis-1/2 field">
-                  <input type="date" id="hireStartDate" value={formData.hireStartDate} onChange={(e) => updateField('hireStartDate', e.target.value)} min={today} placeholder=" " aria-invalid={!!errors.hireStartDate} aria-describedby={errors.hireStartDate ? "hireStartDate-error" : undefined} />
-                    <label htmlFor="hireStartDate">Hire Start Date</label>
-                    <Icon name="icon-date" className="icon-date h-4 w-4 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Date Picker</title></Icon>
-                  </div>
-                <div className="basis-1/2 flex flex-row items-center justify-between bg-black/10 dark:bg-natural/10 rounded px-4 py-3.5">
-                  <label className="text-xl lg:text-label-lg opacity-60">Days</label>
-                  <div className="flex flex-row gap-1.5 items-center">
-                    <button type="button" className={`qty-form ${formData.days === 1 ? 'opacity-60' : ''}`} onClick={() => updateField('days', Math.max(1, formData.days - 1))}>
-                      <Icon name="icon-minus" className="icon-minus w-3 h-3 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Decrease</title></Icon>
-                    </button>
-                    <span className="text-xl lg:text-label-lg w-4 text-center">{formData.days}</span>
-                    <button type="button" className="qty-form" onClick={() => updateField('days', formData.days + 1)}>
-                      <Icon name="icon-plus" className="icon-plus w-3 h-3 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Increase</title></Icon>
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <AnimatedMessage show={!!errors.hireStartDate} className="error">
-                <Icon name="icon-subArrow" className="icon-subArrow h-3 w-3 fill-red mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Error note</title></Icon>
-                <span id="hireStartDate-error">{errors.hireStartDate}</span>
-              </AnimatedMessage>
-            </div>
-
-            <div className='field-wrapper'>
-              <div className="field-row">
-                <div className="field basis-1/2">
-                  <input type="time" id="pickUpTime" value={formData.pickUpTime} onChange={(e) => updateField('pickUpTime', e.target.value)} step="900" />
-                  <label htmlFor="pickUpTime">Pick Up Time</label>
-                  <Icon name="icon-time" className="icon-time h-4 w-4 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Time Picker</title></Icon>
-                </div>
-                <div className="field basis-1/2">
-                  <input type="time" id="dropOffTime" value={formData.dropOffTime} onChange={(e) => updateField('dropOffTime', e.target.value)} step="900" />
-                  <label htmlFor="dropOffTime">Drop Off Time</label>
-                  <Icon name="icon-time" className="icon-time h-4 w-4 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Time Picker</title></Icon>
-                </div>
-              </div>
-              <AnimatedMessage show={formData.pickUpTime < '09:00' || formData.pickUpTime > '18:00' || formData.dropOffTime < '09:00' || formData.dropOffTime > '18:00'} className="note">
-                <Icon name="icon-subArrow" className="icon-subArrow h-3 w-3 fill-black/60 dark:fill-natural/60 mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Time note</title></Icon>
-                <span>Our standard hours are 9am to 6pm. An out of hours fee may apply to your hire.</span>
-              </AnimatedMessage>
-            </div>
-
-            <div className='field-wrapper'>
-              <div className="field">
-                <input type="checkbox" id="hireStudio" checked={formData.hireStudio} onChange={(e) => updateField('hireStudio', e.target.checked)} className="sr-only" />
-                <label htmlFor="hireStudio" className="flex flex-row items-center justify-between cursor-pointer text-xl lg:text-label-lg static bg-black/10 dark:bg-natural/10 rounded px-4 py-3.25 lg:py-3">
-                  <div>Hire Studio</div>
-                  <div className='flex flex-row gap-4 items-center justify-center'>
-                    <div className='text-black dark:text-natural'>{formData.hireStudio ? 'Yes' : 'No'}</div>
-                    <div className='h-6 w-12 rounded bg-black/10 dark:bg-natural/10 relative'>
-                      <div className={`h-5 w-5 rounded absolute top-0.5 transition-all duration-md ease-es ${formData.hireStudio ? 'left-6.5 bg-green' : 'left-0.5 bg-red'}`} />
-                    </div>
-                  </div>
-                </label>
-              </div>
-              <AnimatedMessage show={formData.hireStudio} className="note">
-                <Icon name="icon-subArrow" className="icon-subArrow h-3 w-3 fill-black/60 dark:fill-natural/60 mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Hire Studio note</title></Icon>
-                <span>We'll contact you about studio availability for your equipment hire dates.</span>
-              </AnimatedMessage>
-            </div>
-
-            <div className="field message">
-              <textarea id="message" value={formData.message} onChange={(e) => updateField('message', e.target.value)} rows={6} placeholder=" " />
-              <label htmlFor="message">Message (optional)</label>
-            </div>
-
             <div className="flex flex-row gap-4 items-center justify-between mt-4">
               <button onClick={handleBack} className="link">
                 <Icon name="icon-arrow" className="icon-arrow w-3 h-3 fill-black dark:fill-natural rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Back</title></Icon>
@@ -563,7 +541,6 @@ export function EquipmentHireForm({ onClose, equipment, global }: Props) {
               <div className='flex gap-2'><div className='cd4 text-black/60 dark:text-natural/60'>Start Date:</div><div className='grow'>{formatDate(formData.hireStartDate)}</div></div>
               <div className='flex gap-2'><div className='cd4 text-black/60 dark:text-natural/60'>Days:</div><div className='grow'>&#120273; {formData.days}</div></div>
               <div className='flex gap-2'><div className='cd4 text-black/60 dark:text-natural/60'>Times:</div><div className='grow'>{formData.pickUpTime} - {formData.dropOffTime}</div></div>
-              <div className='flex gap-2'><div className='cd4 text-black/60 dark:text-natural/60'>Hire Studio:</div><div className='grow'>{formData.hireStudio ? 'Yes' : 'No'}</div></div>
             </div>
 
             

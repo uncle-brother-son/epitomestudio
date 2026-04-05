@@ -16,9 +16,6 @@ export const equipmentItem = defineType({
       title: 'Category',
       type: 'reference',
       to: [{ type: 'category' }],
-      options: {
-        filter: 'defined(parent)',
-      },
       validation: (Rule) => Rule.required(),
       description: 'Select the most specific category for this item',
     },

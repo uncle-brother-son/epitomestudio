@@ -17,7 +17,6 @@ export async function POST(request: NextRequest) {
       days,
       pickUpTime,
       dropOffTime,
-      hireStudio,
       message,
       items,
       subscribeToNewsletter,
@@ -194,19 +193,11 @@ export async function POST(request: NextRequest) {
                       </td>
                     </tr>
                     <tr>
-                      <td style="padding: 0 0 8px; width: 128px; vertical-align: top;">
+                      <td style="padding: 0 0 40px; width: 128px; vertical-align: top;">
                         <div style="font-size: 10px; font-weight: 500; color: #121214; text-transform: uppercase;">Times</div>
                       </td>
-                      <td style="padding: 0 0 8px;">
-                        <div style="font-size: 12px; color: #121214;">${pickUpTime} - ${dropOffTime}</div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td style="padding: 0 0 40px; width: 128px; vertical-align: top;">
-                        <div style="font-size: 10px; font-weight: 500; color: #121214; text-transform: uppercase;">Hire Studio</div>
-                      </td>
                       <td style="padding: 0 0 40px;">
-                        <div style="font-size: 12px; color: #121214;">${hireStudio ? 'Yes' : 'No'}</div>
+                        <div style="font-size: 12px; color: #121214;">${pickUpTime} - ${dropOffTime}</div>
                       </td>
                     </tr>
 
@@ -364,19 +355,11 @@ export async function POST(request: NextRequest) {
                       </td>
                     </tr>
                     <tr>
-                      <td style="padding: 0 0 8px; width: 128px; vertical-align: top;">
+                      <td style="padding: 0 0 40px; width: 128px; vertical-align: top;">
                         <div style="font-size: 10px; font-weight: 500; color: #121214; text-transform: uppercase;">Times</div>
                       </td>
-                      <td style="padding: 0 0 8px;">
-                        <div style="font-size: 12px; color: #121214;">${pickUpTime} - ${dropOffTime}</div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td style="padding: 0 0 40px; width: 128px; vertical-align: top;">
-                        <div style="font-size: 10px; font-weight: 500; color: #121214; text-transform: uppercase;">Hire Studio</div>
-                      </td>
                       <td style="padding: 0 0 40px;">
-                        <div style="font-size: 12px; color: #121214;">${hireStudio ? 'Yes' : 'No'}</div>
+                        <div style="font-size: 12px; color: #121214;">${pickUpTime} - ${dropOffTime}</div>
                       </td>
                     </tr>
 

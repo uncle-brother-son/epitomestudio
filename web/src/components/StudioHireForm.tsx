@@ -104,6 +104,18 @@ export function StudioHireForm({ onClose, studio, global }: Props) {
   const validateStep1 = () => {
     const newErrors: Partial<Record<keyof FormData, string>> = {}
     
+    if (!formData.hireStartDate) {
+      newErrors.hireStartDate = 'Hire start date is required'
+    }
+    if (!formData.typeOfBooking) {
+      newErrors.typeOfBooking = 'Type of booking is required'
+    }    
+    return newErrors
+  }
+
+  const validateStep2 = () => {
+    const newErrors: Partial<Record<keyof FormData, string>> = {}
+    
     if (!formData.name.trim()) {
       newErrors.name = 'Please enter your name'
     }
@@ -118,18 +130,6 @@ export function StudioHireForm({ onClose, studio, global }: Props) {
       newErrors.email = 'Please enter your email'
     } else if (!emailRegex.test(formData.email)) {
       newErrors.email = 'Please enter a valid email address'
-    }    
-    return newErrors
-  }
-
-  const validateStep2 = () => {
-    const newErrors: Partial<Record<keyof FormData, string>> = {}
-    
-    if (!formData.hireStartDate) {
-      newErrors.hireStartDate = 'Hire start date is required'
-    }
-    if (!formData.typeOfBooking) {
-      newErrors.typeOfBooking = 'Type of booking is required'
     }    
     return newErrors
   }
@@ -246,9 +246,9 @@ export function StudioHireForm({ onClose, studio, global }: Props) {
       
       <div className="grid_">
         <div className="col-start-1 col-span-12 sm:col-start-2 sm:col-span-10 lg:col-start-8 lg:col-span-10 flex flex-row gap-2 justify-start items-center">
-          <button onClick={() => setCurrentStep(1)} className={`label transition-opacity duration-md ease-es ${currentStep >= 1 ? 'opacity-100' : 'opacity-40'} ${currentStep > 1 ? 'cursor-pointer hover:opacity-80' : 'cursor-default'}`} >Your Info</button>
+          <button onClick={() => setCurrentStep(1)} className={`label transition-opacity duration-md ease-es ${currentStep >= 1 ? 'opacity-100' : 'opacity-40'} ${currentStep > 1 ? 'cursor-pointer hover:opacity-80' : 'cursor-default'}`} >Studio Enquiry</button>
           <Icon name="icon-chevron" className="icon-chevron w-3 h-3 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Arrow Right</title></Icon>
-          <button onClick={() => currentStep > 2 && setCurrentStep(2)} className={`label transition-opacity duration-md ease-es ${currentStep >= 2 ? 'opacity-100' : 'opacity-40'} ${currentStep > 2 ? 'cursor-pointer hover:opacity-80' : 'cursor-default'}`}>Studio Enquiry</button>
+          <button onClick={() => currentStep > 2 && setCurrentStep(2)} className={`label transition-opacity duration-md ease-es ${currentStep >= 2 ? 'opacity-100' : 'opacity-40'} ${currentStep > 2 ? 'cursor-pointer hover:opacity-80' : 'cursor-default'}`}>Your Info</button>
           <Icon name="icon-chevron" className="icon-chevron w-3 h-3 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Arrow Right</title></Icon>
           <button className={`label transition-opacity duration-md ease-es ${currentStep >= 3 ? 'opacity-100' : 'opacity-40'} cursor-default`}>Review</button> 
         </div>
@@ -256,90 +256,8 @@ export function StudioHireForm({ onClose, studio, global }: Props) {
 
       <div className="grid_ gap-y-6 overflow-y-scroll pb-8">
 
-        {/* Step 1: Your Info */}
+        {/* Step 1: Studio Enquiry */}
         {currentStep === 1 && (
-          <div className={`col-start-1 col-span-12 sm:col-start-2 sm:col-span-10 lg:col-start-8 lg:col-span-10 flex flex-col gap-2 transition-opacity duration-md ease-es ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}>
-          
-            <div className='field-wrapper'>
-              <div className="field">
-                <input type="text" id="name" value={formData.name} onChange={(e) => updateField('name', e.target.value)} placeholder=" " aria-invalid={!!errors.name} aria-describedby={errors.name ? "name-error" : undefined} />
-                <label htmlFor="name">Name</label>
-              </div>
-              <AnimatedMessage show={!!errors.name} className="error">
-                <Icon name="icon-subArrow" className="icon-subArrow h-3 w-3 fill-red mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Error note</title></Icon>
-                <span id="name-error">{errors.name}</span>
-              </AnimatedMessage>
-            </div>
-
-            <div className='field-wrapper'>
-              <div className="field">
-                <select id="businessType" value={formData.businessType} onChange={(e) => updateField('businessType', e.target.value)} aria-invalid={!!errors.businessType} aria-describedby={errors.businessType ? "businessType-error" : undefined} required>
-                    <option value=""></option>
-                    <option value="company">Company</option>
-                    <option value="freelance">Freelance</option>
-                </select>
-                <label htmlFor="businessType">Business Type</label>
-                <Icon name="icon-chevron" className="icon-chevron h-3 w-3 fill-black dark:fill-natural rotate-90" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Dropdown</title></Icon>
-              </div>
-              <AnimatedMessage show={!!errors.businessType} className="error">
-                <Icon name="icon-subArrow" className="icon-subArrow h-3 w-3 fill-red mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Error note</title></Icon>
-                <span id="businessType-error">{errors.businessType}</span>
-              </AnimatedMessage>
-            </div>
-
-            {formData.businessType === 'company' && (
-              <>
-                <div className='field-wrapper'>
-                  <div className="field">
-                    <input type="text" id="companyName" value={formData.companyName} onChange={(e) => updateField('companyName', e.target.value)} placeholder=" " aria-invalid={!!errors.companyName} aria-describedby={errors.companyName ? "companyName-error" : undefined} />
-                    <label htmlFor="companyName">Company Name</label>
-                  </div>
-                  <AnimatedMessage show={!!errors.companyName} className="error">
-                    <Icon name="icon-subArrow" className="icon-subArrow h-3 w-3 fill-red mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Error note</title></Icon>
-                    <span id="companyName-error">{errors.companyName}</span>
-                  </AnimatedMessage>
-                </div>
-              </>
-            )}
-
-            <div className='field-wrapper'>
-              <div className="field">
-                <input type="email" id="email" value={formData.email} onChange={(e) => updateField('email', e.target.value)} placeholder=" " aria-invalid={!!errors.email} aria-describedby={errors.email ? "email-error" : undefined} />
-                <label htmlFor="email">Email</label>
-              </div>
-              <AnimatedMessage show={!!errors.email} className="error">
-                <Icon name="icon-subArrow" className="icon-subArrow h-3 w-3 fill-red mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Error note</title></Icon>
-                <span id="email-error">{errors.email}</span>
-              </AnimatedMessage>
-            </div>
-
-            <div className="field-row">
-              <div className="field flex-3 preselect">
-                <select id="countryCode" value={formData.countryCode} onChange={(e) => updateField('countryCode', e.target.value)}>
-                  {COUNTRY_CODES.map((item) => (
-                  <option key={item.code} value={item.code}>
-                      {item.code}
-                  </option>
-                  ))}
-                </select>
-                <label htmlFor="countryCode">Country Code</label>
-                <Icon name="icon-chevron" className="icon-chevron h-3 w-3 fill-black dark:fill-natural rotate-90" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Dropdown</title></Icon>
-              </div>
-              <div className="field flex-6">
-                <input type="tel" id="phoneNumber" value={formData.phoneNumber} onChange={(e) => updateField('phoneNumber', e.target.value)} placeholder=" " />
-                <label htmlFor="phoneNumber">Phone Number</label>
-              </div>
-            </div>
-
-            <button onClick={handleNext} className="btn self-end mt-4">
-              <span>Next</span>
-              <Icon name="icon-arrow" className="icon-arrow w-3 h-3 fill-natural dark:fill-black" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Next</title></Icon>
-            </button>
-          </div>
-        )}
-
-        {/* Step 2: Studio Enquiry */}
-        {currentStep === 2 && (
           <div className={`col-start-1 col-span-12 sm:col-start-2 sm:col-span-10 lg:col-start-8 lg:col-span-10 flex flex-col gap-2 justify-start transition-opacity duration-md ease-es ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}>
 
             <div className='field-wrapper'>
@@ -435,6 +353,88 @@ export function StudioHireForm({ onClose, studio, global }: Props) {
             <div className="field message">
               <textarea id="message" value={formData.message} onChange={(e) => updateField('message', e.target.value)} rows={6} placeholder=" " />
               <label htmlFor="message">Message (optional)</label>
+            </div>
+
+            <button onClick={handleNext} className="btn self-end mt-4">
+              <span>Next</span>
+              <Icon name="icon-arrow" className="icon-arrow w-3 h-3 fill-natural dark:fill-black" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Next</title></Icon>
+            </button>
+          </div>
+        )}
+
+        {/* Step 2: Your Info */}
+        {currentStep === 2 && (
+          <div className={`col-start-1 col-span-12 sm:col-start-2 sm:col-span-10 lg:col-start-8 lg:col-span-10 flex flex-col gap-2 transition-opacity duration-md ease-es ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}>
+          
+            <div className='field-wrapper'>
+              <div className="field">
+                <input type="text" id="name" value={formData.name} onChange={(e) => updateField('name', e.target.value)} placeholder=" " aria-invalid={!!errors.name} aria-describedby={errors.name ? "name-error" : undefined} />
+                <label htmlFor="name">Name</label>
+              </div>
+              <AnimatedMessage show={!!errors.name} className="error">
+                <Icon name="icon-subArrow" className="icon-subArrow h-3 w-3 fill-red mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Error note</title></Icon>
+                <span id="name-error">{errors.name}</span>
+              </AnimatedMessage>
+            </div>
+
+            <div className='field-wrapper'>
+              <div className="field">
+                <select id="businessType" value={formData.businessType} onChange={(e) => updateField('businessType', e.target.value)} aria-invalid={!!errors.businessType} aria-describedby={errors.businessType ? "businessType-error" : undefined} required>
+                    <option value=""></option>
+                    <option value="company">Company</option>
+                    <option value="freelance">Freelance</option>
+                </select>
+                <label htmlFor="businessType">Business Type</label>
+                <Icon name="icon-chevron" className="icon-chevron h-3 w-3 fill-black dark:fill-natural rotate-90" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Dropdown</title></Icon>
+              </div>
+              <AnimatedMessage show={!!errors.businessType} className="error">
+                <Icon name="icon-subArrow" className="icon-subArrow h-3 w-3 fill-red mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Error note</title></Icon>
+                <span id="businessType-error">{errors.businessType}</span>
+              </AnimatedMessage>
+            </div>
+
+            {formData.businessType === 'company' && (
+              <>
+                <div className='field-wrapper'>
+                  <div className="field">
+                    <input type="text" id="companyName" value={formData.companyName} onChange={(e) => updateField('companyName', e.target.value)} placeholder=" " aria-invalid={!!errors.companyName} aria-describedby={errors.companyName ? "companyName-error" : undefined} />
+                    <label htmlFor="companyName">Company Name</label>
+                  </div>
+                  <AnimatedMessage show={!!errors.companyName} className="error">
+                    <Icon name="icon-subArrow" className="icon-subArrow h-3 w-3 fill-red mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Error note</title></Icon>
+                    <span id="companyName-error">{errors.companyName}</span>
+                  </AnimatedMessage>
+                </div>
+              </>
+            )}
+
+            <div className='field-wrapper'>
+              <div className="field">
+                <input type="email" id="email" value={formData.email} onChange={(e) => updateField('email', e.target.value)} placeholder=" " aria-invalid={!!errors.email} aria-describedby={errors.email ? "email-error" : undefined} />
+                <label htmlFor="email">Email</label>
+              </div>
+              <AnimatedMessage show={!!errors.email} className="error">
+                <Icon name="icon-subArrow" className="icon-subArrow h-3 w-3 fill-red mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Error note</title></Icon>
+                <span id="email-error">{errors.email}</span>
+              </AnimatedMessage>
+            </div>
+
+            <div className="field-row">
+              <div className="field flex-3 preselect">
+                <select id="countryCode" value={formData.countryCode} onChange={(e) => updateField('countryCode', e.target.value)}>
+                  {COUNTRY_CODES.map((item) => (
+                  <option key={item.code} value={item.code}>
+                      {item.code}
+                  </option>
+                  ))}
+                </select>
+                <label htmlFor="countryCode">Country Code</label>
+                <Icon name="icon-chevron" className="icon-chevron h-3 w-3 fill-black dark:fill-natural rotate-90" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Dropdown</title></Icon>
+              </div>
+              <div className="field flex-6">
+                <input type="tel" id="phoneNumber" value={formData.phoneNumber} onChange={(e) => updateField('phoneNumber', e.target.value)} placeholder=" " />
+                <label htmlFor="phoneNumber">Phone Number</label>
+              </div>
             </div>
 
             <div className="flex flex-row gap-4 items-center justify-between mt-4">
