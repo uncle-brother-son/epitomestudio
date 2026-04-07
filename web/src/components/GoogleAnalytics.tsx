@@ -9,14 +9,30 @@ export function GoogleAnalytics() {
     if (typeof window === 'undefined') return
 
     // Check consent from localStorage
-    try {
-      const stored = localStorage.getItem('cookie_consent')
-      if (stored) {
-        const consent = JSON.parse(stored)
-        setHasConsent(consent.analytics === true)
+    const checkConsent = () => {
+      try {
+        const stored = localStorage.getItem('cookie_consent')
+        if (stored) {
+          const consent = JSON.parse(stored)
+          setHasConsent(consent.analytics === true)
+        }
+      } catch (error) {
+        console.error('Failed to check analytics consent:', error)
       }
-    } catch (error) {
-      console.error('Failed to check analytics consent:', error)
+    }
+
+    // Check on mount
+    checkConsent()
+
+    // Listen for storage changes (when consent is updated)
+    window.addEventListener('storage', checkConsent)
+    
+    // Custom event for same-tab updates
+    window.addEventListener('cookieConsentUpdated', checkConsent)
+
+    return () => {
+      window.removeEventListener('storage', checkConsent)
+      window.removeEventListener('cookieConsentUpdated', checkConsent)
     }
   }, [])
 

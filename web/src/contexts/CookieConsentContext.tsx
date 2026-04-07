@@ -69,6 +69,9 @@ export function CookieConsentProvider({ children }: { children: ReactNode }) {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(newConsent))
       setConsent(newConsent)
+      
+      // Dispatch custom event to notify GoogleAnalytics component
+      window.dispatchEvent(new Event('cookieConsentUpdated'))
     } catch (error) {
       console.error('Failed to save cookie consent:', error)
     }
