@@ -290,7 +290,7 @@ export async function POST(request: NextRequest) {
         ? 'EPITOMESTUDIO <bookings@epitomestudio.co.uk>'
         : 'EPITOMESTUDIO <rentals@epitomestudio.co.uk>',
       to: email,
-      subject: `Equipment Hire Enquiry Received - ${referenceNumber}`,
+      subject: `Equipment Hire Enquiry - ${referenceNumber}`,
 
       html: `
         <!DOCTYPE html>
@@ -336,9 +336,13 @@ export async function POST(request: NextRequest) {
                         <div style="font-size: 12px; color: #121214;">Thank you for your equipment hire enquiry. We're reviewing your request and will send you a detailed quote within 24 hours.</div>
                       </td>
                     </tr>
+                  </table>
+
+                  <!-- Reference -->
+                  <table width="600" cellpadding="0" cellspacing="0" style="padding: 0 0 40px; max-width: 600px; width: 100%; overflow: hidden;" class="email-container">
                     <tr>
                       <td style="padding: 0 0 16px;">
-                        <div style="font-size: 12px; color: #121214;">Your enquiry reference: <strong>${referenceNumber}</strong></div>
+                        <div style="font-size: 12px; color: #121214;">Your enquiry reference: ${referenceNumber}</div>
                       </td>
                     </tr>
                   </table>

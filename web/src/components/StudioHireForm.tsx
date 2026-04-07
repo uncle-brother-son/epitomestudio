@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { saveHireStudioData } from '@/lib/formStorage'
 import { Icon } from './Icons'
 import { AnimatedMessage } from './AnimatedMessage'
@@ -69,6 +69,16 @@ export function StudioHireForm({ onClose, studio, global }: Props) {
 
   const today = new Date().toISOString().split('T')[0]
 
+  // Calculate if hire duration is less than 4 hours
+  const isHireDurationTooShort = useMemo(() => {
+    const [arrivalHours, arrivalMinutes] = formData.arrivalTime.split(':').map(Number)
+    const [leavingHours, leavingMinutes] = formData.leavingTime.split(':').map(Number)
+    const arrivalTotalMinutes = arrivalHours * 60 + arrivalMinutes
+    const leavingTotalMinutes = leavingHours * 60 + leavingMinutes
+    const durationMinutes = leavingTotalMinutes - arrivalTotalMinutes
+    return durationMinutes < 240
+  }, [formData.arrivalTime, formData.leavingTime])
+
   const updateField = (field: keyof FormData, value: any) => {
     setFormData(prev => ({ ...prev, [field]: value }))
     // Clear error when user starts typing
@@ -110,7 +120,10 @@ export function StudioHireForm({ onClose, studio, global }: Props) {
     }
     if (!formData.typeOfBooking) {
       newErrors.typeOfBooking = 'Type of booking is required'
-    }    
+    }
+    if (isHireDurationTooShort) {
+      newErrors.arrivalTime = 'Minimum hire duration is 4 hours'
+    }
     return newErrors
   }
 
@@ -292,17 +305,23 @@ export function StudioHireForm({ onClose, studio, global }: Props) {
               </AnimatedMessage>
             </div>
 
-            <div className="field-row">
-              <div className="field grow">
-                <input type="time" id="arrivalTime" value={formData.arrivalTime} onChange={(e) => updateField('arrivalTime', e.target.value)} placeholder=" " step="900" />
-                <label htmlFor="arrivalTime">Arrival Time</label>
-                <Icon name="icon-time" className="icon-time h-4 w-4 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Time Picker</title></Icon>
+            <div className='field-wrapper'>
+              <div className="field-row">
+                <div className="field grow">
+                  <input type="time" id="arrivalTime" value={formData.arrivalTime} onChange={(e) => updateField('arrivalTime', e.target.value)} placeholder=" " step="900" />
+                  <label htmlFor="arrivalTime">Arrival Time</label>
+                  <Icon name="icon-time" className="icon-time h-4 w-4 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Time Picker</title></Icon>
+                </div>
+                <div className="field grow">
+                  <input type="time" id="leavingTime" value={formData.leavingTime} onChange={(e) => updateField('leavingTime', e.target.value)} placeholder=" " step="900" />
+                  <label htmlFor="leavingTime">Leaving Time</label>
+                  <Icon name="icon-time" className="icon-time h-4 w-4 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Time Picker</title></Icon>
+                </div>
               </div>
-              <div className="field grow">
-                <input type="time" id="leavingTime" value={formData.leavingTime} onChange={(e) => updateField('leavingTime', e.target.value)} placeholder=" " step="900" />
-                <label htmlFor="leavingTime">Leaving Time</label>
-                <Icon name="icon-time" className="icon-time h-4 w-4 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Time Picker</title></Icon>
-              </div>
+              <AnimatedMessage show={isHireDurationTooShort} className="error">
+                <Icon name="icon-subArrow" className="icon-subArrow h-3 w-3 fill-red mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Error note</title></Icon>
+                <span>Minimum hire duration is 4 hours</span>
+              </AnimatedMessage>
             </div>
 
             <div className='field-wrapper'>
