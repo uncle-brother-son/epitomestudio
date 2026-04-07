@@ -36,7 +36,7 @@ export function StudioInfo({ onClose, studio, global }: Props) {
             {/* Location */}
             {global?.location && (
             <div className="flex flex-col gap-6">
-                <h3 className="label">Location</h3>
+                <h2 className="label">Location</h2>
                 {global.location && (
                 <div className="rich">
                     <PortableText value={global.location} />
@@ -53,21 +53,21 @@ export function StudioInfo({ onClose, studio, global }: Props) {
 
             {/* Extras */}
             <div className="flex flex-col gap-6">
-            <h3 className="label">Extras</h3>
-            <div className="flex flex-col gap-4">
-                <StudioTermsButton 
-                  className="link line self-start"
-                  studio={studio}
-                  global={global}
-                />
-                {studio?.infoPack?.asset?.url && (
-                    <a href={studio.infoPack.asset.url} target="_blank" rel="noopener noreferrer" className="link line self-start">
-                        <span>Full Info Pack</span>
-                        <Icon name="icon-download" className="icon-download fill-black dark:fill-natural h-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>External Link</title></Icon>
-                    </a>
-                )}
-            </div>
-            </div>
+                <h2 className="label">Extras</h2>
+                <div className="flex flex-col gap-4">
+                    <StudioTermsButton 
+                    className="link line self-start"
+                    studio={studio}
+                    global={global}
+                    />
+                    {studio?.infoPack?.asset?.url && (
+                        <a href={studio.infoPack.asset.url} target="_blank" rel="noopener noreferrer" className="link line self-start">
+                            <span>Full Info Pack</span>
+                            <Icon name="icon-download" className="icon-download fill-black dark:fill-natural h-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>External Link</title></Icon>
+                        </a>
+                    )}
+                </div>
+            </div> 
         </div>
 
         {/* Column 2 */}
@@ -75,7 +75,7 @@ export function StudioInfo({ onClose, studio, global }: Props) {
             {/* Features */}
             {studio?.features && (
             <div className="flex flex-col gap-6">
-                <h3 className="label">Features</h3>
+                <h2 className="label">Features</h2>
                 <div className="rich">
                 <PortableText value={studio.features} />
                 </div>
@@ -85,7 +85,7 @@ export function StudioInfo({ onClose, studio, global }: Props) {
             {/* Clients */}
             {studio?.clients && (
             <div className="flex flex-col gap-6">
-                <h3 className="label">Clients</h3>
+                <h2 className="label">Clients</h2>
                 <div className="rich">
                 <PortableText value={studio.clients} />
                 </div>
@@ -98,15 +98,15 @@ export function StudioInfo({ onClose, studio, global }: Props) {
             {/* Studio Information */}
             {studio?.studioInformation && studio.studioInformation.length > 0 && (
             <div className="flex flex-col gap-6">
-                <h3 className="label">Studio Information</h3>
-                <div className="flex flex-col gap-2">
+                <h2 className="label">Studio Information</h2>
+                <div className="flex flex-col gap-1">
                 {studio.studioInformation.map((item, index) => (
                     <div key={index} className="flex flex-col">
                     <button
                         onClick={() => toggleAccordion(index)}
                         className="flex flex-row justify-between items-center"
                     >
-                        <span className="text-xl">{item.title}</span>
+                        <span className="text-md">{item.title}</span>
                         <Icon name="icon-chevron" className={`icon-chevron w-3 h-3 fill-black dark:fill-natural transition-transform duration-lg ease-es ${ openAccordion === index ? 'rotate-270' : 'rotate-90' }`} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Toggle</title></Icon>
                     </button>
                     <div className={`grid transition-all duration-lg ease-es ${openAccordion === index ? 'pb-4 pt-2' : 'py-0'}`} style={{ gridTemplateRows: openAccordion === index ? '1fr' : '0fr', opacity: openAccordion === index ? 1 : 0 }}>

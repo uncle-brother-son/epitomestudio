@@ -23,7 +23,7 @@ export function TermsAccordion({ title, intro, terms }: TermsAccordionProps) {
   return (
     <div className="flex flex-col gap-y-6">
       {title && (
-        <h3 className="label">{title}</h3>
+        <h2 className="label">{title}</h2>
       )}
 
       {intro && (

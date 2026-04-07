@@ -97,13 +97,13 @@
   ol.terms > li { @apply relative mb-2 text-label-lg; counter-increment: item; }
   ol.terms > li::before { @apply absolute top-0 -left-6 text-xl; content: counter(item) ". "; }
   ol.terms > li ol { @apply pl-7 list-outside; counter-reset: subitem; list-style-type: none; }
-  ol.terms > li ol > li { @apply relative mb-2 text-label-lg; counter-increment: subitem; }
+  ol.terms > li ol > li { @apply relative mb-2 text-lg; counter-increment: subitem; }
   ol.terms > li ol > li::before { @apply absolute top-0 -left-7 text-label-lg; content: counter(item) "." counter(subitem) " "; }
   ol.terms > li ul { @apply pl-7; }
   ol.terms > li ul > li { @apply relative; }
-  ol.terms > li ul > li ul li::before { @apply absolute top-0 -left-7; content: '—'; }
+  ol.terms > li ul > li::before { @apply absolute top-0 -left-7; content: '—'; }
   ol.terms > li ol > li ol { @apply pl-8 list-outside; counter-reset: subsubitem; list-style-type: none; }
-  ol.terms > li ol > li ol > li { @apply mb-2 text-label-lg; counter-increment: subsubitem; }
+  ol.terms > li ol > li ol > li { @apply mb-2 text-lg; counter-increment: subsubitem; }
   ol.terms > li ol > li ol > li::before { @apply absolute top-0 -left-8 text-label-lg; content: counter(item) "." counter(subitem) "." counter(subsubitem) " "; }
 
   [class*="icon-"] { @apply shrink-0; }

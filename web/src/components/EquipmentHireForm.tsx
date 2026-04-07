@@ -56,6 +56,7 @@ export function EquipmentHireForm({ onClose, equipment, global }: Props) {
   const [currentStep, setCurrentStep] = useState(1)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
+  const [refNumber, setRefNumber] = useState('')
   const [isSummaryOpen, setIsSummaryOpen] = useState(false)
   const [isTransitioning, setIsTransitioning] = useState(false)
   const [showPriceInfo, setShowPriceInfo] = useState(false)
@@ -253,6 +254,11 @@ export function EquipmentHireForm({ onClose, equipment, global }: Props) {
 
       if (!response.ok) throw new Error('Submission failed')
 
+      const result = await response.json()
+      if (result.referenceNumber) {
+        setRefNumber(result.referenceNumber)
+      }
+
       // Clear stored studio hire data after successful equipment hire
       clearHireStudioData()
       
@@ -280,9 +286,10 @@ export function EquipmentHireForm({ onClose, equipment, global }: Props) {
           <div className="col-start-1 col-span-12 sm:col-start-2 sm:col-span-10 lg:col-start-8 lg:col-span-10 flex flex-col gap-4 mt-9 px-2 lg:px-0">
             <div className="flex items-start gap-2 bg-black/10 dark:bg-natural/10 rounded p-6">
               <Icon name="icon-tick" className="icon-tick w-4 h-4 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Success</title></Icon>
-              <div className="flex flex-col items-start gap-2">
-                <p>Thanks, we have received your Equipment Hire enquiry.</p>
-                <p>We'll get back to you soon.</p>
+              <div className="flex flex-col items-start gap-2">                
+                <p>Thank you for your Equipment Hire enquiry.</p>
+                <p>REF Number: {refNumber}</p>
+                <p>We have sent you an email with all the details, and a member of our team will be in touch shortly.</p>
                 <button onClick={onClose} className="btn self-start mt-4">
                     <span>Done</span>
                 </button>

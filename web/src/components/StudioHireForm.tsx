@@ -44,6 +44,7 @@ export function StudioHireForm({ onClose, studio, global }: Props) {
   const [currentStep, setCurrentStep] = useState(1)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
+  const [refNumber, setRefNumber] = useState('')
   const [isTransitioning, setIsTransitioning] = useState(false)
   const [isTermsDrawerOpen, setIsTermsDrawerOpen] = useState(false)
   const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>({})
@@ -188,6 +189,11 @@ export function StudioHireForm({ onClose, studio, global }: Props) {
 
       if (!response.ok) throw new Error('Submission failed')
 
+      const result = await response.json()
+      if (result.referenceNumber) {
+        setRefNumber(result.referenceNumber)
+      }
+
       // If user wants to hire equipment, save data to localStorage
       if (formData.hireEquipment) {
         saveHireStudioData(formData)
@@ -215,12 +221,12 @@ export function StudioHireForm({ onClose, studio, global }: Props) {
             <div className="flex items-start gap-2 bg-black/10 dark:bg-natural/10 rounded p-6">
               <Icon name="icon-tick" className="icon-tick w-4 h-4 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Success</title></Icon>
               <div className="flex flex-col items-start gap-2">
-                <p>Thanks, we have received your Studio Hire enquiry.</p>
-                <p>We'll get back to you soon.</p>
+                <p>Thank you for your Studio Hire enquiry.</p>
+                <p>REF Number: {refNumber}</p>
+                <p>We have sent you an email with all the details, and a member of our team will be in touch shortly.</p>
                 {formData.hireEquipment && (
                   <div className="flex flex-col gap-6 mt-4">
-                      <p>Please select your equipment and submit a Hire Equipment form by clicking the link below.</p>
-                      <a href="/equipment-hire" onClick={onClose} className="btn self-start">Browse Equipment</a>
+                      <a href="/equipment-hire" onClick={onClose} className="btn self-start">Select Your Equipment</a>
                   </div>
                 )}
                 {!formData.hireEquipment && (

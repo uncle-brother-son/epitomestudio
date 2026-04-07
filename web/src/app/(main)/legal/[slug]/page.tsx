@@ -78,7 +78,7 @@ export default async function LegalPage({ params }: { params: Promise<{ slug: st
             {/* Contact Section */}
             {global && (
               <div className="flex flex-col gap-y-6">
-                <h3 className="label">Contact</h3>
+                <h2 className="label">Contact</h2>
 
                 {global.companyName && global.location && (
                   <div className="flex flex-col gap-0">

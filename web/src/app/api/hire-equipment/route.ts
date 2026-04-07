@@ -1,5 +1,6 @@
 import { Resend } from 'resend'
 import { NextRequest, NextResponse } from 'next/server'
+import { getCloudflareContext } from '@opennextjs/cloudflare'
 
 
 export async function POST(request: NextRequest) {
@@ -65,6 +66,14 @@ export async function POST(request: NextRequest) {
     const formattedDate = formatDate(hireStartDate)
     const formattedBusinessType = capitalizeFirst(businessType)
 
+    // Generate unique reference number using KV
+    const { env } = getCloudflareContext()
+    const counterKey = 'equipment-enquiry-counter'
+    const currentCount = await env.NEXT_INC_CACHE_KV.get(counterKey)
+    const nextCount = (parseInt(currentCount || '0') + 1)
+    const referenceNumber = `E${String(nextCount).padStart(4, '0')}`
+    await env.NEXT_INC_CACHE_KV.put(counterKey, String(nextCount))
+
     // Build equipment items HTML
     const equipmentItemsHtml = items.map((item: any) => `
         <tr>
@@ -95,7 +104,8 @@ export async function POST(request: NextRequest) {
       from: fromEmail,
       to: recipientEmail || 'rentals@epitomestudio.co.uk',
       replyTo: email,
-      subject: `[ Equipment Hire Enquiry ] ${name}${companyName ? ` — ${companyName}` : ''}`,
+      subject: `[ Equipment Hire Enquiry - ${referenceNumber} ] ${name}${companyName ? ` — ${companyName}` : ''}`,
+
       html: `
         <!DOCTYPE html>
         <html style="background-color: #F5F2EB;">
@@ -125,7 +135,7 @@ export async function POST(request: NextRequest) {
                         <img src="https://epitomestudio.ubs-demo.workers.dev/logo.svg" alt="Epitomestudio" style="width: 266px; height: 24px; display: block;" />
                       </td>
                       <td class="header-cell" style="padding: 0; text-align: right; vertical-align: top;">
-                        <div style="font-size: 10px; font-weight: 500; color: #121214; text-transform: uppercase;">[ Equipment Hire Enquiry ]</div>
+                        <div style="font-size: 10px; font-weight: 500; color: #121214; text-transform: uppercase;">[ Equipment Hire Enquiry - ${referenceNumber} ]</div>
                       </td>
                     </tr>
                   </table>
@@ -280,7 +290,8 @@ export async function POST(request: NextRequest) {
         ? 'EPITOMESTUDIO <bookings@epitomestudio.co.uk>'
         : 'EPITOMESTUDIO <rentals@epitomestudio.co.uk>',
       to: email,
-      subject: 'Equipment Hire Enquiry Received',
+      subject: `Equipment Hire Enquiry Received - ${referenceNumber}`,
+
       html: `
         <!DOCTYPE html>
         <html style="background-color: #F5F2EB;">
@@ -323,6 +334,11 @@ export async function POST(request: NextRequest) {
                     <tr>
                       <td style="padding: 0 0 16px;">
                         <div style="font-size: 12px; color: #121214;">Thank you for your equipment hire enquiry. We're reviewing your request and will send you a detailed quote within 24 hours.</div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="padding: 0 0 16px;">
+                        <div style="font-size: 12px; color: #121214;">Your enquiry reference: <strong>${referenceNumber}</strong></div>
                       </td>
                     </tr>
                   </table>
@@ -520,7 +536,7 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    return NextResponse.json({ success: true, data })
+    return NextResponse.json({ success: true, data, referenceNumber })
   } catch (error) {
     console.error('Email send error:', error)
     return NextResponse.json(

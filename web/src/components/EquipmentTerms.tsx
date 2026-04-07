@@ -43,7 +43,7 @@ export function EquipmentTerms({ onClose, equipment, global }: Props) {
         {/* Column 3 */}
         <div className="col-start-1 col-span-12 sm:col-start-2 sm:col-span-10 lg:col-start-19 lg:col-span-5 flex flex-col gap-y-6">
             {/* Contact Header */}
-            <h3 className="label">Contact</h3>
+            <h2 className="label">Contact</h2>
 
             {/* Company Name & Location */}
             {global?.companyName && global?.location && (

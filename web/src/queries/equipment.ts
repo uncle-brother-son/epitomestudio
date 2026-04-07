@@ -68,7 +68,7 @@ export async function getEquipment(): Promise<Equipment | null> {
 }
 
 export async function getAllEquipmentItems(): Promise<EquipmentItem[]> {
-  const query = `*[_type == "equipmentItem"] | order(name asc) {
+  const query = `*[_type == "equipmentItem"] | order(brand asc, name asc) {
     _id,
     brand,
     name,
