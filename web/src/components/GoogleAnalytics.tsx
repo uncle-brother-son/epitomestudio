@@ -1,52 +1,62 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
+
+// TypeScript declarations for Google Analytics
+declare global {
+  interface Window {
+    dataLayer?: any[]
+    gtag?: (...args: any[]) => void
+  }
+}
 
 export function GoogleAnalytics() {
-  const [hasConsent, setHasConsent] = useState(false)
-
   useEffect(() => {
     if (typeof window === 'undefined') return
 
-    // Check consent from localStorage
-    const checkConsent = () => {
+    // Check if scripts already loaded
+    if (window.gtag) return
+
+    const loadGoogleAnalytics = () => {
       try {
         const stored = localStorage.getItem('cookie_consent')
-        if (stored) {
-          const consent = JSON.parse(stored)
-          setHasConsent(consent.analytics === true)
-        }
+        if (!stored) return
+
+        const consent = JSON.parse(stored)
+        if (consent.analytics !== true) return
+
+        // Initialize dataLayer
+        window.dataLayer = window.dataLayer || []
+        window.gtag = function() { window.dataLayer!.push(arguments) }
+        window.gtag('js', new Date())
+        window.gtag('config', 'G-GYB0PFE8BQ')
+
+        // Inject gtag script
+        const script = document.createElement('script')
+        script.async = true
+        script.src = 'https://www.googletagmanager.com/gtag/js?id=G-GYB0PFE8BQ'
+        document.head.appendChild(script)
       } catch (error) {
-        console.error('Failed to check analytics consent:', error)
+        console.error('Failed to load Google Analytics:', error)
       }
     }
 
-    // Check on mount
-    checkConsent()
+    // Load on mount if consent exists
+    loadGoogleAnalytics()
 
-    // Listen for storage changes (when consent is updated)
-    window.addEventListener('storage', checkConsent)
-    
-    // Custom event for same-tab updates
-    window.addEventListener('cookieConsentUpdated', checkConsent)
+    // Listen for consent updates
+    const handleConsentUpdate = () => {
+      loadGoogleAnalytics()
+    }
+
+    window.addEventListener('storage', handleConsentUpdate)
+    window.addEventListener('cookieConsentUpdated', handleConsentUpdate)
 
     return () => {
-      window.removeEventListener('storage', checkConsent)
-      window.removeEventListener('cookieConsentUpdated', checkConsent)
+      window.removeEventListener('storage', handleConsentUpdate)
+      window.removeEventListener('cookieConsentUpdated', handleConsentUpdate)
     }
   }, [])
 
-  if (!hasConsent) return null
-
-  return (
-    <>
-      <script async src="https://www.googletagmanager.com/gtag/js?id=G-GYB0PFE8BQ"></script>
-      <script dangerouslySetInnerHTML={{__html: `
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-GYB0PFE8BQ');
-      `}} />
-    </>
-  )
+  return null
 }
