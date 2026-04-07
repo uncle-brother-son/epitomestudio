@@ -24,6 +24,30 @@ const nextConfig: NextConfig = {
       },
     ]
   },
+  async redirects() {
+    return [
+      {
+        source: '/book-a-slot',
+        destination: '/studio-hire',
+        permanent: true,
+      },
+      {
+        source: '/terms',
+        destination: '/legal/terms-and-conditions',
+        permanent: true,
+      },
+      {
+        source: '/privacy-policy',
+        destination: '/legal/privacy-policy',
+        permanent: true,
+      },
+      {
+        source: '/backdrops',
+        destination: '/',
+        permanent: true,
+      },
+    ]
+  },
 }
 
 // Bundle analyzer configuration

@@ -189,7 +189,7 @@ export async function POST(request: NextRequest) {
                   <table width="600" cellpadding="0" cellspacing="0" style="padding: 0 0 64px; max-width: 600px; width: 100%; overflow: hidden;" class="email-container">
                     <tr>
                       <td class="header-cell header-space" style="padding: 0; text-align: left;">
-                        <img src="https://epitomestudio.ubs-demo.workers.dev/logo.svg" alt="Epitomestudio" style="width: 266px; height: 24px; display: block;" />
+                        <img src="https://epitomestudio.co.uk/logo.svg" alt="Epitomestudio" style="width: 266px; height: 24px; display: block;" />
                       </td>
                       <td class="header-cell" style="padding: 0; text-align: right; vertical-align: top;">
                         <div style="font-size: 10px; font-weight: 500; color: #121214; text-transform: uppercase;">[ Studio Hire Enquiry - ${referenceNumber} ]</div>
@@ -350,7 +350,7 @@ export async function POST(request: NextRequest) {
                   <table width="600" cellpadding="0" cellspacing="0" style="padding: 0 0 40px; max-width: 600px; width: 100%; overflow: hidden;" class="email-container">
                     <tr>
                       <td style="padding: 0; text-align: left;">
-                        <img src="https://epitomestudio.ubs-demo.workers.dev/logo.svg" alt="EPITOMESTUDIO" style="width: 266px; height: 24px; display: block;" />
+                        <img src="https://epitomestudio.co.uk/logo.svg" alt="EPITOMESTUDIO" style="width: 266px; height: 24px; display: block;" />
                       </td>
                     </tr>
                   </table>
