@@ -8,6 +8,14 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  compiler: {
+    // Remove console logs in production
+    removeConsole: process.env.NODE_ENV === 'production',
+  },
+  experimental: {
+    // Optimize CSS handling
+    optimizeCss: true,
+  },
   async headers() {
     return [
       {

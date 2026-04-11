@@ -57,11 +57,19 @@ export function EquipmentItemCard({ item, viewMode, quantity, onQuantityChange, 
         </div>
         <div className="flex flex-row gap-4 justify-center items-center">
           <div className="flex flex-row gap-2 justify-center items-center">
-            <button className={`qty lg:opacity-0 ${quantity === 0 ? 'opacity-60 group-hover:opacity-60' : 'group-hover:opacity-100'}`} onClick={() => onQuantityChange(Math.max(0, quantity - 1))}>
+            <button 
+              className={`qty lg:opacity-0 ${quantity === 0 ? 'opacity-60 group-hover:opacity-60' : 'group-hover:opacity-100'}`} 
+              onClick={() => onQuantityChange(Math.max(0, quantity - 1))}
+              aria-label={`Decrease quantity for ${item.brand} ${item.name}`}
+            >
               <Icon name="icon-minus" className="icon-minus w-3 h-3 fill-natural dark:fill-black" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Decrease quantity</title></Icon>
             </button>
             <span className="text-label-lg w-4 text-center">{quantity}</span>
-            <button className="qty lg:opacity-0 lg:group-hover:opacity-100" onClick={() => onQuantityChange(quantity + 1)}>
+            <button 
+              className="qty lg:opacity-0 lg:group-hover:opacity-100" 
+              onClick={() => onQuantityChange(quantity + 1)}
+              aria-label={`Increase quantity for ${item.brand} ${item.name}`}
+            >
               <Icon name="icon-plus" className="icon-plus w-3 h-3 fill-natural dark:fill-black" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Increase quantity</title></Icon>
             </button>
           </div>
@@ -77,7 +85,7 @@ export function EquipmentItemCard({ item, viewMode, quantity, onQuantityChange, 
     <div className="flex flex-row gap-x-2">
       {item.image && (
         <div className="basis-1/2 lg:basis-4/11 relative w-[calc(((100vw-88px)/2)+40px)] lg:w-[calc(((100vw-216px)/6)+24px)] aspect-4/5 rounded overflow-hidden self-start">
-          <Image className="object-cover" src={urlFor(item.image).width(800).height(1000).url()} alt={`${item.brand} ${item.name}`} fill sizes="(max-width: 900px) 40vw, 20vw" priority={priority} />
+          <Image className="object-cover" src={urlFor(item.image).width(800).height(1000).url()} alt={`${item.brand} ${item.name}`} fill sizes="(max-width: 900px) 40vw, 20vw" priority={priority} fetchPriority={priority ? "high" : undefined} />
         </div>
       )}
       <div className="basis-1/2 lg:basis-7/11 flex flex-col lg:flex-row gap-x-4 gap-y-6 py-1 lg:py-1.5 pl-2">
@@ -101,11 +109,19 @@ export function EquipmentItemCard({ item, viewMode, quantity, onQuantityChange, 
         </div>
         <div className="flex flex-row gap-4 self-start justify-center items-center">
           <div className="flex flex-row gap-2 self-start justify-center items-center">
-            <button className={`qty ${quantity === 0 ? 'opacity-60' : ''}`} onClick={() => onQuantityChange(Math.max(0, quantity - 1))}>
+            <button 
+              className={`qty ${quantity === 0 ? 'opacity-60' : ''}`} 
+              onClick={() => onQuantityChange(Math.max(0, quantity - 1))}
+              aria-label={`Decrease quantity for ${item.brand} ${item.name}`}
+            >
               <Icon name="icon-minus" className="icon-minus w-3 h-3 fill-natural dark:fill-black" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Decrease quantity</title></Icon>
             </button>
             <span className="text-label-lg w-4 text-center">{quantity}</span>
-            <button className="qty" onClick={() => onQuantityChange(quantity + 1)}>
+            <button 
+              className="qty" 
+              onClick={() => onQuantityChange(quantity + 1)}
+              aria-label={`Increase quantity for ${item.brand} ${item.name}`}
+            >
               <Icon name="icon-plus" className="icon-plus w-3 h-3 fill-natural dark:fill-black" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Increase quantity</title></Icon>
             </button>
           </div>

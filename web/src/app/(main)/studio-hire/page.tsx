@@ -41,10 +41,11 @@ export default async function StudioPage() {
         <div className='col-start-1 col-span-12 lg:col-start-1 lg:col-span-17 2xl:col-start-1 2xl:col-span-16'>
           <div className='relative rounded overflow-hidden aspect-5/4 lg:aspect-auto lg:h-[calc(100vh-13.75rem)]'>
             <Image
-              src={urlFor(studio.imageGallery[0]).width(1600).height(1280).url()}
+              src={urlFor(studio.imageGallery[0]).width(1200).height(960).url()}
               alt={studio.imageGallery[0].alt || 'Gallery image 1'}
               fill
               priority
+              fetchPriority="high"
               sizes="(max-width: 900px) 100vw, 70vw"
               className="object-cover"
             />
@@ -92,7 +93,7 @@ export default async function StudioPage() {
           {studio.imageGallery.slice(1).map((image, index) => (
             <div className='relative aspect-5/4 rounded overflow-hidden' key={index + 1}>
               <Image
-                src={urlFor(image).width(1600).height(1280).url()}
+                src={urlFor(image).width(1200).height(960).url()}
                 alt={image.alt || `Gallery image ${index + 2}`}
                 fill
                 sizes="(max-width: 900px) 100vw, 70vw"

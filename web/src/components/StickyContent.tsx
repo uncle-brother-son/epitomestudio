@@ -11,12 +11,24 @@ interface StickyContentProps {
 
 export function StickyContent({ children, className = '', mTop, dTop }: StickyContentProps) {
   const containerRef = useRef<HTMLDivElement>(null)
+  const headerHeightRef = useRef<number>(0)
   
   useEffect(() => {
     const container = containerRef.current
     if (!container) return
     
     let ticking = false
+    
+    // Cache header height to avoid forced reflow on every scroll
+    const cacheHeaderHeight = () => {
+      const header = document.querySelector('header')
+      if (header) {
+        headerHeightRef.current = header.offsetHeight
+      }
+    }
+    
+    // Initial cache
+    cacheHeaderHeight()
     
     const updatePosition = () => {
       const isMobile = window.innerWidth < 1024
@@ -48,7 +60,9 @@ export function StickyContent({ children, className = '', mTop, dTop }: StickyCo
         if (values && values[1]) {
           const matrixValues = values[1].split(', ')
           const headerTranslateY = parseFloat(matrixValues[5] || '0')
-          const headerHeight = header.offsetHeight
+          
+          // Use cached height instead of reading offsetHeight on every frame
+          const headerHeight = headerHeightRef.current
           
           // Calculate offset: when header is fully visible (translateY=0), offset = headerHeight
           // when header is hidden (translateY=-headerHeight), offset = 0
@@ -69,6 +83,7 @@ export function StickyContent({ children, className = '', mTop, dTop }: StickyCo
     }
     
     const onResize = () => {
+      cacheHeaderHeight() // Recalculate on resize
       updatePosition()
     }
     
