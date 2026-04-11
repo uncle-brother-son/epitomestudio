@@ -147,7 +147,7 @@ export default function ContactForm() {
 
       <div className="field-row">
         <div className='field flex-3 preselect'>
-          <select value={formData.countryCode} onChange={(e) => updateField('countryCode', e.target.value)} disabled={status === 'loading'}>
+          <select id="countryCode" value={formData.countryCode} onChange={(e) => updateField('countryCode', e.target.value)} disabled={status === 'loading'}>
             {COUNTRY_CODES.map((item) => (
               <option key={item.code} value={item.code}>
                 {item.code}
