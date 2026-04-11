@@ -64,7 +64,7 @@
   .cookie-banner .btn { @apply text-black dark:text-natural bg-natural dark:bg-black; }
   .cookie-banner .btn-outline { @apply text-natural dark:text-black border-natural dark:border-black; }
   
-  .close { @apply text-sm font-medium uppercase text-black dark:text-natural hover:bg-black/10 hover:dark:bg-natural/10 px-4 py-1 rounded flex flex-row gap-1 items-center justify-start transition-colors duration-md ease-es; }
+  .close { @apply text-sm font-medium uppercase text-black dark:text-natural hover:bg-black/5 hover:dark:bg-natural/5 px-4 py-1 rounded flex flex-row gap-1 items-center justify-start transition-colors duration-md ease-es; }
   .qty { @apply p-1 bg-black dark:bg-natural flex items-center justify-center rounded transition duration-lg ease-es; }
   .qty-form { @apply p-1 bg-natural dark:bg-black flex items-center justify-center rounded transition duration-lg ease-es; }
 
@@ -115,7 +115,7 @@
   .dark input:-webkit-autofill, .dark textarea:-webkit-autofill, .dark select:-webkit-autofill { -webkit-box-shadow: 0 0 0 1000px rgba(41, 40, 42, 1) inset !important; -webkit-text-fill-color: #F5F2EB !important; transition: background-color 5000s ease-in-out 0s; }
   input[type="date"]::-webkit-calendar-picker-indicator, input[type="time"]::-webkit-calendar-picker-indicator  { @apply absolute top-4.5 right-4 p-0 h-4 w-4 opacity-0; }
   input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webkit-search-decoration { @apply appearance-none; }
-  select:invalid { @apply text-black/60 dark:text-natural/60; }
+  select:invalid { @apply text-black/80 dark:text-natural/80; }
   input:focus + label, input:autofill:focus + label, input:-webkit-autofill:focus + label, input:-webkit-autofill + label, input:not(:placeholder-shown) + label, textarea:focus + label, textarea:autofill:focus + label, textarea:-webkit-autofill:focus + label, textarea:-webkit-autofill + label, textarea:not(:placeholder-shown) + label, select:valid + label, select:-webkit-autofill + label { @apply text-sm top-2; }
 
   /* Form structure styles */
@@ -125,18 +125,18 @@
   .field-row { @apply flex flex-row gap-2; }
 
   /* Input & Select styles */
-  .field input, .field select { @apply px-4 pt-6 pb-2 text-xl lg:text-label-lg placeholder:text-xl lg:placeholder:text-label-lg box-border rounded text-black dark:text-natural bg-black/10 dark:bg-natural/10 focus:outline-none placeholder:text-black/60 dark:placeholder:text-natural/60 duration-lg ease-es focus:bg-black/10 dark:focus:bg-natural/10; }
-  .field label { @apply absolute top-4 left-4 text-xl lg:text-label-lg text-black/60 dark:text-natural/60 transition-all duration-sm ease-es cursor-text; }
+  .field input, .field select { @apply px-4 pt-6 pb-2 text-xl lg:text-label-lg placeholder:text-xl lg:placeholder:text-label-lg box-border rounded text-black dark:text-natural bg-black/5 dark:bg-natural/5 focus:outline-none placeholder:text-black/80 dark:placeholder:text-natural/80 duration-lg ease-es focus:bg-black/5 dark:focus:bg-natural/5; }
+  .field label { @apply absolute top-4 left-4 text-xl lg:text-label-lg text-black/80 dark:text-natural/80 transition-all duration-sm ease-es cursor-text; }
   .field svg { @apply shrink-0 absolute top-4.5 lg:top-4 right-4 pointer-events-none; }
   .field.preselect svg { @apply top-6.5; }
   .field:has(select) label { @apply pointer-events-none; }
   
   /* Textarea styles */
-  .field.message { @apply pl-4 pr-2 pt-6 pb-2  box-border rounded  bg-black/10 dark:bg-natural/10 duration-lg ease-es ; }
-  .field.message textarea { @apply text-xl lg:text-label-lg text-black dark:text-natural focus:outline-none placeholder:text-xl lg:placeholder:text-label-lg placeholder:text-black/60 dark:placeholder:text-natural/60 duration-lg ease-es; }
+  .field.message { @apply pl-4 pr-2 pt-6 pb-2  box-border rounded  bg-black/5 dark:bg-natural/5 duration-lg ease-es ; }
+  .field.message textarea { @apply text-xl lg:text-label-lg text-black dark:text-natural focus:outline-none placeholder:text-xl lg:placeholder:text-label-lg placeholder:text-black/80 dark:placeholder:text-natural/80 duration-lg ease-es; }
 
   /* Search field specific styles */
-  .field.search { @apply flex flex-row gap-2 bg-black/10 dark:bg-natural/10 rounded px-4 py-3 items-center; }
+  .field.search { @apply flex flex-row gap-2 bg-black/5 dark:bg-natural/5 rounded px-4 py-3 items-center; }
   .field.search input { @apply static bg-transparent p-0 grow min-w-0; } 
   .field.search svg { @apply static; }
   .field.search button { @apply static; } 
@@ -145,8 +145,8 @@
 
   /* Checkbox styles */
   label.checkbox { @apply cursor-pointer relative hover:bg-black/10 dark:hover:bg-natural/10 duration-sm ease-es; }
-  label.checkbox:has(input:checked) { @apply bg-black/10 dark:bg-natural/10; }
-  label.checkbox input { @apply shrink-0 grow-0 appearance-none bg-black/10 dark:bg-natural/10 h-4 w-4 rounded cursor-pointer duration-sm ease-es; }
+  label.checkbox:has(input:checked) { @apply bg-black/5 dark:bg-natural/5; }
+  label.checkbox input { @apply shrink-0 grow-0 appearance-none bg-black/5 dark:bg-natural/5 h-4 w-4 rounded cursor-pointer duration-sm ease-es; }
   label.checkbox:hover input { @apply bg-black dark:bg-natural; }
   label.checkbox input:checked { @apply bg-black dark:bg-natural; }
   label.checkbox svg { @apply absolute top-2 left-2 lg:left-4 fill-transparent transition-opacity duration-sm ease-es opacity-100; }
@@ -165,7 +165,7 @@
 
   .error { @apply flex gap-2 text-md font-medium text-red px-3 mt-1 items-center; }
   .error svg { @apply static; }
-  .note { @apply flex gap-2 text-md text-black/60 dark:text-natural/60 px-3 mt-1 items-center; }
+  .note { @apply flex gap-2 text-md text-black/80 dark:text-natural/80 px-3 mt-1 items-center; }
   .note svg { @apply static; }
 
 }

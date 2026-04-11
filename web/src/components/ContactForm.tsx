@@ -107,7 +107,7 @@ export default function ContactForm() {
 
   if (status === 'success') {
     return (
-      <div className="flex items-start gap-2 bg-black/10 dark:bg-natural/10 rounded p-6">
+      <div className="flex items-start gap-2 bg-black/5 dark:bg-natural/5 rounded p-6">
         <Icon name="icon-tick" className="icon-tick w-4 h-4 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Success</title></Icon>
         <div className="flex flex-col items-start gap-2">
           <p>Thanks, we have received your enquiry.</p>

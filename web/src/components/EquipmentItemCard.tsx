@@ -49,7 +49,7 @@ export function EquipmentItemCard({ item, viewMode, quantity, onQuantityChange, 
 
   if (viewMode === 'list') {
     return (
-      <div className={`group flex flex-row gap-x-4 items-start hover:bg-black/10 dark:hover:bg-natural/10 rounded py-2 lg:py-1.5 px-4 lg:-mx-4 transition-colors duration-lg ease-es ${quantity > 0 ? 'bg-black/10 dark:bg-natural/10' : ''}`}>
+      <div className={`group flex flex-row gap-x-4 items-start hover:bg-black/5 dark:hover:bg-natural/5 rounded py-2 lg:py-1.5 px-4 lg:-mx-4 transition-colors duration-lg ease-es ${quantity > 0 ? 'bg-black/5 dark:bg-natural/5' : ''}`}>
         <div className="grow">
           <h2 className="text-label-lg">
             {item.brand} {item.name}

@@ -212,7 +212,7 @@ export function EquipmentFilterAndList({ categories, items, equipmentListUrl, eq
         <div className='label pl-4 py-[6.5px]'>{filteredItems.length} / {items.length} Items</div>
 
         {/* // remove py-[6.5px] from above
-        <button className='group relative hover:bg-black/10 dark:hover:bg-natural/10 p-0.5 rounded flex flex-row gap-1 items-center justify-start duration-md ease-es group' onClick={() => setViewMode(viewMode === 'image' ? 'list' : 'image')}>
+        <button className='group relative hover:bg-black/5 dark:hover:bg-natural/5 p-0.5 rounded flex flex-row gap-1 items-center justify-start duration-md ease-es group' onClick={() => setViewMode(viewMode === 'image' ? 'list' : 'image')}>
           <div className='z-1 py-1 px-4'>
             <Icon name="icon-image" className={`icon-image w-3 h-3 ${viewMode === 'image' ? 'fill-black dark:fill-natural' : 'fill-black/40 dark:fill-natural/40'} duration-md ease-es`} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12"><title>Image View</title></Icon>
           </div>
@@ -255,7 +255,7 @@ export function EquipmentFilterAndList({ categories, items, equipmentListUrl, eq
             <Icon name="icon-search" className="icon-search w-3 h-3 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Search</title></Icon>
           </div>
 
-          <div className={`${isSearchFocused ? 'hidden lg:flex' : isFilterOpen ? 'grow ml-auto' : 'basis-1/2'} min-w-0 bg-black/10 dark:bg-natural/10 rounded lg:rounded-none flex flex-col transition-all duration-md ease-es`}>
+          <div className={`${isSearchFocused ? 'hidden lg:flex' : isFilterOpen ? 'grow ml-auto' : 'basis-1/2'} min-w-0 bg-black/5 dark:bg-natural/5 rounded lg:rounded-none flex flex-col transition-all duration-md ease-es`}>
             <button onClick={() => setIsFilterOpen(!isFilterOpen)} className='flex flex-row gap-2 justify-between items-center px-4 py-3 min-h-10.5 lg:pointer-events-none lg:cursor-default' type="button">
               <div className='text-black/60 dark:text-natural/60 text-xl lg:text-label-lg'>Categories <span className='text-label-lg'>{selectedCategories.length > 0 && `[ ${selectedCategories.length} ]`}</span></div>
               {isFilterOpen ? (
@@ -349,7 +349,7 @@ export function EquipmentFilterAndList({ categories, items, equipmentListUrl, eq
       <HideOnFooter translateAmount="translate-y-full">
         <div className='fixed lg:static pb-[calc(1rem+env(safe-area-inset-bottom))] bottom-0 left-0 right-0 bg-natural dark:bg-black lg:bg-transparent lg:dark:bg-transparent lg:col-start-20 lg:col-span-5 2xl:col-start-19 2xl:col-span-5 transition-colors duration-lg ease-es'>
           <StickyContent dTop={25.5} className='lg:sticky flex flex-col'>
-            <div className="flex flex-col lg:bg-black/10 lg:dark:bg-natural/10 rounded overflow-hidden transition-colors duration-lg ease-es">
+            <div className="flex flex-col lg:bg-black/5 lg:dark:bg-natural/5 rounded overflow-hidden transition-colors duration-lg ease-es">
               <button onClick={() => setIsCartOpen(!isCartOpen)} className='flex flex-row justify-between w-full lg:cursor-default p-4' type="button">
                 <div className="label">Your List<span className='lg:hidden pl-2'>[ {totalItems} ]</span></div>
                 <Icon name="icon-chevron" className={`icon-chevron w-3 h-3 fill-black dark:fill-natural lg:hidden transition-transform duration-lg ease-es ${isCartOpen ? 'rotate-270' : 'rotate-90'}`} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Toggle Cart</title></Icon>

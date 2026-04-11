@@ -284,7 +284,7 @@ export function EquipmentHireForm({ onClose, equipment, global }: Props) {
 
         <div className="grow grid_ gap-y-6 overflow-y-scroll lg:overflow-y-auto">
           <div className="col-start-1 col-span-12 sm:col-start-2 sm:col-span-10 lg:col-start-8 lg:col-span-10 flex flex-col gap-4 mt-9 px-2 lg:px-0">
-            <div className="flex items-start gap-2 bg-black/10 dark:bg-natural/10 rounded p-6">
+            <div className="flex items-start gap-2 bg-black/5 dark:bg-natural/5 rounded p-6">
               <Icon name="icon-tick" className="icon-tick w-4 h-4 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Success</title></Icon>
               <div className="flex flex-col items-start gap-2">                
                 <p>Thank you for your Equipment Hire enquiry.</p>
@@ -325,7 +325,7 @@ export function EquipmentHireForm({ onClose, equipment, global }: Props) {
         {/* Item Summary */}
         {formData.items.length > 0 && (
           <div className="row-start-1 col-start-1 col-span-12 sm:col-start-2 sm:col-span-10 lg:col-start-16 lg:col-span-5 flex flex-col gap-2">
-            <div className="bg-black/10 dark:bg-natural/10 rounded flex flex-col overflow-hidden">
+            <div className="bg-black/5 dark:bg-natural/5 rounded flex flex-col overflow-hidden">
                 <button onClick={() => setIsSummaryOpen(!isSummaryOpen)}className='flex flex-row justify-between w-full lg:cursor-default p-4' type="button">
                   <div className="label">Item Summary<span className='lg:hidden pl-2'>[ {formData.items.reduce((sum, item) => sum + item.quantity, 0)} ]</span></div>
                   <Icon name="icon-chevron" className={`icon-chevron w-3 h-3 fill-black dark:fill-natural lg:hidden transition-transform duration-lg ease-es ${isSummaryOpen ? 'rotate-270' : 'rotate-90'}`} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Toggle Summary</title></Icon>
@@ -396,7 +396,7 @@ export function EquipmentHireForm({ onClose, equipment, global }: Props) {
                     <label htmlFor="hireStartDate">Hire Start Date</label>
                     <Icon name="icon-date" className="icon-date h-4 w-4 fill-black dark:fill-natural" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true"><title>Date Picker</title></Icon>
                   </div>
-                <div className="basis-1/2 flex flex-row items-center justify-between bg-black/10 dark:bg-natural/10 rounded px-4 py-3.5">
+                <div className="basis-1/2 flex flex-row items-center justify-between bg-black/5 dark:bg-natural/5 rounded px-4 py-3.5">
                   <label className="text-xl lg:text-label-lg opacity-60">Days</label>
                   <div className="flex flex-row gap-1.5 items-center">
                     <button type="button" className={`qty-form ${formData.days === 1 ? 'opacity-60' : ''}`} onClick={() => updateField('days', Math.max(1, formData.days - 1))}>
