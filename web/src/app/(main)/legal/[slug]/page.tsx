@@ -21,11 +21,25 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     }
   }
 
+  const pageTitle = legal.header
+  const pageDescription = legal.metaDescription || legal.header
+  const canonicalUrl = `${baseUrl}/legal/${slug}`
+
   return {
-    title: legal.header,
-    description: legal.metaDescription || legal.header,
+    title: pageTitle,
+    description: pageDescription,
     alternates: {
-      canonical: `${baseUrl}/legal/${slug}`,
+      canonical: canonicalUrl,
+    },
+    openGraph: {
+      title: pageTitle,
+      description: pageDescription,
+      url: canonicalUrl,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: pageTitle,
+      description: pageDescription,
     },
   }
 }

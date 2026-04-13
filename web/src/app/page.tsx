@@ -10,12 +10,24 @@ export async function generateMetadata(): Promise<Metadata> {
   const global = await getGlobal()
   const siteName = global?.siteName || 'EPITOMESTUDIO'
   const baseUrl = 'https://www.epitomestudio.co.uk'
+  const pageTitle = home?.title ? `${siteName} | ${home.title}` : siteName
+  const pageDescription = home?.metaDescription || 'EPITOMESTUDIO'
   
   return {
-    title: home?.title ? `${siteName} | ${home.title}` : siteName,
-    description: home?.metaDescription || 'EPITOMESTUDIO',
+    title: pageTitle,
+    description: pageDescription,
     alternates: {
       canonical: baseUrl,
+    },
+    openGraph: {
+      title: pageTitle,
+      description: pageDescription,
+      url: baseUrl,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: pageTitle,
+      description: pageDescription,
     },
   }
 }

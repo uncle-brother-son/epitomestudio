@@ -16,12 +16,25 @@ export async function generateMetadata(): Promise<Metadata> {
   const studio = await getStudio()
   const baseUrl = 'https://www.epitomestudio.co.uk'
   const canonicalPath = studio?.slug?.current || 'studio-hire'
+  const pageTitle = studio?.title || 'Studio'
+  const pageDescription = studio?.metaDescription || 'Learn about our studio'
+  const canonicalUrl = `${baseUrl}/${canonicalPath}`
   
   return {
-    title: studio?.title || 'Studio',
-    description: studio?.metaDescription || 'Learn about our studio',
+    title: pageTitle,
+    description: pageDescription,
     alternates: {
-      canonical: `${baseUrl}/${canonicalPath}`,
+      canonical: canonicalUrl,
+    },
+    openGraph: {
+      title: pageTitle,
+      description: pageDescription,
+      url: canonicalUrl,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: pageTitle,
+      description: pageDescription,
     },
   }
 }

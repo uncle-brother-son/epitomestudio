@@ -12,12 +12,25 @@ export async function generateMetadata(): Promise<Metadata> {
   const production = await getProduction()
   const baseUrl = 'https://www.epitomestudio.co.uk'
   const canonicalPath = production?.slug?.current || 'production'
+  const pageTitle = production?.title || 'Production'
+  const pageDescription = production?.metaDescription || 'Our production services'
+  const canonicalUrl = `${baseUrl}/${canonicalPath}`
   
   return {
-    title: production?.title || 'Production',
-    description: production?.metaDescription || 'Our production services',
+    title: pageTitle,
+    description: pageDescription,
     alternates: {
-      canonical: `${baseUrl}/${canonicalPath}`,
+      canonical: canonicalUrl,
+    },
+    openGraph: {
+      title: pageTitle,
+      description: pageDescription,
+      url: canonicalUrl,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: pageTitle,
+      description: pageDescription,
     },
   }
 }
