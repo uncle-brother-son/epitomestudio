@@ -26,7 +26,7 @@ export interface EquipmentItem {
   name: string
   price: number
   description?: any
-  category?: {
+  categories?: Array<{
     _id: string
     name: string
     slug: { current: string }
@@ -35,7 +35,7 @@ export interface EquipmentItem {
       name: string
       slug: { current: string }
     }
-  }
+  }>
   image?: {
     asset: any
     hotspot?: any
@@ -74,7 +74,7 @@ export async function getAllEquipmentItems(): Promise<EquipmentItem[]> {
     name,
     price,
     description,
-    category-> {
+    categories[]-> {
       _id,
       name,
       slug,

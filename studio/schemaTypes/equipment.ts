@@ -12,12 +12,12 @@ export const equipmentItem = defineType({
       validation: (Rule) => Rule.required(),
     },
     {
-      name: 'category',
-      title: 'Category',
-      type: 'reference',
-      to: [{ type: 'category' }],
-      validation: (Rule) => Rule.required(),
-      description: 'Select the most specific category for this item',
+      name: 'categories',
+      title: 'Categories',
+      type: 'array',
+      of: [{ type: 'reference', to: [{ type: 'category' }] }],
+      validation: (Rule) => Rule.required().min(1),
+      description: 'Select one or more categories for this item',
     },
     {
       name: 'name',

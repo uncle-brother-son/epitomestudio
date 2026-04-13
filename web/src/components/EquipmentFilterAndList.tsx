@@ -71,10 +71,11 @@ export function EquipmentFilterAndList({ categories, items, equipmentListUrl, eq
     if (searchQuery) {
       // Split query into words and check if all words match
       const queryWords = searchQuery.toLowerCase().trim().split(/\s+/)
+      const categoryNames = item.categories?.map(cat => cat.name?.toLowerCase() || '').join(' ') || ''
       const searchableText = [
         item.name?.toLowerCase() || '',
         item.brand?.toLowerCase() || '',
-        item.category?.name?.toLowerCase() || ''
+        categoryNames
       ].join(' ')
       
       // All query words must appear somewhere in the combined text
@@ -85,22 +86,25 @@ export function EquipmentFilterAndList({ categories, items, equipmentListUrl, eq
     
     // Category filter
     if (selectedCategories.length > 0) {
-      if (!item.category) return false
+      if (!item.categories || item.categories.length === 0) return false
       
-      // Check if item's category is directly selected
-      if (selectedCategories.includes(item.category._id)) return true
-      
-      // Check if item's parent category is selected
-      // BUT only if no children of that parent are selected
-      if (item.category.parent && selectedCategories.includes(item.category.parent._id)) {
-        const parentChildren = getChildren(item.category.parent._id)
-        const hasSelectedChildren = parentChildren.some(child => selectedCategories.includes(child._id))
+      // Check if ANY of the item's categories match
+      return item.categories.some(category => {
+        // Check if this category is directly selected
+        if (selectedCategories.includes(category._id)) return true
         
-        // Only show if no specific children are selected
-        if (!hasSelectedChildren) return true
-      }
-      
-      return false
+        // Check if this category's parent is selected
+        // BUT only if no children of that parent are selected
+        if (category.parent && selectedCategories.includes(category.parent._id)) {
+          const parentChildren = getChildren(category.parent._id)
+          const hasSelectedChildren = parentChildren.some(child => selectedCategories.includes(child._id))
+          
+          // Only show if no specific children are selected
+          if (!hasSelectedChildren) return true
+        }
+        
+        return false
+      })
     }
     
     return true
@@ -184,17 +188,20 @@ export function EquipmentFilterAndList({ categories, items, equipmentListUrl, eq
   const getCategoryCartCount = (categoryId: string, includeChildren: boolean = false): number => {
     const categoryItemIds = items
       .filter(item => {
-        if (!item.category) return false
+        if (!item.categories || item.categories.length === 0) return false
         
-        // Direct match
-        if (item.category._id === categoryId) return true
-        
-        // Include children if requested (for parent categories)
-        if (includeChildren) {
-          if (item.category.parent?._id === categoryId) return true
-        }
-        
-        return false
+        // Check if ANY of the item's categories match
+        return item.categories.some(category => {
+          // Direct match
+          if (category._id === categoryId) return true
+          
+          // Include children if requested (for parent categories)
+          if (includeChildren) {
+            if (category.parent?._id === categoryId) return true
+          }
+          
+          return false
+        })
       })
       .filter(item => quantities[item._id] > 0) // Only items in cart
       .map(item => item._id)
