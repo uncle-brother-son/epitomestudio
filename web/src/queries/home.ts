@@ -10,6 +10,12 @@ export interface Card {
       _type: 'reference'
     }
   }
+  mobileImage?: {
+    asset: {
+      _ref: string
+      _type: 'reference'
+    }
+  }
   video?: {
     asset: {
       _ref: string
@@ -18,6 +24,16 @@ export interface Card {
     }
   }
   videoPoster?: {
+    asset: any
+  }
+  mobileVideo?: {
+    asset: {
+      _ref: string
+      _type: 'reference'
+      url?: string
+    }
+  }
+  mobileVideoPoster?: {
     asset: any
   }
   linkType: 'home' | 'studio' | 'equipment' | 'production' | 'contact' | 'legal'
@@ -48,6 +64,9 @@ export async function getHome(): Promise<Home | null> {
       image {
         asset
       },
+      mobileImage {
+        asset
+      },
       video {
         asset-> {
           _ref,
@@ -56,6 +75,16 @@ export async function getHome(): Promise<Home | null> {
         }
       },
       videoPoster {
+        asset
+      },
+      mobileVideo {
+        asset-> {
+          _ref,
+          _type,
+          url
+        }
+      },
+      mobileVideoPoster {
         asset
       },
       linkType,

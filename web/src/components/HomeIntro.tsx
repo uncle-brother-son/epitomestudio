@@ -113,25 +113,51 @@ export function HomeIntro({ cards, title }: HomeIntroProps) {
             >
               <div className="lg:absolute lg:inset-y-0 lg:w-screen lg:left-1/2 lg:-translate-x-1/2 overflow-hidden">
                 {card.video?.asset?.url ? (
-                  <video 
-                    src={card.video.asset.url} 
-                    poster={card.videoPoster ? urlFor(card.videoPoster).width(800).height(1000).url() : undefined}
-                    preload="metadata"
-                    className="absolute inset-0 w-full h-full object-cover" 
-                    autoPlay 
-                    loop 
-                    muted 
-                    playsInline 
-                  />
+                  <>
+                    {/* Desktop Video */}
+                    <video 
+                      src={card.video.asset.url} 
+                      poster={card.videoPoster ? urlFor(card.videoPoster).width(800).height(1000).url() : undefined}
+                      preload="metadata"
+                      className="hidden lg:block absolute inset-0 w-full h-full object-cover" 
+                      autoPlay 
+                      loop 
+                      muted 
+                      playsInline 
+                    />
+                    {/* Mobile Video (or fallback to desktop) */}
+                    <video 
+                      src={card.mobileVideo?.asset?.url || card.video.asset.url} 
+                      poster={card.mobileVideoPoster ? urlFor(card.mobileVideoPoster).width(800).height(1000).url() : card.videoPoster ? urlFor(card.videoPoster).width(800).height(1000).url() : undefined}
+                      preload="metadata"
+                      className="lg:hidden absolute inset-0 w-full h-full object-cover" 
+                      autoPlay 
+                      loop 
+                      muted 
+                      playsInline 
+                    />
+                  </>
                 ) : card.image?.asset ? (
-                  <Image 
-                    src={urlFor(card.image.asset).width(800).height(1000).url()} 
-                    alt={card.title} 
-                    fill 
-                    className="object-cover" 
-                    priority={index === 0}
-                    fetchPriority={index === 0 ? "high" : undefined}
-                  /> 
+                  <>
+                    {/* Desktop Image */}
+                    <Image 
+                      src={urlFor(card.image.asset).width(800).height(1000).url()} 
+                      alt={card.title} 
+                      fill 
+                      className="hidden lg:block object-cover" 
+                      priority={index === 0}
+                      fetchPriority={index === 0 ? "high" : undefined}
+                    /> 
+                    {/* Mobile Image (or fallback to desktop) */}
+                    <Image 
+                      src={urlFor(card.mobileImage?.asset || card.image.asset).width(800).height(1000).url()} 
+                      alt={card.title} 
+                      fill 
+                      className="lg:hidden object-cover" 
+                      priority={index === 0}
+                      fetchPriority={index === 0 ? "high" : undefined}
+                    /> 
+                  </>
                 ) : null}
               </div>
               <div className="absolute inset-0 flex items-center justify-center">

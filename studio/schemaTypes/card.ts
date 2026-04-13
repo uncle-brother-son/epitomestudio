@@ -35,8 +35,9 @@ export const card = defineType({
     },
     {
       name: 'image',
-      title: 'Image',
+      title: 'Desktop Image',
       type: 'image',
+      description: 'Recommended aspect ratio: 16:9',
       options: {
         hotspot: true,
       },
@@ -52,9 +53,21 @@ export const card = defineType({
       fieldset: 'media',
     },
     {
+      name: 'mobileImage',
+      title: 'Mobile Image',
+      type: 'image',
+      description: 'Recommended aspect ratio: 9:16',
+      options: {
+        hotspot: true,
+      },
+      hidden: ({ parent }) => parent?.mediaType !== 'image',
+      fieldset: 'media',
+    },
+    {
       name: 'video',
-      title: 'Video',
+      title: 'Desktop Video',
       type: 'file',
+      description: 'Recommended aspect ratio: 16:9',
       options: {
         accept: 'video/*',
       },
@@ -71,9 +84,31 @@ export const card = defineType({
     },
     {
       name: 'videoPoster',
-      title: 'Video Poster Image',
+      title: 'Desktop Video Poster Image',
       type: 'image',
-      description: 'Thumbnail shown before video loads (recommended)',
+      description: 'Recommended aspect ratio: 16:9',
+      options: {
+        hotspot: true,
+      },
+      hidden: ({ parent }) => parent?.mediaType !== 'video',
+      fieldset: 'media',
+    },
+    {
+      name: 'mobileVideo',
+      title: 'Mobile Video',
+      type: 'file',
+      description: 'Recommended aspect ratio: 9:16',
+      options: {
+        accept: 'video/*',
+      },
+      hidden: ({ parent }) => parent?.mediaType !== 'video',
+      fieldset: 'media',
+    },
+    {
+      name: 'mobileVideoPoster',
+      title: 'Mobile Video Poster Image',
+      type: 'image',
+      description: 'Recommended aspect ratio: 9:16',
       options: {
         hotspot: true,
       },
