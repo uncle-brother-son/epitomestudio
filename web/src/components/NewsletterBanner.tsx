@@ -29,7 +29,6 @@ export function NewsletterBanner({ settings }: NewsletterBannerProps) {
   const [isVisible, setIsVisible] = useState(false)
   const [isOpening, setIsOpening] = useState(false)
   const [isClosing, setIsClosing] = useState(false)
-  const [selectedTopic, setSelectedTopic] = useState<'all' | 'studio' | 'equipment'>('all')
   const [email, setEmail] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
@@ -125,7 +124,6 @@ export function NewsletterBanner({ settings }: NewsletterBannerProps) {
         },
         body: JSON.stringify({
           email,
-          topic: selectedTopic, // 'all', 'studio', or 'equipment'
         }),
       })
 
@@ -197,21 +195,6 @@ export function NewsletterBanner({ settings }: NewsletterBannerProps) {
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="flex flex-col gap-8">
-                <div className="flex justify-between items-center px-2 lg:px-4">
-                    <label className="radio group">
-                        <input type="radio" name="topic" value="all" checked={selectedTopic === 'all'} onChange={() => setSelectedTopic('all')} />
-                        <span className="text-sm lg:text-md text-natural">All News</span>
-                    </label>
-                    <label className="radio group">
-                        <input type="radio" name="topic" value="studio" checked={selectedTopic === 'studio'} onChange={() => setSelectedTopic('studio')} />
-                        <span className="text-sm lg:text-md text-natural">Studio News</span>
-                    </label>
-                    <label className="radio group">
-                        <input type="radio" name="topic" value="equipment" checked={selectedTopic === 'equipment'} onChange={() => setSelectedTopic('equipment')} />
-                        <span className="text-sm lg:text-md text-natural">Equipment News</span>
-                    </label>
-                </div>
-
                 <div className='flex flex-col gap-4'>
                     <div className='flex gap-2 p-1 pl-4 rounded bg-natural/5'>
                         <label htmlFor="newsletter-email" className="sr-only">{emailPlaceholder}</label>

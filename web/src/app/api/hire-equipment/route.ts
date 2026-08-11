@@ -495,10 +495,10 @@ export async function POST(request: NextRequest) {
 
     // Handle newsletter subscription (with delay to avoid rate limit)
     if (subscribeToNewsletter) {
-      const topicId = process.env.RESEND_EQUIPMENT_TOPIC_ID
+      const topicId = process.env.RESEND_NEWS_TOPIC_ID
       
       if (!topicId) {
-        console.warn('Newsletter signup attempted but RESEND_EQUIPMENT_TOPIC_ID is not set')
+        console.warn('Newsletter signup attempted but RESEND_NEWS_TOPIC_ID is not set')
       } else {
         // Wait 1 second to avoid hitting Resend's 2 requests/second rate limit
         await new Promise(resolve => setTimeout(resolve, 1000))
@@ -513,9 +513,12 @@ export async function POST(request: NextRequest) {
             },
             body: JSON.stringify({
               email,
-              firstName: name.split(' ')[0],
-              lastName: name.split(' ').slice(1).join(' ') || undefined,
+              first_name: name.split(' ')[0],
+              last_name: name.split(' ').slice(1).join(' ') || undefined,
               unsubscribed: false,
+              properties: {
+                phone: `${countryCode}${phoneNumber}`,
+              },
               topics: [
                 {
                   id: topicId,
@@ -528,6 +531,27 @@ export async function POST(request: NextRequest) {
           const contactResult = await response.json()
           if (response.status === 201) {
             console.log('✓ Contact subscribed to Equipment Hire newsletter:', email)
+            
+            // Trigger automation event
+            try {
+              await fetch('https://api.resend.com/events/send', {
+                method: 'POST',
+                headers: {
+                  'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  event: 'newsletter.signup',
+                  email: email,
+                  payload: {
+                    source: 'hire_equipment',
+                  },
+                }),
+              })
+              console.log('✓ Automation event triggered:', email)
+            } catch (eventError) {
+              console.error('Failed to trigger automation event:', eventError)
+            }
           } else {
             console.error('Newsletter subscription failed:', contactResult)
           }

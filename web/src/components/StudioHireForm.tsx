@@ -519,7 +519,7 @@ export function StudioHireForm({ onClose, studio, global }: Props) {
                   <label className='checkbox-simple'>
                     <input type='checkbox' checked={formData.subscribeToNewsletter} onChange={(e) => updateField('subscribeToNewsletter', e.target.checked)} />
                     <Icon name="icon-tick" className="icon-tick h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><title>Check</title></Icon>
-                    <span>Sign up to our newsletter to receive updates on our Studio Space.</span>
+                    <span>Sign up to our newsletter to receive updates.</span>
                   </label>
                 </div>
 

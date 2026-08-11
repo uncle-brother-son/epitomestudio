@@ -18,8 +18,7 @@
 		"CONTACT_EMAIL": "hello@epitomestudio.co.uk",
 		"STUDIO_HIRE_EMAIL": "bookings@epitomestudio.co.uk",
 		"EQUIPMENT_HIRE_EMAIL": "rentals@epitomestudio.co.uk",
-		"RESEND_STUDIO_TOPIC_ID": "779fa857-b0be-43a4-baae-7312305f65c7",
-		"RESEND_EQUIPMENT_TOPIC_ID": "b0c280ab-6402-4fe4-975b-3961f4ca37f2"
+		"RESEND_NEWS_TOPIC_ID": "bdb4d400-e930-4a42-992b-aa5fb2793104"
 	},
 	"kv_namespaces": [
 		{

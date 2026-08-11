@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 
 export async function POST(request: Request) {
   try {
-    const { email, topic } = await request.json()
+    const { email, name } = await request.json()
 
     // Validate email
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -13,39 +13,33 @@ export async function POST(request: Request) {
       )
     }
 
-    // Validate topic
-    if (!topic || !['all', 'studio', 'equipment'].includes(topic)) {
-      return NextResponse.json(
-        { message: 'Invalid newsletter topic' },
-        { status: 400 }
-      )
-    }
-
-    const STUDIO_TOPIC_ID = process.env.RESEND_STUDIO_TOPIC_ID
-    const EQUIPMENT_TOPIC_ID = process.env.RESEND_EQUIPMENT_TOPIC_ID
+    const NEWS_TOPIC_ID = process.env.RESEND_NEWS_TOPIC_ID
 
     // Validate environment variables
-    if (!STUDIO_TOPIC_ID || !EQUIPMENT_TOPIC_ID) {
-      console.error('Missing required environment variables: RESEND_STUDIO_TOPIC_ID or RESEND_EQUIPMENT_TOPIC_ID')
+    if (!NEWS_TOPIC_ID) {
+      console.error('Missing required environment variable: RESEND_NEWS_TOPIC_ID')
       return NextResponse.json(
         { message: 'Newsletter configuration error' },
         { status: 500 }
       )
     }
 
-    // Build topics array based on selection
-    const topics: Array<{ id: string; subscription: 'opt_in' }> = []
-    
-    if (topic === 'all') {
-      // Subscribe to both topics
-      topics.push(
-        { id: STUDIO_TOPIC_ID, subscription: 'opt_in' },
-        { id: EQUIPMENT_TOPIC_ID, subscription: 'opt_in' }
-      )
-    } else if (topic === 'studio') {
-      topics.push({ id: STUDIO_TOPIC_ID, subscription: 'opt_in' })
-    } else if (topic === 'equipment') {
-      topics.push({ id: EQUIPMENT_TOPIC_ID, subscription: 'opt_in' })
+    // Subscribe to News topic
+    const topics: Array<{ id: string; subscription: 'opt_in' }> = [
+      { id: NEWS_TOPIC_ID, subscription: 'opt_in' }
+    ]
+
+    // Build contact data
+    const contactData: any = {
+      email,
+      unsubscribed: false,
+      topics,
+    }
+
+    // Add name if provided (split into first/last name like hire forms)
+    if (name && name.trim()) {
+      contactData.first_name = name.split(' ')[0]
+      contactData.last_name = name.split(' ').slice(1).join(' ') || undefined
     }
 
     // Subscribe contact using direct Resend API (same approach as hire forms)
@@ -55,17 +49,36 @@ export async function POST(request: Request) {
         'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        email,
-        unsubscribed: false,
-        topics,
-      }),
+      body: JSON.stringify(contactData),
     })
 
     const result = await response.json()
 
     if (response.status === 201) {
-      console.log('✓ Contact subscribed to newsletter:', email, topic)
+      console.log('✓ Contact subscribed to newsletter:', email)
+      
+      // Trigger automation event
+      try {
+        await fetch('https://api.resend.com/events/send', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            event: 'newsletter.signup',
+            email: email,
+            payload: {
+              source: 'newsletter_popup',
+            },
+          }),
+        })
+        console.log('✓ Automation event triggered:', email)
+      } catch (eventError) {
+        // Log but don't fail the subscription if event fails
+        console.error('Failed to trigger automation event:', eventError)
+      }
+      
       return NextResponse.json(
         { message: 'Successfully subscribed to newsletter' },
         { status: 200 }
