@@ -7,6 +7,7 @@ import { EquipmentCartProvider } from '@/contexts/EquipmentCartContext'
 import { CookieConsentProvider } from '@/contexts/CookieConsentContext'
 import { PageTransition } from '@/components/PageTransition'
 import { GoogleAnalytics } from '@/components/GoogleAnalytics'
+import { FacebookPixel } from '@/components/FacebookPixel'
 import { StructuredData } from '@/components/StructuredData'
 import { NewsletterBanner } from '@/components/NewsletterBanner'
 
@@ -55,6 +56,7 @@ export default async function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <GoogleAnalytics />
+        <FacebookPixel />
         <StructuredData global={global} />
         
         <link rel="preconnect" href="https://cdn.sanity.io" />

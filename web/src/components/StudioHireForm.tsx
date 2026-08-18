@@ -212,6 +212,16 @@ export function StudioHireForm({ onClose, studio, global }: Props) {
         saveHireStudioData(formData)
       }
 
+      // Track Facebook Pixel event
+      if (typeof window !== 'undefined' && window.fbq) {
+        window.fbq('track', 'Lead', {
+          content_name: 'Studio Hire',
+          content_category: 'Studio Hire Form',
+          value: formData.days,
+          currency: 'GBP'
+        })
+      }
+
       setIsSuccess(true)
     } catch (error) {
       console.error('Form submission error:', error)
