@@ -1,6 +1,7 @@
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
 	"name": "epitomestudio",
+	"account_id": "287120e9e233bc3fc368d313ec6609a9",
 	"compatibility_date": "2026-03-06",
 	"main": ".open-next/worker.js",
 	"assets": {
