@@ -35,6 +35,11 @@ export function NewsletterBanner({ settings }: NewsletterBannerProps) {
   const [errorMessage, setErrorMessage] = useState('')
   const pathname = usePathname()
 
+  // Don't show banner on subscribe page
+  if (pathname === '/subscribe') {
+    return null
+  }
+
   // Set up external trigger callback
   useEffect(() => {
     openBannerCallback = () => {
