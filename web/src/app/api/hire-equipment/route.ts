@@ -516,9 +516,6 @@ export async function POST(request: NextRequest) {
               first_name: name.split(' ')[0],
               last_name: name.split(' ').slice(1).join(' ') || undefined,
               unsubscribed: false,
-              properties: {
-                phone: `${countryCode}${phoneNumber}`,
-              },
               topics: [
                 {
                   id: topicId,
@@ -529,7 +526,7 @@ export async function POST(request: NextRequest) {
           })
           
           const contactResult = await response.json()
-          if (response.status === 201) {
+          if (response.status === 201 || response.status === 200 || response.ok) {
             console.log('✓ Contact subscribed to Equipment Hire newsletter:', email)
             
             // Trigger automation event

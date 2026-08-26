@@ -2,7 +2,6 @@ import { Resend } from 'resend'
 import { NextRequest, NextResponse } from 'next/server'
 import { getCloudflareContext } from '@opennextjs/cloudflare'
 
-
 export async function POST(request: NextRequest) {
   try {
     const resend = new Resend(process.env.RESEND_API_KEY)
@@ -11,22 +10,20 @@ export async function POST(request: NextRequest) {
       name, 
       businessType, 
       companyName, 
+      vatNumber,
       email, 
       countryCode, 
       phoneNumber,
-      hireStartDate,
-      days,
-      arrivalTime,
-      leavingTime,
-      typeOfBooking,
-      attendees,
-      hireEquipment,
-      message,
+      address1,
+      address2,
+      city,
+      postcode,
+      country,
       subscribeToNewsletter
     } = await request.json()
 
     // Basic validation
-    if (!name || !email || !businessType || !hireStartDate || !days || !arrivalTime || !leavingTime || !typeOfBooking || !attendees) {
+    if (!name || !email || !businessType || !phoneNumber || !address1 || !city || !postcode || !country) {
       return NextResponse.json(
         { error: 'Missing required fields' },
         { status: 400 }
@@ -45,124 +42,37 @@ export async function POST(request: NextRequest) {
     // Format phone number
     const fullPhone = `${countryCode} ${phoneNumber}`
 
-    // Format date (YYYY-MM-DD to "DD Month YYYY")
-    const formatDate = (dateString: string) => {
-      const date = new Date(dateString)
-      const day = String(date.getDate()).padStart(2, '0')
-      const month = date.toLocaleString('en-GB', { month: 'long' })
-      const year = date.getFullYear()
-      return `${day} ${month} ${year}`
-    }
-
     // Capitalize first letter
     const capitalizeFirst = (str: string) => {
       return str.charAt(0).toUpperCase() + str.slice(1)
     }
 
-    // Format type of booking
-    const formatTypeOfBooking = (type: string) => {
-      const typeMap: Record<string, string> = {
-        'photo': 'Photo Shoot',
-        'video': 'Video Shoot',
-        'hybrid': 'Photo & Video Shoot',
-        'event': 'Event',
-        'other': 'Other'
-      }
-      return typeMap[type] || type
-    }
-
-    const formattedDate = formatDate(hireStartDate)
     const formattedBusinessType = capitalizeFirst(businessType)
-    const formattedTypeOfBooking = formatTypeOfBooking(typeOfBooking)
 
     // Generate unique reference number using KV
     const { env } = getCloudflareContext()
-    const counterKey = 'studio-enquiry-counter'
+    const counterKey = 'register-counter'
     const currentCount = await env.NEXT_INC_CACHE_KV.get(counterKey)
     const nextCount = (parseInt(currentCount || '0') + 1)
-    const referenceNumber = `S${String(nextCount).padStart(4, '0')}`
+    const referenceNumber = `R${String(nextCount).padStart(4, '0')}`
     await env.NEXT_INC_CACHE_KV.put(counterKey, String(nextCount))
 
-    // Generate .ics calendar file
-    const generateICS = () => {
-      // Parse start date and time
-      const startDate = new Date(hireStartDate)
-      const [startHours, startMinutes] = arrivalTime.split(':')
-      startDate.setHours(parseInt(startHours), parseInt(startMinutes), 0)
-      
-      // Calculate end date (start date + days - 1)
-      // E.g., 2 days starting April 2nd = April 2nd + April 3rd, ends April 3rd
-      const endDate = new Date(startDate)
-      endDate.setDate(endDate.getDate() + parseInt(days) - 1)
-      const [endHours, endMinutes] = leavingTime.split(':')
-      endDate.setHours(parseInt(endHours), parseInt(endMinutes), 0)
-      
-      // Format dates for .ics (YYYYMMDDTHHmmss)
-      const formatICSDate = (date: Date) => {
-        const year = date.getFullYear()
-        const month = String(date.getMonth() + 1).padStart(2, '0')
-        const day = String(date.getDate()).padStart(2, '0')
-        const hours = String(date.getHours()).padStart(2, '0')
-        const minutes = String(date.getMinutes()).padStart(2, '0')
-        const seconds = String(date.getSeconds()).padStart(2, '0')
-        return `${year}${month}${day}T${hours}${minutes}${seconds}`
-      }
-      
-      const dtstart = formatICSDate(startDate)
-      const dtend = formatICSDate(endDate)
-      const dtstamp = formatICSDate(new Date())
-      
-      // Build description
-      const description = [
-        `Contact: ${name}`,
-        companyName ? `Company: ${companyName}` : '',
-        `Email: ${email}`,
-        `Phone: ${fullPhone}`,
-        `Business Type: ${formattedBusinessType}`,
-        `Booking Type: ${formattedTypeOfBooking}`,
-        `Attendees: ${attendees}`,
-        `Equipment Hire: ${hireEquipment ? 'Yes' : 'No'}`,
-        message ? `\\n${message}` : ''
-      ].filter(Boolean).join('\\n')
-      
-      const summary = `Studio Hire: ${name}${companyName ? ` - ${companyName}` : ''}`
-      
-      return [
-        'BEGIN:VCALENDAR',
-        'VERSION:2.0',
-        'PRODID:-//EPITOMESTUDIO//Studio Hire//EN',
-        'CALSCALE:GREGORIAN',
-        'METHOD:REQUEST',
-        'BEGIN:VEVENT',
-        `DTSTART:${dtstart}`,
-        `DTEND:${dtend}`,
-        `DTSTAMP:${dtstamp}`,
-        `SUMMARY:${summary}`,
-        `DESCRIPTION:${description}`,
-        `ORGANIZER;CN=${name}:mailto:${email}`,
-        `UID:studio-hire-${Date.now()}@epitomestudio.co.uk`,
-        'STATUS:TENTATIVE',
-        'SEQUENCE:0',
-        'END:VEVENT',
-        'END:VCALENDAR'
-      ].join('\r\n')
-    }
-
-    const icsContent = generateICS()
+    // Format billing address
+    const billingAddress = [
+      address1,
+      address2,
+      city,
+      postcode,
+      country
+    ].filter(Boolean).join(', ')
 
     // Send email to company
     const data = await resend.emails.send({
-      from: 'Studio Hire <bookings@epitomestudio.co.uk>',
+      from: 'Account Registration <bookings@epitomestudio.co.uk>',
       to: process.env.STUDIO_HIRE_EMAIL || 'bookings@epitomestudio.co.uk',
       replyTo: email,
-      subject: `[ Studio Hire Enquiry - ${referenceNumber} ] ${name}${companyName ? ` — ${companyName}` : ''}`,
+      subject: `[ Account Registration - ${referenceNumber} ] ${name}${companyName ? ` — ${companyName}` : ''}`,
 
-      attachments: [
-        {
-          filename: 'studio-hire.ics',
-          content: Buffer.from(icsContent).toString('base64'),
-        }
-      ],
       html: `
         <!DOCTYPE html>
         <html style="background-color: #F5F2EB;">
@@ -192,7 +102,7 @@ export async function POST(request: NextRequest) {
                         <img src="https://epitomestudio.co.uk/logo.svg" alt="Epitomestudio" style="width: 266px; height: 24px; display: block;" />
                       </td>
                       <td class="header-cell" style="padding: 0; text-align: right; vertical-align: top;">
-                        <div style="font-size: 10px; font-weight: 500; color: #121214; text-transform: uppercase;">[ Studio Hire Enquiry - ${referenceNumber} ]</div>
+                        <div style="font-size: 10px; font-weight: 500; color: #121214; text-transform: uppercase;">[ Account Registration - ${referenceNumber} ]</div>
                       </td>
                     </tr>
                   </table>
@@ -233,80 +143,42 @@ export async function POST(request: NextRequest) {
                     </tr>
                     ${companyName ? `
                     <tr>
-                      <td style="padding: 0 0 40px; width: 128px; vertical-align: top;">
+                      <td style="padding: 0 0 ${vatNumber ? '8px' : '40px'}; width: 128px; vertical-align: top;">
                         <div style="font-size: 10px; font-weight: 500; color: #121214; text-transform: uppercase;">Company Name</div>
                       </td>
-                      <td style="padding: 0 0 40px;">
+                      <td style="padding: 0 0 ${vatNumber ? '8px' : '40px'};">
                         <div style="font-size: 12px; color: #121214;">${companyName}</div>
                       </td>
                     </tr>
                     ` : ''}
-
-                    <!-- Studio Enquiry Section -->
+                    ${vatNumber ? `
                     <tr>
-                      <td style="padding: 0 0 8px; width: 128px; vertical-align: top;">
-                        <div style="font-size: 10px; font-weight: 500; color: #121214; text-transform: uppercase;">Start Date</div>
+                      <td style="padding: 0 0 40px; width: 128px; vertical-align: top;">
+                        <div style="font-size: 10px; font-weight: 500; color: #121214; text-transform: uppercase;">VAT Number</div>
                       </td>
-                      <td style="padding: 0 0 8px;">
-                        <div style="font-size: 12px; color: #121214;">${formattedDate}</div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td style="padding: 0 0 8px; width: 128px; vertical-align: top;">
-                        <div style="font-size: 10px; font-weight: 500; color: #121214; text-transform: uppercase;">Days</div>
-                      </td>
-                      <td style="padding: 0 0 8px;">
-                        <div style="font-size: 12px; color: #121214;">${days}</div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td style="padding: 0 0 8px; width: 128px; vertical-align: top;">
-                        <div style="font-size: 10px; font-weight: 500; color: #121214; text-transform: uppercase;">Times</div>
-                      </td>
-                      <td style="padding: 0 0 8px;">
-                        <div style="font-size: 12px; color: #121214;">${arrivalTime} - ${leavingTime}</div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td style="padding: 0 0 8px; width: 128px; vertical-align: top;">
-                        <div style="font-size: 10px; font-weight: 500; color: #121214; text-transform: uppercase;">Booking Type</div>
-                      </td>
-                      <td style="padding: 0 0 8px;">
-                        <div style="font-size: 12px; color: #121214;">${formattedTypeOfBooking}</div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td style="padding: 0 0 8px; width: 128px; vertical-align: top;">
-                        <div style="font-size: 10px; font-weight: 500; color: #121214; text-transform: uppercase;">Attendees</div>
-                      </td>
-                      <td style="padding: 0 0 8px;">
-                        <div style="font-size: 12px; color: #121214;">${attendees}</div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td style="padding: 0 0 ${message ? '40px' : '400px'}; width: 128px; vertical-align: top;">
-                        <div style="font-size: 10px; font-weight: 500; color: #121214; text-transform: uppercase;">Hire Equipment</div>
-                      </td>
-                      <td style="padding: 0 0 ${message ? '40px' : '400px'};">
-                        <div style="font-size: 12px; color: #121214;">${hireEquipment ? 'Yes' : 'No'}</div>
-                      </td>
-                    </tr>
-                    ${message ? `
-                    <tr>
-                      <td colspan="2" style="padding: 0 0 400px;">
-                        <table width="100%" cellpadding="0" cellspacing="0">
-                          <tr>
-                            <td class="list-cell list-space" style="padding: 0; width: 128px; vertical-align: top;">
-                              <div style="font-size: 10px; font-weight: 500; color: #121214; text-transform: uppercase;">Message</div>
-                            </td>
-                            <td class="list-cell" style="padding: 0;">
-                              <div style="font-size: 12px; color: #121214; white-space: pre-wrap; word-break: break-word;">${message}</div>
-                            </td>
-                          </tr>
-                        </table>
+                      <td style="padding: 0 0 40px;">
+                        <div style="font-size: 12px; color: #121214;">${vatNumber}</div>
                       </td>
                     </tr>
                     ` : ''}
+
+                    <!-- Billing Address Section -->
+                    <tr>
+                      <td colspan="2" style="padding: 0 0 8px;">
+                        <div style="font-size: 10px; font-weight: 500; color: #121214; text-transform: uppercase;">Billing Address</div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="2" style="padding: 0 0 400px;">
+                        <div style="font-size: 12px; color: #121214; line-height: 1.6;">
+                          ${address1}<br/>
+                          ${address2 ? `${address2}<br/>` : ''}
+                          ${city}<br/>
+                          ${postcode}<br/>
+                          ${country}
+                        </div>
+                      </td>
+                    </tr>
                   </table>
 
                 </td>
@@ -321,7 +193,7 @@ export async function POST(request: NextRequest) {
     await resend.emails.send({
       from: 'EPITOMESTUDIO <bookings@epitomestudio.co.uk>',
       to: email,
-      subject: `Studio Hire Enquiry - ${referenceNumber}`,
+      subject: `Account Registration - ${referenceNumber}`,
 
       html: `
         <!DOCTYPE html>
@@ -364,7 +236,7 @@ export async function POST(request: NextRequest) {
                     </tr>
                     <tr>
                       <td style="padding: 0 0 16px;">
-                        <div style="font-size: 12px; color: #121214;">Thank you for your studio hire enquiry. We're checking availability and will respond with confirmation and pricing within 24 hours.</div>
+                        <div style="font-size: 12px; color: #121214;">Thank you for registering with EPITOMESTUDIO. We're reviewing your information and will be in touch shortly to complete your account setup.</div>
                       </td>
                     </tr>
                   </table>
@@ -373,111 +245,95 @@ export async function POST(request: NextRequest) {
                   <table width="600" cellpadding="0" cellspacing="0" style="padding: 0 0 40px; max-width: 600px; width: 100%; overflow: hidden;" class="email-container">
                     <tr>
                       <td style="padding: 0 0 16px;">
-                        <div style="font-size: 12px; color: #121214;">Your enquiry reference: ${referenceNumber}</div>
+                        <div style="font-size: 12px; color: #121214;">Your registration reference: ${referenceNumber}</div>
                       </td>
                     </tr>
                   </table>
 
-                  <!-- Booking Summary Header -->
+                  <!-- Registration Summary Header -->
                   <table width="600" cellpadding="0" cellspacing="0" style="padding: 0 0 16px; max-width: 600px; width: 100%; overflow: hidden;" class="email-container">
                     <tr>
                       <td style="padding: 0;">
-                        <div style="font-size: 10px; font-weight: 500; color: #121214; text-transform: uppercase;">Booking Summary</div>
+                        <div style="font-size: 10px; font-weight: 500; color: #121214; text-transform: uppercase;">Registration Details</div>
                       </td>
                     </tr>
                   </table>
 
-                  <!-- Booking Details -->
+                  <!-- Registration Details -->
                   <table width="600" cellpadding="0" cellspacing="0" style="padding: 0 0 40px; max-width: 600px; width: 100%; overflow: hidden;" class="email-container">
                     <tr>
                       <td style="padding: 0 0 8px; width: 128px; vertical-align: top;">
-                        <div style="font-size: 10px; font-weight: 500; color: #121214; text-transform: uppercase;">Start Date</div>
+                        <div style="font-size: 10px; font-weight: 500; color: #121214; text-transform: uppercase;">Name</div>
                       </td>
                       <td style="padding: 0 0 8px;">
-                        <div style="font-size: 12px; color: #121214;">${formattedDate}</div>
+                        <div style="font-size: 12px; color: #121214;">${name}</div>
                       </td>
                     </tr>
                     <tr>
                       <td style="padding: 0 0 8px; width: 128px; vertical-align: top;">
-                        <div style="font-size: 10px; font-weight: 500; color: #121214; text-transform: uppercase;">Days</div>
+                        <div style="font-size: 10px; font-weight: 500; color: #121214; text-transform: uppercase;">Email</div>
                       </td>
                       <td style="padding: 0 0 8px;">
-                        <div style="font-size: 12px; color: #121214;">${days}</div>
+                        <div style="font-size: 12px; color: #121214;">${email}</div>
                       </td>
                     </tr>
                     <tr>
                       <td style="padding: 0 0 8px; width: 128px; vertical-align: top;">
-                        <div style="font-size: 10px; font-weight: 500; color: #121214; text-transform: uppercase;">Times</div>
+                        <div style="font-size: 10px; font-weight: 500; color: #121214; text-transform: uppercase;">Phone</div>
                       </td>
                       <td style="padding: 0 0 8px;">
-                        <div style="font-size: 12px; color: #121214;">${arrivalTime} - ${leavingTime}</div>
+                        <div style="font-size: 12px; color: #121214;">${fullPhone}</div>
                       </td>
                     </tr>
                     <tr>
-                      <td style="padding: 0 0 8px; width: 128px; vertical-align: top;">
-                        <div style="font-size: 10px; font-weight: 500; color: #121214; text-transform: uppercase;">Booking Type</div>
+                      <td style="padding: 0 0 ${companyName ? '8px' : '0'}; width: 128px; vertical-align: top;">
+                        <div style="font-size: 10px; font-weight: 500; color: #121214; text-transform: uppercase;">Business Type</div>
                       </td>
-                      <td style="padding: 0 0 8px;">
-                        <div style="font-size: 12px; color: #121214;">${formattedTypeOfBooking}</div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td style="padding: 0 0 8px; width: 128px; vertical-align: top;">
-                        <div style="font-size: 10px; font-weight: 500; color: #121214; text-transform: uppercase;">Attendees</div>
-                      </td>
-                      <td style="padding: 0 0 8px;">
-                        <div style="font-size: 12px; color: #121214;">${attendees}</div>
+                      <td style="padding: 0 0 ${companyName ? '8px' : '0'};">
+                        <div style="font-size: 12px; color: #121214;">${formattedBusinessType}</div>
                       </td>
                     </tr>
+                    ${companyName ? `
                     <tr>
-                      <td style="padding: 0 0 ${message ? '8px' : '0'}; width: 128px; vertical-align: top;">
-                        <div style="font-size: 10px; font-weight: 500; color: #121214; text-transform: uppercase;">Hire Equipment</div>
+                      <td style="padding: 0 0 ${vatNumber ? '8px' : '0'}; width: 128px; vertical-align: top;">
+                        <div style="font-size: 10px; font-weight: 500; color: #121214; text-transform: uppercase;">Company Name</div>
                       </td>
-                      <td style="padding: 0 0 ${message ? '8px' : '0'};">
-                        <div style="font-size: 12px; color: #121214;">${hireEquipment ? 'Yes' : 'No'}</div>
+                      <td style="padding: 0 0 ${vatNumber ? '8px' : '0'};">
+                        <div style="font-size: 12px; color: #121214;">${companyName}</div>
                       </td>
                     </tr>
-                    ${message ? `
+                    ` : ''}
+                    ${vatNumber ? `
                     <tr>
-                      <td colspan="2" style="padding: 16px 0 0;">
-                        <table width="100%" cellpadding="0" cellspacing="0">
-                          <tr>
-                            <td class="list-cell list-space" style="padding: 0 0 8px; width: 128px; vertical-align: top;">
-                              <div style="font-size: 10px; font-weight: 500; color: #121214; text-transform: uppercase;">Message</div>
-                            </td>
-                            <td class="list-cell" style="padding: 0 0 8px;">
-                              <div style="font-size: 12px; color: #121214; white-space: pre-wrap; word-break: break-word;">${message}</div>
-                            </td>
-                          </tr>
-                        </table>
+                      <td style="padding: 0 0 0; width: 128px; vertical-align: top;">
+                        <div style="font-size: 10px; font-weight: 500; color: #121214; text-transform: uppercase;">VAT Number</div>
+                      </td>
+                      <td style="padding: 0 0 0;">
+                        <div style="font-size: 12px; color: #121214;">${vatNumber}</div>
                       </td>
                     </tr>
                     ` : ''}
                   </table>
 
-                  <!-- Next Steps -->
+                  <!-- Billing Address -->
                   <table width="600" cellpadding="0" cellspacing="0" style="padding: 0 0 16px; max-width: 600px; width: 100%; overflow: hidden;" class="email-container">
                     <tr>
                       <td style="padding: 0;">
-                        <div style="font-size: 10px; font-weight: 500; color: #121214; text-transform: uppercase;">Next Steps</div>
+                        <div style="font-size: 10px; font-weight: 500; color: #121214; text-transform: uppercase;">Billing Address</div>
                       </td>
                     </tr>
                   </table>
 
                   <table width="600" cellpadding="0" cellspacing="0" style="padding: 0 0 40px; max-width: 600px; width: 100%; overflow: hidden;" class="email-container">
                     <tr>
-                      <td style="padding: 0 0 8px;">
-                        <div style="font-size: 12px; color: #121214;">1. We'll confirm studio availability for your dates</div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td style="padding: 0 0 8px;">
-                        <div style="font-size: 12px; color: #121214;">2. You'll receive pricing and booking terms</div>
-                      </td>
-                    </tr>
-                    <tr>
                       <td style="padding: 0;">
-                        <div style="font-size: 12px; color: #121214;">3. Once you accept, we'll send payment details and full confirmation</div>
+                        <div style="font-size: 12px; color: #121214; line-height: 1.6;">
+                          ${address1}<br/>
+                          ${address2 ? `${address2}<br/>` : ''}
+                          ${city}<br/>
+                          ${postcode}<br/>
+                          ${country}
+                        </div>
                       </td>
                     </tr>
                   </table>
@@ -486,7 +342,7 @@ export async function POST(request: NextRequest) {
                   <table width="600" cellpadding="0" cellspacing="0" style="padding: 0 0 400px; max-width: 600px; width: 100%; overflow: hidden;" class="email-container">
                     <tr>
                       <td style="padding: 0 0 16px;">
-                        <div style="font-size: 12px; color: #121214;">If you need to adjust your booking or have questions, simply reply to this email.</div>
+                        <div style="font-size: 12px; color: #121214;">If you have any questions about your registration, simply reply to this email.</div>
                       </td>
                     </tr>
                     <tr>
@@ -537,8 +393,10 @@ export async function POST(request: NextRequest) {
           })
           
           const contactResult = await response.json()
+          
+          // Check if subscription was successful (201 = created, 200 = already exists and updated)
           if (response.status === 201 || response.status === 200 || response.ok) {
-            console.log('✓ Contact subscribed to Studio Hire newsletter:', email)
+            console.log('✓ Contact subscribed to newsletter:', email)
             
             // Trigger automation event
             try {
@@ -552,7 +410,7 @@ export async function POST(request: NextRequest) {
                   event: 'newsletter.signup',
                   email: email,
                   payload: {
-                    source: 'hire_studio',
+                    source: 'register',
                   },
                 }),
               })
@@ -563,11 +421,9 @@ export async function POST(request: NextRequest) {
           } else {
             console.error('Newsletter subscription failed:', contactResult)
           }
-        } catch (newsletterError: any) {
+        } catch (newsletterError) {
           // Log but don't fail the request if newsletter signup fails
           console.error('Newsletter subscription error:', newsletterError)
-          console.error('Error message:', newsletterError?.message)
-          console.error('Error response:', newsletterError?.response?.data)
         }
       }
     }
