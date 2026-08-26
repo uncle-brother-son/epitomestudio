@@ -471,7 +471,7 @@ export function RegisterForm({ equipment, global }: Props) {
                     <Icon name="icon-tick" className="icon-tick h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14">
                       <title>Check</title>
                     </Icon>
-                    <span>Equipment hire is subject to agreement with our <button type="button" className="underline" onClick={(e) => { e.preventDefault(); setIsTermsDrawerOpen(true); }}>Equipment Hire Policy</button></span>
+                    <span>I accept the <button type="button" className="underline" onClick={(e) => { e.preventDefault(); setIsTermsDrawerOpen(true); }}>Terms & Conditions</button></span>
                   </label>
                   <AnimatedMessage show={!!errors.agreeToTerms} className="error">
                     <Icon name="icon-subArrow" className="icon-subArrow h-3 w-3 fill-red mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true">
