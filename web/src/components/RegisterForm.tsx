@@ -4,10 +4,10 @@ import { useState } from 'react'
 import { Icon } from '@/components/Icons'
 import { EquipmentDarkMode } from '@/components/EquipmentDarkMode'
 import { SlidePanel } from '@/components/SlidePanel'
-import { StudioTerms } from '@/components/StudioTerms'
+import { EquipmentTerms } from '@/components/EquipmentTerms'
 import { AnimatedMessage } from '@/components/AnimatedMessage'
 import { COUNTRY_CODES } from '@/lib/constants'
-import type { Studio } from '@/queries/studio'
+import type { Equipment } from '@/queries/equipment'
 import type { Global } from '@/queries/global'
 
 interface FormData {
@@ -28,11 +28,11 @@ interface FormData {
 }
 
 interface Props {
-  studio?: Studio | null
+  equipment?: Equipment | null
   global?: Global | null
 }
 
-export function RegisterForm({ studio, global }: Props) {
+export function RegisterForm({ equipment, global }: Props) {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
   const [refNumber, setRefNumber] = useState('')
@@ -97,7 +97,7 @@ export function RegisterForm({ studio, global }: Props) {
       newErrors.country = 'Please enter your country'
     }
     if (!formData.agreeToTerms) {
-      newErrors.agreeToTerms = 'You must agree to the Studio Hire Policy to continue'
+      newErrors.agreeToTerms = 'You must agree to the Equipment Hire Policy to continue'
     }
     
     return newErrors
@@ -471,7 +471,7 @@ export function RegisterForm({ studio, global }: Props) {
                     <Icon name="icon-tick" className="icon-tick h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14">
                       <title>Check</title>
                     </Icon>
-                    <span>Studio hire is subject to agreement with our <button type="button" className="underline" onClick={(e) => { e.preventDefault(); setIsTermsDrawerOpen(true); }}>Studio Hire Policy</button></span>
+                    <span>Equipment hire is subject to agreement with our <button type="button" className="underline" onClick={(e) => { e.preventDefault(); setIsTermsDrawerOpen(true); }}>Equipment Hire Policy</button></span>
                   </label>
                   <AnimatedMessage show={!!errors.agreeToTerms} className="error">
                     <Icon name="icon-subArrow" className="icon-subArrow h-3 w-3 fill-red mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" aria-hidden="true">
@@ -508,9 +508,9 @@ export function RegisterForm({ studio, global }: Props) {
       </main>
 
       {/* Terms Slide Panel */}
-      {studio && global && (
+      {equipment && global && (
         <SlidePanel isOpen={isTermsDrawerOpen} onClose={() => setIsTermsDrawerOpen(false)}>
-          <StudioTerms onClose={() => setIsTermsDrawerOpen(false)} studio={studio} global={global} />
+          <EquipmentTerms onClose={() => setIsTermsDrawerOpen(false)} equipment={equipment} global={global} />
         </SlidePanel>
       )}
     </>

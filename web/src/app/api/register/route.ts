@@ -68,8 +68,8 @@ export async function POST(request: NextRequest) {
 
     // Send email to company
     const data = await resend.emails.send({
-      from: 'Account Registration <bookings@epitomestudio.co.uk>',
-      to: process.env.STUDIO_HIRE_EMAIL || 'bookings@epitomestudio.co.uk',
+      from: 'Account Registration <rentals@epitomestudio.co.uk>',
+      to: process.env.EQUIPMENT_HIRE_EMAIL || 'rentals@epitomestudio.co.uk',
       replyTo: email,
       subject: `[ Account Registration - ${referenceNumber} ] ${name}${companyName ? ` — ${companyName}` : ''}`,
 
@@ -191,7 +191,7 @@ export async function POST(request: NextRequest) {
 
     // Send confirmation email to customer
     await resend.emails.send({
-      from: 'EPITOMESTUDIO <bookings@epitomestudio.co.uk>',
+      from: 'EPITOMESTUDIO <rentals@epitomestudio.co.uk>',
       to: email,
       subject: `Account Registration - ${referenceNumber}`,
 

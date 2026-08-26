@@ -85,15 +85,15 @@ export function SlidePanel({ isOpen, onClose, children }: Props) {
     <>
       {/* Backdrop */}
       <div 
-        className={`fixed inset-0 bg-black/20 dark:bg-natural/20 z-40 transition-opacity duration-md ease-es ${
+        className={`fixed inset-0 bg-black/40 dark:bg-natural/40 z-55 transition-opacity duration-md ease-es ${
           showBackdrop ? 'opacity-100' : 'opacity-0'
         }`}
         onClick={onClose}
       />
 
-      {/* Slide Panel - with doubled top offset */}
+      {/* Slide Panel */}
       <div 
-        className={`fixed inset-x-0 top-13.5 lg:top-13.5 h-[calc(100dvh-6.625rem)] lg:h-[calc(100dvh-8.375rem)] bg-natural dark:bg-black z-50 transform transition-transform duration-md ease-es flex flex-col ${
+        className={`fixed inset-x-0 top-13 lg:top-20 h-[calc(100dvh-3.25rem)] lg:h-[calc(100dvh-5rem)] bg-natural dark:bg-black z-60 transform transition-transform duration-md ease-es flex flex-col ${
           showPanel ? 'translate-y-0' : 'translate-y-full'
         }`}
       >

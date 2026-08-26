@@ -1,10 +1,10 @@
-import { getStudio } from '@/queries/studio'
+import { getEquipment } from '@/queries/equipment'
 import { getGlobal } from '@/queries/global'
 import { RegisterForm } from '@/components/RegisterForm'
 
 export default async function RegisterPage() {
-  const studio = await getStudio()
+  const equipment = await getEquipment()
   const global = await getGlobal()
 
-  return <RegisterForm studio={studio} global={global} />
+  return <RegisterForm equipment={equipment} global={global} />
 }
